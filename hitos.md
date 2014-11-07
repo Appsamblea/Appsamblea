@@ -3,5 +3,5 @@
 - [X] Definir equipo de trabajo
 - [X] Elegir proyecto
 - [X] Crear repositorio
-- [] Inscribir al equipo en el 9º CUSL con el proyecto
+- [X] Inscripción en el concurso de Proyectos Libres de la UGR
 - [] Crear un Issue con la etiqueta question
