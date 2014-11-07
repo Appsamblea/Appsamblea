@@ -3,7 +3,7 @@
 ##Qué hay que hacer para empezar el proyecto
 
 - Crear el proyecto en AppEngine.
-    + Hecho: [Appsamblea]("http://appsamblea-project.appspot.com")
+    + Hecho: http://appsamblea-project.appspot.com/
 - Crear una estructura de ficheros Django.
 
 
