@@ -1,7 +1,7 @@
 Appsamblea
 ==========
 
-#Descripción#
+###Descripción###
 
 Appsamblea consiste en el desarrollo e implementación de un sistema software interactivo el cual utiliza tecnologías basadas en la nube y Android para ofrecer a sus usuarios un servicio de gestión de asambleas. Las funcionalidades que ofrecerá el sistema serán, entre otras:
 - La posibilidad de crear una asamblea.
