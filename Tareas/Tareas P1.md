@@ -1,0 +1,15 @@
+#Tareas para la práctica 1
+
+##Qué hay que hacer para empezar el proyecto
+
+- Crear el proyecto en AppEngine.
+    + Hecho: [Appsamblea]("appsamblea-project.appspot.com")
+- Crear una estructura de ficheros Django.
+
+
+##Tareas que vamos a hacer
+
+- Inscribir el proyecto al concurso: Carlos
+- Subir mitad de la documentación: Dani
+- Subir la otra mitad de la documentación: Fran
+- Crear la estructura de ficheros de Django: Santi
