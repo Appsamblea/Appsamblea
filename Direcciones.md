@@ -1,5 +1,5 @@
 
-- [X] URL de APP ENGINE: appsamblea-project.appspot.com
+- [X] URL de APP ENGINE: http://appsamblea-project.appspot.com
 - [X] Cuenta google: appsamblea@gmail.com
-- [X] Blog: appsamblea.tumblr.com
+- [X] Blog: http://appsamblea.tumblr.com
 
