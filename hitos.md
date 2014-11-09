@@ -4,4 +4,4 @@
 - [X] Elegir proyecto
 - [X] Crear repositorio
 - [X] Inscripción en el concurso de Proyectos Libres de la UGR
-- [] Crear un Issue con la etiqueta question
+- [X] Crear un Issue con la etiqueta question
