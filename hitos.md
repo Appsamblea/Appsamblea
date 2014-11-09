@@ -1,5 +1,5 @@
 ##PRÁCTICA 1:
-=======
+
 - [X] Definir equipo de trabajo
 - [X] Elegir proyecto
 - [X] Crear repositorio
