@@ -5,6 +5,7 @@ Estructura del proyecto Django
 Incluye la estructura y configuración básica, además de una app de ejemplo example_app.
 
 Admin: appasamblea
+
 contraseña: la misma que en los otros sitios 
 
 Para hacerlo he seguido este tutorial:
