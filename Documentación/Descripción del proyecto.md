@@ -18,4 +18,8 @@ Este mapa mental es un primer esbozo de lo que va a incluir la aplicación:
 
 ![Mapa mental](Mapa mental.png)
 
+Una versión más formal de la funcionalidad de la aplicación se puede observar en el siguiente diagrama de casos de uso:
+
+![Diagrama de casos de uso](Casos de uso.jpg)
+
 El desarrollo del proyecto seguirá un enfoque centrado en el usuario y en metodologías de desarrollo ágil para así garantizar la posibilidad de añadir las nuevas funcionalidades que vayan apareciendo durante las distintas fases de desarrollo sin que supongan un problema inabordable para los desarrolladores.
