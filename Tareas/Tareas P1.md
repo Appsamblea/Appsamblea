@@ -11,5 +11,10 @@
 
 - [X] Inscribir el proyecto al concurso: Carlos
 - [x] Subir mitad de la documentación: Dani
+<<<<<<< HEAD
 - Subir la otra mitad de la documentación: Fran
 - Crear la estructura de ficheros de Django: Santi
+=======
+- [] Subir la otra mitad de la documentación: Fran
+- [x] Crear la estructura de ficheros de Django: Santi
+>>>>>>> 354bf0abdfba8c1180e9a02cfe7aaefe37792a6d

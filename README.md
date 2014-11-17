@@ -18,3 +18,10 @@ Appsamblea consiste en el desarrollo e implementación de un sistema software in
 - Accesibilidad para discapacitados.
 
 El desarrollo del proyecto seguirá un enfoque centrado en el usuario y en metodologías de desarrollo ágil para así garantizar la posibilidad de añadir las nuevas funcionalidades que vayan apareciendo durante las distintas fases de desarrollo sin que supongan un problema inabordable para los desarrolladores.
+
+Los integrantes del grupo somos:
+
+- Daniel Díaz Salas
+- Carlos Torres García
+- Francisco Serrano Carmona
+- Santiago López Tapia
