@@ -1,6 +1,4 @@
 #TABLERO KANBAN
------
-
 |CC|DESSI|CC REALIZADA|DESSI REALIZADA|
 |----|----|----|----|
 ||Hacer logo|||
