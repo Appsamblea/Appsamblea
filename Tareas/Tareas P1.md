@@ -10,6 +10,6 @@
 ##Tareas que vamos a hacer
 
 - [X] Inscribir el proyecto al concurso: Carlos
-- Subir mitad de la documentación: Dani
+- [x] Subir mitad de la documentación: Dani
 - Subir la otra mitad de la documentación: Fran
 - Crear la estructura de ficheros de Django: Santi
