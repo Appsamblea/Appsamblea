@@ -8,5 +8,3 @@
 ||Pruebas con usuarios|||
 ||Documento con las correcciones|||
 ||Arquitectura de la APP|||
-
-
