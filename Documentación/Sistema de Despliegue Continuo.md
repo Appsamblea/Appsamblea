@@ -20,6 +20,8 @@ Primero se crea un fichero shippable.yml, utilizando [este](https://github.com/s
 
 Sin éxito se encuentran varios ejemplos y se crea un pequeño fichero que ejecutará test.py.
 
+Como se necesita una estructura de ficheros compatible con un proyecto de Django se restructura por completo el repositorio.
+
 
 
 

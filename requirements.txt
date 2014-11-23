@@ -1,0 +1,4 @@
+coverage
+django-nose
+mock
+mock-django

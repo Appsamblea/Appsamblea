@@ -7,9 +7,34 @@ python:
 #Script que se va a ejecutar
 script:
   - python test.py
-  
+
 
 #Rama que se va a construir
 branches:
 	only:
 		- "master"
+
+#Esto es para desplegar en App Engine
+env:
+  global:
+    - GAE_DIR=/tmp/gae
+    - EMAIL=appsamblea@gmail.com
+
+#Instalarse la mágina virtual GAE
+before_install:
+  - >
+    test -e $GAE_DIR ||
+    (mkdir -p $GAE_DIR &&
+     wget https://storage.googleapis.com/appengine-sdks/featured/google_appengine_1.9.6.zip -q -O /tmp/gae.zip &&
+     unzip /tmp/gae.zip -d $GAE_DIR)
+
+#Instalar requerimientos
+install:
+  - pip install -r requirements.txt
+
+#Si se construye bien hacer esto
+after_success:
+  - echo "$GAE_PASSWORD" | $GAE_DIR/google_appengine/appcfg.py -e "$EMAIL" --passin update .
+  
+
+
