@@ -18,6 +18,8 @@ Sin embargo hace falta cierta preparación del repositorio. Por ello se sigue [e
 
 Primero se crea un fichero shippable.yml, utilizando [este](https://github.com/shippableSamples/sample-django-cloudsql-appengine/blob/master/shippable.yml) como ejemplo.
 
+Sin éxito se encuentran varios ejemplos y se crea un pequeño fichero que ejecutará test.py.
+
 
 
 
