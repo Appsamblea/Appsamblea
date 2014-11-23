@@ -9,9 +9,6 @@ python:
 #Rama que se va a construir.
 branches:
 	only:
-		- "master"
-		- master
-		- "Mater"
 		- Master
 
 #Esto es para desplegar en App Engine
