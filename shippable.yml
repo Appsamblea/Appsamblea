@@ -12,4 +12,4 @@ script:
 #Rama que se va a construir
 branches:
 	only:
-		- master
+		- "master"
