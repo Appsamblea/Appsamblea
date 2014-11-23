@@ -8,7 +8,7 @@ python:
 env:
 	global:
 	- GAE_DIR=/tmp/gae
-	- EMAIL=appsamblea@gmail.com
+	- EMAIL=appsambleapipipgmail.com
 	- secure: PpkipMPlwJypQGl9EByUvlQKIenV+3fHzvusD5AE7HNHieoGhderBGwEuPAWTtlCBnOcmDkkRSApM+mL2CLscfky6TvlbTr4ntgqj6UxbkIxZcHnqIj8C5b1M5nMWoQZoLu/tmJG3yJdFkJHxRKlm8CS3pwRFqHrNPMJJKxScJUQieZiS9ZRbD1tYlDpwB8X0FXYVUak8qFtnufmiPwXaKKRHujvvshmndd3xBi2ouqEAwMQY37UMgpgMDfXfrLtODZZA4MzqGauinWEhc5y++QTaS4sEAMlmsw56n94k0sSl9Y8C42IWdqTZpf8ajcm5ZfFRSyOyRBkCc1p/cb8HQ==
 
 #Instalarse la mágina virtual GAE
@@ -30,4 +30,4 @@ script:
 
 #Si se construye bien hacer esto
 after_success:
-	- echo "Bieeeeeen!!!!!"
+	- echo "$GAE_PASSWORD" | $GAE_DIR/google_appengine/appcfg.py -e "$EMAIL" --passin update .
