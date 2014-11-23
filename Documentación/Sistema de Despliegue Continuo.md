@@ -14,6 +14,11 @@ Se comentó en clase esta opción para despliegue continuo. Por ello tras no pod
 
 Primero pide permisos para acceder a la cuenta de Github. A continuación se le dice con qué repositorio trabajar.  
 
+Sin embargo hace falta cierta preparación del repositorio. Por ello se sigue [este tutorial](http://docs.shippable.com/en/latest/start.html).
+
+Primero se crea un fichero shippable.yml, utilizando [este](https://github.com/shippableSamples/sample-django-cloudsql-appengine/blob/master/shippable.yml) como ejemplo.
+
+
 
 
 
