@@ -14,12 +14,12 @@ env:
       - secure: PpkipMPlwJypQGl9EByUvlQKIenV+3fHzvusD5AE7HNHieoGhderBGwEuPAWTtlCBnOcmDkkRSApM+mL2CLscfky6TvlbTr4ntgqj6UxbkIxZcHnqIj8C5b1M5nMWoQZoLu/tmJG3yJdFkJHxRKlm8CS3pwRFqHrNPMJJKxScJUQieZiS9ZRbD1tYlDpwB8X0FXYVUak8qFtnufmiPwXaKKRHujvvshmndd3xBi2ouqEAwMQY37UMgpgMDfXfrLtODZZA4MzqGauinWEhc5y++QTaS4sEAMlmsw56n94k0sSl9Y8C42IWdqTZpf8ajcm5ZfFRSyOyRBkCc1p/cb8HQ==
 
 #Instalarse la mágina virtual GAE
-before_install:
-  - >
-    test -e $GAE_DIR || 
-    (mkdir -p $GAE_DIR && 
-     wget https://storage.googleapis.com/appengine-sdks/featured/google_appengine_1.9.6.zip -q -O /tmp/gae.zip &&
-     unzip /tmp/gae.zip -d $GAE_DIR)
+#before_install:
+#  - >
+#    test -e $GAE_DIR || 
+#    (mkdir -p $GAE_DIR && 
+#     wget https://storage.googleapis.com/appengine-sdks/featured/google_appengine_1.9.6.zip -q -O /tmp/gae.zip &&
+#     unzip /tmp/gae.zip -d $GAE_DIR)
 
 #Instalar requerimientos
 install:
