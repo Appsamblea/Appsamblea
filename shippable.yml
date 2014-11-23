@@ -1,10 +1,15 @@
-
+#Lenguaje que se va a usar
 language: python
 
 python:
   - "2.7"
+
+#Script que se va a ejecutar
 script:
   - python test.py
   
-git:
-  BRANCH: "master"
+
+#Rama que se va a construir
+branches:
+	only:
+		- master
