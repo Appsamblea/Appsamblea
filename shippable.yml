@@ -1,3 +1,5 @@
+#IMPORTANTE: Validar con yamllint.com para no hacer 1000000 commits como he hecho yo.
+
 #Lenguaje que se va a usar
 language: python
 
@@ -6,9 +8,10 @@ python:
 
 #Esto es para desplegar en App Engine
 env:
-	global:
-	- GAE_DIR=/tmp/gae
-#	- EMAIL=appsamblea@gmail.com
+   global:
+      - GAE_DIR=/tmp/gae
+      - EMAIL=appsamblea@gmail.com
+      - secure: PpkipMPlwJypQGl9EByUvlQKIenV+3fHzvusD5AE7HNHieoGhderBGwEuPAWTtlCBnOcmDkkRSApM+mL2CLscfky6TvlbTr4ntgqj6UxbkIxZcHnqIj8C5b1M5nMWoQZoLu/tmJG3yJdFkJHxRKlm8CS3pwRFqHrNPMJJKxScJUQieZiS9ZRbD1tYlDpwB8X0FXYVUak8qFtnufmiPwXaKKRHujvvshmndd3xBi2ouqEAwMQY37UMgpgMDfXfrLtODZZA4MzqGauinWEhc5y++QTaS4sEAMlmsw56n94k0sSl9Y8C42IWdqTZpf8ajcm5ZfFRSyOyRBkCc1p/cb8HQ==
 
 #Instalarse la mágina virtual GAE
 before_install:
@@ -20,13 +23,19 @@ before_install:
 
 #Instalar requerimientos
 install:
-	- pip install -r requirements.txt
+   - pip install -r requirements.txt
 
-#Script que se va a ejecutar, pero solo si se está en la rama master
+before_script: 
+   - mkdir -p shippable/testresults
+   - mkdir -p shippable/codecoverage
+   - mysql -e 'create database test;'
+
+#Script que se va a ejecutar, pero solo si se está en la rama master.
+#De momento solo ejecuta un programita de testeo tonto.
 script:
   - >
-    [[ $BRANCH = 'master' ]] && python manage.py appsamblea || python test.py
-
+    [[ $BRANCH = 'master' ]] && python test.py
+#   - python manage.py appsamblea
 #Si se construye bien hacer esto
 after_success:
-	- echo "Bieeeeeen!!!!!"
+   - echo "$GAE_PASSWORD" | $GAE_DIR/google_appengine/appcfg.py -e "$EMAIL" --passin update .

@@ -1,0 +1,14 @@
+application: Appsamblea
+version: 1
+runtime: python27
+api_version: 1
+threadsafe: 1
+
+libraries:
+- name: django
+  version: "1.5"
+#- name: MySQLdb
+#  version: "latest"
+
+builtins:
+- django_wsgi: on
