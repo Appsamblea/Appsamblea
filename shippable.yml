@@ -30,11 +30,12 @@ before_script:
    - mkdir -p shippable/codecoverage
    - mysql -e 'create database test;'
 
-#Script que se va a ejecutar, pero solo si se está en la rama master
+#Script que se va a ejecutar, pero solo si se está en la rama master.
+#De momento solo ejecuta un programita de testeo tonto.
 script:
-#  - >
-#    [[ $BRANCH = 'master' ]] && python manage.py appsamblea || python test.py
-   - python manage.py appsamblea
+  - >
+    [[ $BRANCH = 'master' ]] && python test.py
+#   - python manage.py appsamblea
 #Si se construye bien hacer esto
 after_success:
    - echo "$GAE_PASSWORD" | $GAE_DIR/google_appengine/appcfg.py -e "$EMAIL" --passin update .
