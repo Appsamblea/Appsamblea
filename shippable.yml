@@ -8,7 +8,7 @@ python:
 env:
 	global:
 	- GAE_DIR=/tmp/gae
-	- EMAIL=appsamblea@gmail.com
+#	- EMAIL=appsamblea@gmail.com
 
 #Instalarse la mágina virtual GAE
 # before_install:
