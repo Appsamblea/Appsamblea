@@ -4,13 +4,6 @@ language: python
 python:
   - "2.7"
 
-#Rama que se va a construir.
-branches:
-only:
-- master
-except:
-- dev
-
 #Esto es para desplegar en App Engine
 env:
   global:
