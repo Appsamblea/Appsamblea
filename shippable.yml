@@ -25,7 +25,7 @@ install:
 #Script que se va a ejecutar, pero solo si se está en la rama master
 script:
   - >
-  	[[ $BRANCH = 'master' ]] && python manage.py appsamblea || python test.py
+    [[ $BRANCH = 'master' ]] && python manage.py appsamblea || python test.py
 
 #Si se construye bien hacer esto
 after_success:
