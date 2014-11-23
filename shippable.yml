@@ -6,3 +6,6 @@ python:
 install: pip install --use-mirrors -r requirements.txt
 script:
   - python test.py
+  
+git:
+  BRANCH: "master"
