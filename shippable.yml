@@ -11,7 +11,7 @@ env:
    global:
       - GAE_DIR=/tmp/gae
       - EMAIL=appsamblea@gmail.com
-      - secure: PpkipMPlwJypQGl9EByUvlQKIenV+3fHzvusD5AE7HNHieoGhderBGwEuPAWTtlCBnOcmDkkRSApM+mL2CLscfky6TvlbTr4ntgqj6UxbkIxZcHnqIj8C5b1M5nMWoQZoLu/tmJG3yJdFkJHxRKlm8CS3pwRFqHrNPMJJKxScJUQieZiS9ZRbD1tYlDpwB8X0FXYVUak8qFtnufmiPwXaKKRHujvvshmndd3xBi2ouqEAwMQY37UMgpgMDfXfrLtODZZA4MzqGauinWEhc5y++QTaS4sEAMlmsw56n94k0sSl9Y8C42IWdqTZpf8ajcm5ZfFRSyOyRBkCc1p/cb8HQ==
+      - secure: DuZdaIqt4yEkVSdIKbmLbMkF0LsMZJZWrx07bYmVBP7WI4v6iLKlQkk9c4AaFCWW08uugwX7OE2Wpv4iQAIf9G6xoyHauWjrKMP4+hWOWk/01mBylouRyywrcGVTsCL8amKgb7NKb5SzNj+Q1uQWCIpmn0H8c3uOhKuC9ouPVWY2ejaw5tuvmu7wPJgj+VYuvljRgpf5IxGBEvmZSimaQ3VceD987L+QcZ5OomK63/PcaaW0KvFlzFRz8LDdxik+48+9/wmvkXrgIyN42sClEwPhIuX3TT08o4yaTzvUUfwyDoYbXVgPPqUdTkIziJPiXOOJTjLNoNlwBOHeDhaMeA==
 
 #Instalarse la mágina virtual GAE
 before_install:
