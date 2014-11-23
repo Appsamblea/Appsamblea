@@ -28,5 +28,5 @@ install:
 #		[[ $BRANCH = 'master' ]] && python manage.py appsamblea || python test.py
 
 #Si se construye bien hacer esto
-after_success:
-	- echo "Bieeeeeen!!!!!"
+#after_success:
+#	- echo "Bieeeeeen!!!!!"
