@@ -39,7 +39,7 @@ script:
    - python test.py
 #Si se construye bien hacer esto
 after_success:
-   - echo "$GAE_PASSWORD" | $GAE_DIR/google_appengine/appcfg.py -e "$EMAIL" --passin update . --no_cookies
+   - echo "$GAE_PASSWORD" | $GAE_DIR/google_appengine/appcfg.py -e "$EMAIL" --passin --no_cookies update . 
 #   - echo "$GAE_PASSWORD"
    - echo "Probando after success."
 
