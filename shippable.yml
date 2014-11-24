@@ -12,14 +12,20 @@ env:
       - GAE_DIR=/tmp/gae
       - EMAIL=appsamblea@gmail.com
       - secure: NV0YZr03IcXAPhVNjfNptYlwl74TEMHn+rkvwB1BGKXffDOya5HnXU5fVWv2NIHMQIRLslolpfldTxvhB79IDTGs06BDjpRu7rAWi6uPRlQkL8P7q+2L5p5ZoMV2Zf5UTCBv9xdkngLh85S8iWfcnxyhFi07DZotJXI6nmZ1pW6waO8GgEw1AVt/HcR3oYKCX1qnbstewe/BIiBNDlr52JEpzaxoNEqn5ku6ZAsouMNKvKc/8Itd+mA6cWKKPtLr9hWreEXaYQyO/2qWPdviiq4o/6ZmxJ2NthzhOKYycsaQLVlFv4ErBbSPIkjRMrV/qqATv34O7bsRzERV6o+nvw==
+
 #Instalarse la mágina virtual GAE
 before_install:
-  - >
-    test -e $GAE_DIR || 
-    (mkdir -p $GAE_DIR && 
-     wget https://storage.googleapis.com/appengine-sdks/featured/google_appengine_1.9.6.zip -q -O /tmp/gae.zip &&
-     unzip /tmp/gae.zip -d $GAE_DIR)
+  # - >
+  #   test -e $GAE_DIR || 
+  #   (mkdir -p $GAE_DIR && 
+  #    wget https://storage.googleapis.com/appengine-sdks/featured/google_appengine_1.9.6.zip -q -O /tmp/gae.zip &&
+  #    unzip /tmp/gae.zip -d $GAE_DIR)
 
+
+  - >
+    (mkdir -p $GAE_DIR && 
+     wget https://storage.googleapis.com/appengine-sdks/featured/google_appengine_1.9.15.zip -q -O /tmp/gae.zip &&
+     unzip /tmp/gae.zip -d $GAE_DIR)
 #Instalar requerimientos
 install:
    - pip install -r requirements.txt
@@ -27,14 +33,16 @@ install:
 before_script: 
    - mkdir -p shippable/testresults
    - mkdir -p shippable/codecoverage
-   - mysql -e 'create database test;'
+#   - mysql -e 'create database test;'
 
 #Script que se va a ejecutar, pero solo si se está en la rama master.
 #De momento solo ejecuta un programita de testeo tonto.
 script:
-  - >
-    [[ $BRANCH = 'master' ]] && python test.py
-#   - python manage.py appsamblea
+#  - >
+#    [[ $BRANCH = 'master' ]] && python test.py
+   - python test.py
 #Si se construye bien hacer esto
 after_success:
-   - echo "$GAE_PASSWORD" | $GAE_DIR/google_appengine/appcfg.py -e "$EMAIL" --passin update .
+#   - echo "$GAE_PASSWORD" | $GAE_DIR/google_appengine/appcfg.py -e "$EMAIL" --passin update .
+#   - echo "$GAE_PASSWORD"
+   - echo "Probando echo: $EMAIL"
