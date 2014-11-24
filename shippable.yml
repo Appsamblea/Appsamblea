@@ -37,6 +37,7 @@ script:
    - python test.py
 #Si se construye bien hacer esto
 after_success:
-#   - echo "$GAE_PASSWORD" | $GAE_DIR/google_appengine/appcfg.py -e "$EMAIL" --passin update .
+   - echo "$GAE_PASSWORD" | $GAE_DIR/google_appengine/appcfg.py -e "$EMAIL" --passin update .
 #   - echo "$GAE_PASSWORD"
-   - echo "Probando echo."
+   - echo "Probando after success."
+
