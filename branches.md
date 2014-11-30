@@ -2,6 +2,7 @@
 
 - En este repositorio se almacenarán las diferentes versiones del código de appsamblea.
 - Está formado por dos ramas: "master" y "dev".
+
 ###master
 En la rama master es donde se depositarán las versiones estables que hayan superado los test de forma correcta y
 para, posteriormente, desplegarlas.
