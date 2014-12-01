@@ -2,13 +2,18 @@ application: appsamblea-project
 version: 1
 runtime: python27
 api_version: 1
-threadsafe: 1
+threadsafe: true
 
+handlers:
+- url: /static
+  static_dir: static
+  
+- url: /.*
+  script: main.application
+  
 libraries:
 - name: django
   version: "1.5"
-#- name: MySQLdb
-#  version: "latest"
 
-builtins:
-- django_wsgi: on
+env_variables:
+  DJANGO_SETTINGS_MODULE: 'appsamblea.settings'
