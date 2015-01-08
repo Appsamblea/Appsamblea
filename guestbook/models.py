@@ -36,3 +36,104 @@ def GetEntityViaMemcache(entity_key):
 		memcache.set(str(entity_key), entity)
 
 	return entity
+
+class Usuario(models.Model):
+	password = models.ChartField(max_length = 256) #pass
+	nombre = models.ChartField(max_length = 256)
+	apellidos = models.ChartField(max_length = 256)
+	fecha_nac = models.DateTimeField('fecha de nacimiento')
+	telefono = models.ChartField(max_length = 256)
+	email = models.EmailField(max_length = 256)
+	localidad = models.ChartField(max_length = 256)
+	pais = models.ChartField(max_length = 256)
+	bio = models.TextField()
+	imagen_perfil = models.ImageField(max_length = 256*256)
+	facebook_id = models.IntegerField(unique = True)
+	twitter_id = models.IntegerField(unique = True)
+	gplus_id = models.IntegerField(unique = True)
+	puntos_exp = models.IntegerField()
+	nivel = models.IntegerField()
+	es_invitado = models.ManyToManyField(Participa)
+
+class Organizacion(models.Model):
+	nombre = models.ChartField(max_length = 256)
+	tematica = models.ChartField(max_length = 256)
+	logo = models.ImageField(max_length = 256*256)
+	description = models.TextField()
+	facebook_id = models.IntegerField(unique = True)
+	gplus_id = models.IntegerField(unique = True)
+	email = models.EmailField(max_length = 256)
+	web = models.URLField()
+	miembros = models.ManyToManyField(Usuario)
+
+class Asamblea(models.Model):
+	nombre = models.ChartField(max_length = 256)
+	fecha = models.DateTimeField()
+	lugar = models.ChartField()
+	descripcion = models.TextField()
+	es_abierta = models.BooleanField()
+	url_streaming = models.URLField()
+	urlasamblea = models.URLField()
+	usuario = models.ForeignKey(Usuario)
+	organizacion = models.ForeignKey(Organizacion)
+	paricipantes = models.ManyToManyField(Usuario, through='Participa')
+
+class Acta(models.Model):
+	texto = models.TextField()
+	asamblea = models.ForeignKey(Asamblea)
+	
+class Documento(models.Model):
+	nombre = models.ChartField(max_length = 256)
+	url = models.URLField()
+	asamblea = models.ForeignKey(Asamblea)
+
+class Grupo(models.Model):
+	nombre = models.ChartField(max_length = 256)
+	descripcion = models.TextField()
+	organizacion = models.ForeignKey(Organizacion)
+	administrador = models.ForeignKey(Usuario)
+	miembros = models.ManyToManyField(Usuario)
+
+class Mensaje(models.Model):
+	texto = models.TextField()
+	usuario_envia = models.ForeignKey(Usuario)
+	usuario_recibe = models.ForeignKey(Usuario)
+	grupo = models.ForeignKey(Grupo)
+
+class Punto_orden_dia(models.Model):
+	orden = models.IntegerField()
+	nombre = models.ChartField(max_length = 256)
+	descripcion = models.TextField()
+	tratado = models.BooleanField()
+	asamblea = models.ForeignKey(Asamblea)
+	turnos_de_palabra = models.ManyToManyField(Turno_palabra)
+
+class Turno_palabra(models.Model):
+	id = models.AutoField(primary_key=True)
+	descripcion = models.TextField()
+	duracion = models.TimeField()
+	duracion_estimada = models.TimeField()
+	orden = models.IntegerField()
+	realizado = models.BooleanField()
+	participa = models.ForeignKey(Participa, primary_key=True)
+	
+class Participa(models.Model):
+	usuario = models.ForeignKey(Usuario, primary_key=True)
+	asamblea = models.ForeignKey(Asamblea, primary_key=True)
+
+class Votacion:
+	nombre = models.ChartField(max_length = 256)
+	tiempo_votacion = DateTimeField(auto_now_add=True)
+	participa = models.ForeignKey(Participa)
+
+class Votacion_opcion(models.Model):
+	id = models.AutoField(primary_key=True)
+	nombre = models.ChartField(max_length = 256)
+	votacion = models.ForeignKey(Votacion, primary_key=True)
+	participa = models.ManyToManyField(Participa)
+
+class Responsabilidad(models.Model):
+	nombre = models.ChartField(max_length = 256)
+	tipo = models.ChartField(max_length = 256)
+	asamblea_responsable = models.ManyToManyField(Asamblea)
+	participante_realiza = models.ManyToManyField(Participa)
