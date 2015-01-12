@@ -37,192 +37,129 @@ def GetEntityViaMemcache(entity_key):
 
 	return entity
 
-# This is an auto-generated Django model module.
-# You'll have to do the following manually to clean this up:
-#     * Rearrange models' order
-#     * Make sure each model has one field with primary_key=True
-# Feel free to rename the models, but don't rename db_table values or field names.
-#
-# Also note: You'll have to insert the output of 'django-admin.py sqlcustom [appname]'
-# into your database.
-from __future__ import unicode_literals
+class Usuario(models.Model):
+	password = models.ChartField(max_length = 256) #pass
+	nombre = models.ChartField(max_length = 256)
+	apellidos = models.ChartField(max_length = 256)
+	fecha_nac = models.DateTimeField('fecha de nacimiento')
+	telefono = models.ChartField(max_length = 256)
+	email = models.EmailField(max_length = 256)
+	localidad = models.ChartField(max_length = 256)
+	pais = models.ChartField(max_length = 256)
+	bio = models.TextField()
+	imagen_perfil = models.ImageField(max_length = 256*256)
+	facebook_id = models.IntegerField(unique = True)
+	twitter_id = models.IntegerField(unique = True)
+	gplus_id = models.IntegerField(unique = True)
+	puntos_exp = models.IntegerField()
+	nivel = models.IntegerField()
+	es_invitado = models.ManyToManyField(Participa)
 
-from django.db import models
+	def isOk(self):										#TEST USUARIO
+							
+		if any(char.isdigit() for char in self.nombre) \
+			or not any(char.isdigit() for char in self.telefono) \
+			or " " in self.email\
+			or "@" not in self.email\
+			or "." not in self.email:			
+			return false
+		else
+			return true								#FIN TEST USUARIO
 
-class Acta(models.Model):
-    id = models.IntegerField(primary_key=True)
-    texto = models.CharField(blank=True)
-    id_asamblea = models.ForeignKey('Asamblea', db_column='id_asamblea')
-    class Meta:
-        db_table = 'acta'
+
+
+	
+class Organizacion(models.Model):
+	nombre = models.ChartField(max_length = 256)
+	tematica = models.ChartField(max_length = 256)
+	logo = models.ImageField(max_length = 256*256)
+	description = models.TextField()
+	facebook_id = models.IntegerField(unique = True)
+	gplus_id = models.IntegerField(unique = True)
+	email = models.EmailField(max_length = 256)
+	web = models.URLField()
+	miembros = models.ManyToManyField(Usuario)
+
+	def isOk(self):				
+		if	" " in self.email\
+			or "@" not in self.email\
+			or "." not in self.email\
+			or " " in self.web\
+			or "." not in self.web:			
+			return false
+		else
+			return true
 
 class Asamblea(models.Model):
-    id = models.IntegerField(primary_key=True)
-    nombre = models.CharField(blank=True)
-    fecha = models.DateField(null=True, blank=True)
-    lugar = models.CharField(blank=True)
-    descripcion = models.CharField(blank=True)
-    es_abierta = models.IntegerField(null=True, blank=True)
-    url_streaming = models.CharField(blank=True)
-    url_asamblea = models.CharField(blank=True)
-    id_usuario_crea = models.ForeignKey('Usuario', db_column='id_usuario_crea')
-    id_organizacion_convoca = models.ForeignKey('Organizacion', db_column='id_organizacion_convoca')
-    class Meta:
-        db_table = 'asamblea'
+	nombre = models.ChartField(max_length = 256)
+	fecha = models.DateTimeField()
+	lugar = models.ChartField()
+	descripcion = models.TextField()
+	es_abierta = models.BooleanField()
+	url_streaming = models.URLField()
+	urlasamblea = models.URLField()
+	usuario = models.ForeignKey(Usuario)
+	organizacion = models.ForeignKey(Organizacion)
+	paricipantes = models.ManyToManyField(Usuario, through='Participa')
 
-class AsambleaTieneResponsabilidad(models.Model):
-    id_asamblea = models.ForeignKey(Asamblea, db_column='id_asamblea')
-    id_responsabilidad = models.ForeignKey('Responsabilidad', db_column='id_responsabilidad')
-    class Meta:
-        db_table = 'asamblea_tiene_responsabilidad'
 
+
+class Acta(models.Model):
+	texto = models.TextField()
+	asamblea = models.ForeignKey(Asamblea)
+	
 class Documento(models.Model):
-    id = models.IntegerField(primary_key=True)
-    nombre = models.CharField(max_length=255L)
-    url = models.CharField(max_length=255L, blank=True)
-    id_asamblea = models.ForeignKey(Asamblea, db_column='id_asamblea')
-    class Meta:
-        db_table = 'documento'
+	nombre = models.ChartField(max_length = 256)
+	url = models.URLField()
+	asamblea = models.ForeignKey(Asamblea)
 
 class Grupo(models.Model):
-    id = models.IntegerField(primary_key=True)
-    nombre = models.CharField(max_length=255L, blank=True)
-    descripcion = models.CharField(max_length=255L, blank=True)
-    id_organizacion = models.ForeignKey('Organizacion', db_column='id_organizacion')
-    id_usuario_administrador = models.ForeignKey('Usuario', db_column='id_usuario_administrador')
-    class Meta:
-        db_table = 'grupo'
-
-class Invita(models.Model):
-    usuario = models.ForeignKey('Participa', db_column='usuario')
-    asamblea = models.ForeignKey('Participa', db_column='asamblea')
-    usuario_invitado = models.IntegerField()
-    class Meta:
-        db_table = 'invita'
+	nombre = models.ChartField(max_length = 256)
+	descripcion = models.TextField()
+	organizacion = models.ForeignKey(Organizacion)
+	administrador = models.ForeignKey(Usuario)
+	miembros = models.ManyToManyField(Usuario)
 
 class Mensaje(models.Model):
-    id = models.IntegerField(primary_key=True)
-    texto = models.CharField(max_length=255L, blank=True)
-    id_usuario_envia = models.ForeignKey('Usuario', db_column='id_usuario_envia')
-    id_usuario_recibe = models.ForeignKey('Usuario', null=True, db_column='id_usuario_recibe', blank=True)
-    id_grupo_recibe = models.ForeignKey(Grupo, null=True, db_column='id_grupo_recibe', blank=True)
-    class Meta:
-        db_table = 'mensaje'
+	texto = models.TextField()
+	usuario_envia = models.ForeignKey(Usuario)
+	usuario_recibe = models.ForeignKey(Usuario)
+	grupo = models.ForeignKey(Grupo)
 
-class Organizacion(models.Model):
-    id = models.IntegerField(primary_key=True)
-    nombre = models.CharField()
-    tematica = models.CharField(max_length=255L, blank=True)
-    logo = models.CharField(blank=True)
-    descripcion = models.CharField(blank=True)
-    facebook_id = models.CharField(max_length=255L, blank=True)
-    gplus_id = models.CharField(max_length=255L, blank=True)
-    email = models.CharField(max_length=255L, blank=True)
-    web = models.CharField(blank=True)
-    class Meta:
-        db_table = 'organizacion'
+class Punto_orden_dia(models.Model):
+	orden = models.IntegerField()
+	nombre = models.ChartField(max_length = 256)
+	descripcion = models.TextField()
+	tratado = models.BooleanField()
+	asamblea = models.ForeignKey(Asamblea)
+	turnos_de_palabra = models.ManyToManyField(Turno_palabra)
 
+class Turno_palabra(models.Model):
+	id = models.AutoField(primary_key=True)
+	descripcion = models.TextField()
+	duracion = models.TimeField()
+	duracion_estimada = models.TimeField()
+	orden = models.IntegerField()
+	realizado = models.BooleanField()
+	participa = models.ForeignKey(Participa, primary_key=True)
+	
 class Participa(models.Model):
-    id_usuario = models.ForeignKey('Usuario', db_column='id_usuario')
-    id_asamblea = models.ForeignKey(Asamblea, db_column='id_asamblea')
-    class Meta:
-        db_table = 'participa'
+	usuario = models.ForeignKey(Usuario, primary_key=True)
+	asamblea = models.ForeignKey(Asamblea, primary_key=True)
 
-class PuntoOrdenDia(models.Model):
-    id = models.IntegerField(primary_key=True)
-    orden = models.IntegerField()
-    nombre = models.CharField(max_length=255L)
-    descripcion = models.CharField(blank=True)
-    tratado = models.IntegerField(null=True, blank=True)
-    id_asamblea = models.ForeignKey(Asamblea, db_column='id_asamblea')
-    class Meta:
-        db_table = 'punto_orden_dia'
+class Votacion:
+	nombre = models.ChartField(max_length = 256)
+	tiempo_votacion = DateTimeField(auto_now_add=True)
+	participa = models.ForeignKey(Participa)
+
+class Votacion_opcion(models.Model):
+	id = models.AutoField(primary_key=True)
+	nombre = models.ChartField(max_length = 256)
+	votacion = models.ForeignKey(Votacion, primary_key=True)
+	participa = models.ManyToManyField(Participa)
 
 class Responsabilidad(models.Model):
-    id = models.IntegerField(primary_key=True)
-    nombre = models.CharField(max_length=255L, blank=True)
-    tipo = models.CharField(max_length=255L, blank=True)
-    class Meta:
-        db_table = 'responsabilidad'
-
-class ResponsabilidadRealiza(models.Model):
-    id_responsabilidad = models.ForeignKey(Responsabilidad, db_column='id_responsabilidad')
-    id_usuario = models.ForeignKey(Participa, db_column='id_usuario')
-    id_asamblea = models.ForeignKey(Participa, db_column='id_asamblea')
-    class Meta:
-        db_table = 'responsabilidad_realiza'
-
-class TurnoPalabra(models.Model):
-    id = models.IntegerField()
-    descripcion = models.CharField()
-    duracion = models.TextField(blank=True) # This field type is a guess.
-    duracion_estimada = models.TextField(blank=True) # This field type is a guess.
-    orden = models.IntegerField()
-    realizado = models.IntegerField(null=True, blank=True)
-    id_usuario = models.ForeignKey(Participa, db_column='id_usuario')
-    id_asamblea = models.ForeignKey(Participa, db_column='id_asamblea')
-    class Meta:
-        db_table = 'turno_palabra'
-
-class TurnoPalabraSobrePuntoOrdenDia(models.Model):
-    id_turno_palabra = models.ForeignKey(TurnoPalabra, db_column='id_turno_palabra')
-    id_punto_orden_dia = models.ForeignKey(PuntoOrdenDia, db_column='id_punto_orden_dia')
-    class Meta:
-        db_table = 'turno_palabra_sobre_punto_orden_dia'
-
-class Usuario(models.Model):
-    id = models.IntegerField(primary_key=True)
-    pass_field = models.CharField(max_length=255L, db_column='pass') # Field renamed because it was a Python reserved word.
-    nombre = models.CharField()
-    apellidos = models.CharField(blank=True)
-    fecha_nac = models.DateField(null=True, blank=True)
-    telefono = models.CharField(max_length=255L, blank=True)
-    email = models.CharField()
-    localidad = models.CharField(max_length=255L, blank=True)
-    pais = models.CharField(max_length=255L, blank=True)
-    bio = models.CharField(blank=True)
-    imagen_perfil = models.CharField(blank=True)
-    facebook_id = models.IntegerField(null=True, blank=True)
-    twitter_id = models.IntegerField(null=True, blank=True)
-    gplus_id = models.IntegerField(null=True, blank=True)
-    puntos_exp = models.IntegerField()
-    nivel = models.IntegerField()
-    class Meta:
-        db_table = 'usuario'
-
-class UsuarioPerteneceGrupo(models.Model):
-    id_usuario = models.ForeignKey(Usuario, db_column='id_usuario')
-    id_grupo = models.ForeignKey(Grupo, db_column='id_grupo')
-    class Meta:
-        db_table = 'usuario_pertenece_grupo'
-
-class UsuarioPerteneceOrganizacion(models.Model):
-    id_usuario = models.ForeignKey(Usuario, db_column='id_usuario')
-    id_organizacion = models.ForeignKey(Organizacion, db_column='id_organizacion')
-    class Meta:
-        db_table = 'usuario_pertenece_organizacion'
-
-class Votacion(models.Model):
-    id = models.IntegerField(primary_key=True)
-    nombre = models.CharField(max_length=255L, blank=True)
-    tiempo_votacion = models.DateTimeField(null=True, blank=True)
-    id_usuario_crea = models.ForeignKey(Participa, db_column='id_usuario_crea')
-    id_asamblea = models.ForeignKey(Participa, db_column='id_asamblea')
-    class Meta:
-        db_table = 'votacion'
-
-class VotacionOpcion(models.Model):
-    id_votacion = models.ForeignKey(Votacion, db_column='id_votacion')
-    id = models.IntegerField()
-    nombre = models.CharField(max_length=255L, blank=True)
-    class Meta:
-        db_table = 'votacion_opcion'
-
-class VotacionVoto(models.Model):
-    id_usuario = models.ForeignKey(Participa, db_column='id_usuario')
-    id_asamblea = models.ForeignKey(Participa, db_column='id_asamblea')
-    id_votacion = models.ForeignKey(VotacionOpcion, db_column='id_votacion')
-    id_opcion = models.ForeignKey(VotacionOpcion, db_column='id_opcion')
-    class Meta:
-        db_table = 'votacion_voto'
-
+	nombre = models.ChartField(max_length = 256)
+	tipo = models.ChartField(max_length = 256)
+	asamblea_responsable = models.ManyToManyField(Asamblea)
+	participante_realiza = models.ManyToManyField(Participa)
