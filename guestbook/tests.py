@@ -19,6 +19,10 @@ class GuestBookViewsTestCase(unittest.TestCase):
 		self.testbed.init_user_stub()
 		self.testapp = webtest.TestApp(django.core.handlers.wsgi.WSGIHandler())
 
+		#Usuarios
+		Usuario.objects.create(password="", nombre="", apellidos="", fecha_nac="2013-12-13", telefono="", email="",\ 
+			localidad="", apis="", bio="")
+
 		#Asambleas
 		Asamblea.objects.create(nombre="test1", fecha="2013-12-13", descripcion="asamblea de prueba")
 		
