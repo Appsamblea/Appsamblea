@@ -94,7 +94,7 @@ class Organizacion(models.Model):
 class Asamblea(models.Model):
 	nombre = models.CharField(max_length = 256)
 	fecha = models.DateTimeField()
-	lugar = models.CharField()
+	lugar = models.CharField(max_length = 256)
 	descripcion = models.TextField()
 	es_abierta = models.BooleanField()
 	url_streaming = models.URLField()
