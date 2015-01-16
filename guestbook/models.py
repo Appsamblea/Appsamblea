@@ -99,7 +99,7 @@ class Asamblea(models.Model):
 	es_abierta = models.BooleanField()
 	url_streaming = models.URLField()
 	urlasamblea = models.URLField()
-	usuario = models.ForeignKey(Usuario)
+	usuario = models.ForeignKey(Usuario, related_name="asamblea_usuario")
 	organizacion = models.ForeignKey(Organizacion)
 	paricipantes = models.ManyToManyField(Usuario, through='Participa')
 
@@ -146,13 +146,13 @@ class Grupo(models.Model):
 	nombre = models.CharField(max_length = 256)
 	descripcion = models.TextField()
 	organizacion = models.ForeignKey(Organizacion)
-	administrador = models.ForeignKey(Usuario)
-	miembros = models.ManyToManyField(Usuario)
+	administrador = models.ForeignKey(Usuario, related_name = 'usuario_grupo_administrador')
+	miembros = models.ManyToManyField(Usuario, related_name = 'usuario_grupo_miembros')
 
 class Mensaje(models.Model):
 	texto = models.TextField()
-	usuario_envia = models.ForeignKey(Usuario, related_name='usuario_mensaje_envia')
-	usuario_recibe = models.ForeignKey(Usuario, related_name='usuario_mensaje_recibe')
+	usuario_envia = models.ForeignKey(Usuario, related_name = 'usuario_mensaje_envia')
+	usuario_recibe = models.ForeignKey(Usuario, related_name = 'usuario_mensaje_recibe')
 	grupo = models.ForeignKey(Grupo)
 
 class Punto_orden_dia(models.Model):
