@@ -4,6 +4,7 @@ Created on 25/11/2014
 @author: silt
 @author: potray
 '''
+import datetime
 from google.appengine.ext import ndb
 from google.appengine.api import memcache
 from google.appengine.api import users
@@ -55,7 +56,7 @@ class Usuario(models.Model):
 	gplus_id = models.IntegerField(unique = True)
 	puntos_exp = models.IntegerField()
 	nivel = models.IntegerField()
-	es_invitado = models.ManyToManyField(Participa)
+	es_invitado = models.ManyToManyField('Participa')
 
 	def isOk(self):										#TEST USUARIO
 							
@@ -139,7 +140,7 @@ class Punto_orden_dia(models.Model):
 	descripcion = models.TextField()
 	tratado = models.BooleanField()
 	asamblea = models.ForeignKey(Asamblea)
-	turnos_de_palabra = models.ManyToManyField(Turno_palabra)
+	turnos_de_palabra = models.ManyToManyField('Turno_palabra')
 
 class Turno_palabra(models.Model):
 	id = models.AutoField(primary_key=True)
@@ -148,15 +149,15 @@ class Turno_palabra(models.Model):
 	duracion_estimada = models.TimeField()
 	orden = models.IntegerField()
 	realizado = models.BooleanField()
-	participa = models.ForeignKey(Participa, primary_key=True)
+	participa = models.ForeignKey('Participa', primary_key=True)
 	
 class Participa(models.Model):
 	usuario = models.ForeignKey(Usuario, primary_key=True)
 	asamblea = models.ForeignKey(Asamblea, primary_key=True)
 
-class Votacion:
+class Votacion(models.Model):
 	nombre = models.CharField(max_length = 256)
-	tiempo_votacion = DateTimeField(auto_now_add=True)
+	tiempo_votacion = models.DateTimeField(auto_now_add=True)
 	participa = models.ForeignKey(Participa)
 
 class Votacion_opcion(models.Model):
