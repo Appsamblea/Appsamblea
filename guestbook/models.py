@@ -151,8 +151,8 @@ class Grupo(models.Model):
 
 class Mensaje(models.Model):
 	texto = models.TextField()
-	usuario_envia = models.ForeignKey(Usuario)
-	usuario_recibe = models.ForeignKey(Usuario)
+	usuario_envia = models.ForeignKey(Usuario, related_name='usuario_mensaje_envia')
+	usuario_recibe = models.ForeignKey(Usuario, related_name='usuario_mensaje_recibe')
 	grupo = models.ForeignKey(Grupo)
 
 class Punto_orden_dia(models.Model):
