@@ -163,6 +163,11 @@ class Punto_orden_dia(models.Model):
 	asamblea = models.ForeignKey(Asamblea)
 	turnos_de_palabra = models.ManyToManyField('Turno_palabra')
 
+class Participa(models.Model):
+	usuario = models.ForeignKey(Usuario)
+	asamblea = models.ForeignKey(Asamblea)
+	unique_together = ("usuario", "asamblea")
+
 class Turno_palabra(models.Model):
 	id = models.AutoField(primary_key=True)
 	descripcion = models.TextField()
@@ -170,11 +175,8 @@ class Turno_palabra(models.Model):
 	duracion_estimada = models.TimeField()
 	orden = models.IntegerField()
 	realizado = models.BooleanField()
-	participa = models.ForeignKey('Participa', primary_key=True)
-	
-class Participa(models.Model):
-	usuario = models.ForeignKey(Usuario, primary_key=True)
-	asamblea = models.ForeignKey(Asamblea, primary_key=True)
+	participa = models.ForeignKey('Participa')
+	unique_together = ("id", "participa")
 
 class Votacion(models.Model):
 	nombre = models.CharField(max_length = 256)
@@ -184,8 +186,9 @@ class Votacion(models.Model):
 class Votacion_opcion(models.Model):
 	id = models.AutoField(primary_key=True)
 	nombre = models.CharField(max_length = 256)
-	votacion = models.ForeignKey(Votacion, primary_key=True)
+	votacion = models.ForeignKey(Votacion)
 	participa = models.ManyToManyField(Participa)
+	unique_together = ("id", "votacion")
 
 class Responsabilidad(models.Model):
 	nombre = models.CharField(max_length = 256)
