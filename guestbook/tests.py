@@ -27,7 +27,7 @@ class GuestBookViewsTestCase(unittest.TestCase):
 		organizacion_test.save()
 
 		#Asambleas
-		Asamblea.objects.create(nombre="test1", fecha="2013-12-13", descripcion="asamblea de prueba", usuario_id=usuario_test.id, organizacion=organizacion_test)
+		Asamblea.objects.create(nombre="test1", fecha="2013-12-13", descripcion="asamblea de prueba", usuario_id=usuario_test.id, organizacion=organizacion_test, es_abierta = True)
 		
  	 
 	def tearDown(self):
