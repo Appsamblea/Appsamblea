@@ -18,6 +18,10 @@ class GuestBookViewsTestCase(unittest.TestCase):
 		self.testbed.init_memcache_stub()
 		self.testbed.init_user_stub()
 		self.testapp = webtest.TestApp(django.core.handlers.wsgi.WSGIHandler())
+
+		#Asambleas
+		Asamblea(nombre="test1", fecha="21/13/2013", descripcion="asamblea de prueba")
+
  	 
 	def tearDown(self):
 		self.testbed.deactivate()
@@ -52,3 +56,7 @@ class GuestBookViewsTestCase(unittest.TestCase):
 		retrieved_entity = GetEntityViaMemcache(entity_key)
 		self.assertNotEqual(None, retrieved_entity)
 		self.assertEqual("Testing", retrieved_entity.content)
+
+	def testAsambleas(self):
+		test = get(nombre="test1")
+		self.assertEqual()

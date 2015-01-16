@@ -1,3 +1,4 @@
+# -*- encoding: utf-8 -*-
 '''
 Created on 25/11/2014
 
@@ -103,12 +104,32 @@ class Asamblea(models.Model):
 	paricipantes = models.ManyToManyField(Usuario, through='Participa')
 
 	def isOk(self):
-		ok = true
-		#nombre
-		if self.nombre == "" or self.nombre == " ":
-			ok = false
-		#fecha
-		
+		ok = ""
+		val = URLValidator(verify_exists = False)
+		#El nombre no puede estar vacío. En python se puede comprobar pasando la cadena a booleano y viendo si está llena de caracteres vacíos
+		if not bool (self.nombre) or self.nombre.isspace():
+			ok += "El nombre está vacío\n"
+		#La fecha tiene que ser una correcta. Tiene que estar en formato dd/mm/yyyy		
+		try:
+			datetime.datetime.strptime(self.fecha, '%d/%m/%Y')
+			#El propio DateTimeField va a dar una excepción si intentamos poner una fecha del tipo 30 de Febrero por lo que no nos preocupamos de validarlo ahora.
+		except:
+			ok += "La fecha debe de tener formato dd/mm/yyyy\n"
+		#La descripción no puede estar vacía
+		if not bool (self.descripcion) or self.descripcion.isspace():
+			ok += "La descripción debe de estar vacía\n"
+		#Si existe la URL del streaming debe de estar funcionando
+		if bool (self.url_streaming):
+			try:
+				val(self.url_streaming)
+			except:
+				ok += "La URL del streaming no funciona\n"
+		#Si existe la URL de la asamblea debe de estar funcionando
+		if bool (self.urlasamblea):
+			try:
+				val(self.urlasamblea)
+			except:
+				ok += "La URL de la asamblea no funciona\n"
 		return ok
 
 
