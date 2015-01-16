@@ -2,10 +2,12 @@
 Created on 25/11/2014
 
 @author: silt
+@author: potray
 '''
 from google.appengine.ext import ndb
 from google.appengine.api import memcache
 from google.appengine.api import users
+from django.db import models
 
 DEFAULT_GUESTBOOK_NAME = 'default_guestbook'
 
@@ -38,14 +40,14 @@ def GetEntityViaMemcache(entity_key):
 	return entity
 
 class Usuario(models.Model):
-	password = models.ChartField(max_length = 256) #pass
-	nombre = models.ChartField(max_length = 256)
-	apellidos = models.ChartField(max_length = 256)
+	password = models.CharField(max_length = 256) #pass
+	nombre = models.CharField(max_length = 256)
+	apellidos = models.CharField(max_length = 256)
 	fecha_nac = models.DateTimeField('fecha de nacimiento')
-	telefono = models.ChartField(max_length = 256)
+	telefono = models.CharField(max_length = 256)
 	email = models.EmailField(max_length = 256)
-	localidad = models.ChartField(max_length = 256)
-	pais = models.ChartField(max_length = 256)
+	localidad = models.CharField(max_length = 256)
+	pais = models.CharField(max_length = 256)
 	bio = models.TextField()
 	imagen_perfil = models.ImageField(max_length = 256*256)
 	facebook_id = models.IntegerField(unique = True)
@@ -63,15 +65,12 @@ class Usuario(models.Model):
 			or "@" not in self.email\
 			or "." not in self.email:			
 			return false
-		else
+		else:
 			return true								#FIN TEST USUARIO
-
-
-
 	
 class Organizacion(models.Model):
-	nombre = models.ChartField(max_length = 256)
-	tematica = models.ChartField(max_length = 256)
+	nombre = models.CharField(max_length = 256)
+	tematica = models.CharField(max_length = 256)
 	logo = models.ImageField(max_length = 256*256)
 	description = models.TextField()
 	facebook_id = models.IntegerField(unique = True)
@@ -87,13 +86,13 @@ class Organizacion(models.Model):
 			or " " in self.web\
 			or "." not in self.web:			
 			return false
-		else
+		else:
 			return true
 
 class Asamblea(models.Model):
-	nombre = models.ChartField(max_length = 256)
+	nombre = models.CharField(max_length = 256)
 	fecha = models.DateTimeField()
-	lugar = models.ChartField()
+	lugar = models.CharField()
 	descripcion = models.TextField()
 	es_abierta = models.BooleanField()
 	url_streaming = models.URLField()
@@ -102,6 +101,14 @@ class Asamblea(models.Model):
 	organizacion = models.ForeignKey(Organizacion)
 	paricipantes = models.ManyToManyField(Usuario, through='Participa')
 
+	def isOk(self):
+		ok = true
+		#nombre
+		if self.nombre == "" or self.nombre == " ":
+			ok = false
+		#fecha
+		
+		return ok
 
 
 class Acta(models.Model):
@@ -109,12 +116,12 @@ class Acta(models.Model):
 	asamblea = models.ForeignKey(Asamblea)
 	
 class Documento(models.Model):
-	nombre = models.ChartField(max_length = 256)
+	nombre = models.CharField(max_length = 256)
 	url = models.URLField()
 	asamblea = models.ForeignKey(Asamblea)
 
 class Grupo(models.Model):
-	nombre = models.ChartField(max_length = 256)
+	nombre = models.CharField(max_length = 256)
 	descripcion = models.TextField()
 	organizacion = models.ForeignKey(Organizacion)
 	administrador = models.ForeignKey(Usuario)
@@ -128,7 +135,7 @@ class Mensaje(models.Model):
 
 class Punto_orden_dia(models.Model):
 	orden = models.IntegerField()
-	nombre = models.ChartField(max_length = 256)
+	nombre = models.CharField(max_length = 256)
 	descripcion = models.TextField()
 	tratado = models.BooleanField()
 	asamblea = models.ForeignKey(Asamblea)
@@ -148,18 +155,18 @@ class Participa(models.Model):
 	asamblea = models.ForeignKey(Asamblea, primary_key=True)
 
 class Votacion:
-	nombre = models.ChartField(max_length = 256)
+	nombre = models.CharField(max_length = 256)
 	tiempo_votacion = DateTimeField(auto_now_add=True)
 	participa = models.ForeignKey(Participa)
 
 class Votacion_opcion(models.Model):
 	id = models.AutoField(primary_key=True)
-	nombre = models.ChartField(max_length = 256)
+	nombre = models.CharField(max_length = 256)
 	votacion = models.ForeignKey(Votacion, primary_key=True)
 	participa = models.ManyToManyField(Participa)
 
 class Responsabilidad(models.Model):
-	nombre = models.ChartField(max_length = 256)
-	tipo = models.ChartField(max_length = 256)
+	nombre = models.CharField(max_length = 256)
+	tipo = models.CharField(max_length = 256)
 	asamblea_responsable = models.ManyToManyField(Asamblea)
 	participante_realiza = models.ManyToManyField(Participa)
