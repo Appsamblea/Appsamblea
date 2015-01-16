@@ -59,4 +59,4 @@ class GuestBookViewsTestCase(unittest.TestCase):
 
 	def testAsambleas(self):
 		test = get(nombre="test1")
-		self.assertEqual()
+		self.assertEqual(test.isOk())
