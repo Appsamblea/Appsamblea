@@ -52,12 +52,12 @@ class Usuario(models.Model):
 	pais = models.CharField(max_length = 256)
 	bio = models.TextField()
 	imagen_perfil = models.ImageField(max_length = 256*256, upload_to='imagenes')
-	facebook_id = models.IntegerField(unique = True)
-	twitter_id = models.IntegerField(unique = True)
-	gplus_id = models.IntegerField(unique = True)
-	puntos_exp = models.IntegerField()
-	nivel = models.IntegerField()
-	es_invitado = models.ManyToManyField('Participa', related_name = 'asamblea_participa')
+	facebook_id = models.IntegerField(unique = True, null = True)
+	twitter_id = models.IntegerField(unique = True, null = True)
+	gplus_id = models.IntegerField(unique = True, null = True)
+	puntos_exp = models.IntegerField(null = True)
+	nivel = models.IntegerField(null = True)
+	es_invitado = models.ManyToManyField('Participa', related_name = 'asamblea_participa', null = True)
 
 	def isOk(self):										#TEST USUARIO
 							
@@ -74,12 +74,12 @@ class Organizacion(models.Model):
 	nombre = models.CharField(max_length = 256)
 	tematica = models.CharField(max_length = 256)
 	logo = models.ImageField(max_length = 256*256, upload_to='imagenes')
-	description = models.TextField()
-	facebook_id = models.IntegerField(unique = True)
-	gplus_id = models.IntegerField(unique = True)
-	email = models.EmailField(max_length = 256)
-	web = models.URLField()
-	miembros = models.ManyToManyField(Usuario)
+	description = models.TextField(null = True)
+	facebook_id = models.IntegerField(unique = True, null = True)
+	gplus_id = models.IntegerField(unique = True, null = True)
+	email = models.EmailField(max_length = 256, null = True)
+	web = models.URLField(null = True)
+	miembros = models.ManyToManyField(Usuario, null = True)
 
 	def isOk(self):				
 		if	" " in self.email\
@@ -97,8 +97,8 @@ class Asamblea(models.Model):
 	lugar = models.CharField(max_length = 256)
 	descripcion = models.TextField()
 	es_abierta = models.BooleanField()
-	url_streaming = models.URLField()
-	urlasamblea = models.URLField()
+	url_streaming = models.URLField(null = True)
+	urlasamblea = models.URLField(null = True)
 	usuario = models.ForeignKey(Usuario, related_name="asamblea_usuario")
 	organizacion = models.ForeignKey(Organizacion)
 	paricipantes = models.ManyToManyField(Usuario, through='Participa')
