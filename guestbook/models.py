@@ -51,7 +51,7 @@ class Usuario(models.Model):
 	localidad = models.CharField(max_length = 256)
 	pais = models.CharField(max_length = 256)
 	bio = models.TextField()
-	imagen_perfil = models.ImageField(max_length = 256*256)
+	imagen_perfil = models.ImageField(max_length = 256*256, upload_to='imagenes')
 	facebook_id = models.IntegerField(unique = True)
 	twitter_id = models.IntegerField(unique = True)
 	gplus_id = models.IntegerField(unique = True)
@@ -73,7 +73,7 @@ class Usuario(models.Model):
 class Organizacion(models.Model):
 	nombre = models.CharField(max_length = 256)
 	tematica = models.CharField(max_length = 256)
-	logo = models.ImageField(max_length = 256*256)
+	logo = models.ImageField(max_length = 256*256, upload_to='imagenes')
 	description = models.TextField()
 	facebook_id = models.IntegerField(unique = True)
 	gplus_id = models.IntegerField(unique = True)
