@@ -3,3 +3,5 @@ django-nose
 mock
 mock-django
 webtest
+pillow
+
