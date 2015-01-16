@@ -5,7 +5,7 @@ from google.appengine.ext import testbed
 from google.appengine.ext import ndb
 from google.appengine.api import memcache
 from google.appengine.api import users
-from guestbook.models import Greeting, guestbook_key, GetEntityViaMemcache, DEFAULT_GUESTBOOK_NAME
+from guestbook.models import *
 
 class GuestBookViewsTestCase(unittest.TestCase):
 	def setUp(self):
@@ -20,8 +20,8 @@ class GuestBookViewsTestCase(unittest.TestCase):
 		self.testapp = webtest.TestApp(django.core.handlers.wsgi.WSGIHandler())
 
 		#Asambleas
-		Asamblea(nombre="test1", fecha="21/13/2013", descripcion="asamblea de prueba")
-
+		Asamblea.objects.create(nombre="test1", fecha="21/13/2013", descripcion="asamblea de prueba")
+		
  	 
 	def tearDown(self):
 		self.testbed.deactivate()
@@ -58,5 +58,5 @@ class GuestBookViewsTestCase(unittest.TestCase):
 		self.assertEqual("Testing", retrieved_entity.content)
 
 	def testAsambleas(self):
-		test = get(nombre="test1")
+		test = Asamblea.objects.get(nombre="test1")
 		self.assertEqual(test.isOk())
