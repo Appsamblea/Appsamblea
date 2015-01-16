@@ -20,11 +20,14 @@ class GuestBookViewsTestCase(unittest.TestCase):
 		self.testapp = webtest.TestApp(django.core.handlers.wsgi.WSGIHandler())
 
 		#Usuarios
-		Usuario.objects.create(password="", nombre="", apellidos="", fecha_nac="2013-12-13", telefono="", email="",\ 
-			localidad="", apis="", bio="")
+		usuario_test = Usuario(password="", nombre="", apellidos="", fecha_nac="2013-12-13", telefono="", email="", localidad="", pais="", bio="")
+		usuario_test.save()
+
+		organizacion_test = Organizacion(nombre="A", tematica="A")
+		organizacion_test.save()
 
 		#Asambleas
-		Asamblea.objects.create(nombre="test1", fecha="2013-12-13", descripcion="asamblea de prueba")
+		Asamblea.objects.create(nombre="test1", fecha="2013-12-13", descripcion="asamblea de prueba", usuario_id=usuario_test.id, organizacion=organizacion_test)
 		
  	 
 	def tearDown(self):
@@ -63,4 +66,4 @@ class GuestBookViewsTestCase(unittest.TestCase):
 
 	def testAsambleas(self):
 		test = Asamblea.objects.get(nombre="test1")
-		self.assertEqual(test.isOk())
+		self.assertEqual(test.isOk(), True)

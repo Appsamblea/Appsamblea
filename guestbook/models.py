@@ -9,6 +9,8 @@ import datetime
 from google.appengine.ext import ndb
 from google.appengine.api import memcache
 from google.appengine.api import users
+from django.core.validators import URLValidator
+from django.core.exceptions import ValidationError
 from django.db import models
 
 DEFAULT_GUESTBOOK_NAME = 'default_guestbook'
@@ -105,7 +107,7 @@ class Asamblea(models.Model):
 
 	def isOk(self):
 		ok = ""
-		val = URLValidator(verify_exists = False)
+		val = URLValidator()
 		#El nombre no puede estar vacío. En python se puede comprobar pasando la cadena a booleano y viendo si está llena de caracteres vacíos
 		if not bool (self.nombre) or self.nombre.isspace():
 			ok += "El nombre está vacío\n"
