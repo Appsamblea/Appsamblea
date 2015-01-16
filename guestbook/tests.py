@@ -20,7 +20,7 @@ class GuestBookViewsTestCase(unittest.TestCase):
 		self.testapp = webtest.TestApp(django.core.handlers.wsgi.WSGIHandler())
 
 		#Asambleas
-		Asamblea.objects.create(nombre="test1", fecha="21/13/2013", descripcion="asamblea de prueba")
+		Asamblea.objects.create(nombre="test1", fecha="2013-12-13", descripcion="asamblea de prueba")
 		
  	 
 	def tearDown(self):
