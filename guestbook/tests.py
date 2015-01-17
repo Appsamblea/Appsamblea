@@ -1,3 +1,4 @@
+# -*- encoding: utf-8 -*-
 import unittest
 import django.core.handlers.wsgi
 import webtest
@@ -27,7 +28,8 @@ class GuestBookViewsTestCase(unittest.TestCase):
 		organizacion_test.save()
 
 		#Asambleas
-		Asamblea.objects.create(nombre="test1", fecha="2013-12-13", descripcion="asamblea de prueba", usuario_id=usuario_test.id, organizacion=organizacion_test, es_abierta = True)
+		Asamblea.objects.create(nombre="test1", fecha="2013-02-28", descripcion=" ", usuario_id=usuario_test.id, organizacion=organizacion_test, es_abierta = True)
+		Asamblea.objects.create(nombre="", fecha="2013-02-28", descripcion="asdasd", usuario_id=usuario_test.id, organizacion=organizacion_test, es_abierta = True)
 		
  	 
 	def tearDown(self):
@@ -65,5 +67,7 @@ class GuestBookViewsTestCase(unittest.TestCase):
 		self.assertEqual("Testing", retrieved_entity.content)
 
 	def testAsambleas(self):
-		test = Asamblea.objects.get(nombre="test1")
-		self.assertEqual(test.isOk(), False)
+		test1 = Asamblea.objects.get(nombre = "test1")
+		test2 = Asamblea.objects.get(descripcion = "asdasd")
+		self.assertEqual(test1.isOk(), "La descripción debe de estar vacía\n")
+		self.assertEqual(test2.isOk(), "El nombre está vacío\n")
