@@ -66,4 +66,4 @@ class GuestBookViewsTestCase(unittest.TestCase):
 
 	def testAsambleas(self):
 		test = Asamblea.objects.get(nombre="test1")
-		self.assertEqual(test.isOk(), True)
+		self.assertEqual(test.isOk(), False)
