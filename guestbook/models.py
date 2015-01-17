@@ -111,12 +111,11 @@ class Asamblea(models.Model):
 		#El nombre no puede estar vacío. En python se puede comprobar pasando la cadena a booleano y viendo si está llena de caracteres vacíos
 		if not bool (self.nombre) or self.nombre.isspace():
 			ok += "El nombre está vacío\n"
-		#La fecha tiene que ser una correcta. Tiene que estar en formato dd/mm/yyyy		
-		try:
-			datetime.datetime.strptime(self.fecha, '%d/%m/%Y')
+		#La fecha tiene que ser una correcta. Tiene que estar en formato YYYY-mm-dd. En teoría por sert DateTimeField no te tiene que dejar meter otra cosa y habrá que hacer un parser.
+			datetime.datetime.strptime(self.fecha, '%Y-%m-%d')
 			#El propio DateTimeField va a dar una excepción si intentamos poner una fecha del tipo 30 de Febrero por lo que no nos preocupamos de validarlo ahora.
 		except:
-			ok += "La fecha debe de tener formato dd/mm/yyyy\n"
+			ok += "La fecha debe de tener formato dd-mm-yyyy\n"
 		#La descripción no puede estar vacía
 		if not bool (self.descripcion) or self.descripcion.isspace():
 			ok += "La descripción debe de estar vacía\n"
