@@ -137,7 +137,6 @@ class Documento(models.Model):
 	url = models.URLField()
 	asamblea = models.ForeignKey(Asamblea)
 
-	
 	def isOk(self):
 		ok = ""
 		val = URLValidator()
@@ -151,7 +150,7 @@ class Documento(models.Model):
 			try:
 				val(self.url)
 			except:
-				ok += "La URL de la asamblea no funciona\n"
+				ok += "La URL del documento no funciona\n"
 
 		return ok
 
@@ -167,6 +166,15 @@ class Mensaje(models.Model):
 	usuario_envia = models.ForeignKey(Usuario, related_name = 'usuario_mensaje_envia')
 	usuario_recibe = models.ForeignKey(Usuario, related_name = 'usuario_mensaje_recibe')
 	grupo = models.ForeignKey(Grupo)
+
+	def isOk(self):
+		ok = ""
+
+		#El texto no puede estar vacío.
+		if len(self.texto) == 0
+			ok += "El texto no puede estar vacío\n"
+	
+		return ok
 
 class Punto_orden_dia(models.Model):
 	orden = models.IntegerField()
