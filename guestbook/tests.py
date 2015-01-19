@@ -90,7 +90,7 @@ class GuestBookViewsTestCase(unittest.TestCase):
 		self.assertEqual(test3.isOk(), "")		
 		self.assertEqual(test4.isOk(), "La URL del streaming no funciona\n")
 		self.assertEqual(test5.isOk(), "")		
-		self.assertEqual(test6.isOk(), "La URL de la asamblea no funciona\n")7
+		self.assertEqual(test6.isOk(), "La URL de la asamblea no funciona\n")
 
 	def testOrganizaciones(self):
 		test1 = Organizacion.objects.get(nombre = "test1")

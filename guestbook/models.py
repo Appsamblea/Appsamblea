@@ -96,7 +96,7 @@ class Organizacion(models.Model):
 		if not bool (self.description) or self.description.isspace():
 			ok += "La descripción está vacía\n"
 		#La web si está tiene que funcionar
-		if bool (self.web)
+		if bool (self.web):
 			try:
 				val(self.web)
 			except:
@@ -153,7 +153,7 @@ class Documento(models.Model):
 		val = URLValidator()
 
 		#El nombre no puede estar vacío.
-		if len(self.nombre) == 0
+		if len(self.nombre) == 0:
 			ok += "El nombre no puede estar vacío\n"
 	
 		#Si existe la URL del documento debe de estar funcionando
@@ -182,7 +182,7 @@ class Mensaje(models.Model):
 		ok = ""
 
 		#El texto no puede estar vacío.
-		if len(self.texto) == 0
+		if len(self.texto) == 0:
 			ok += "El texto no puede estar vacío\n"
 	
 		return ok
@@ -219,7 +219,7 @@ class Votacion(models.Model):
 		ok = ""
 
 		#El nombre no puede estar vacío.
-		if len(self.nombre) == 0
+		if len(self.nombre) == 0:
 			ok += "El nombre no puede estar vacío\n"
 
 		
