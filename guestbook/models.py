@@ -62,16 +62,15 @@ class Usuario(models.Model):
 	nivel = models.IntegerField(null = True)
 	es_invitado = models.ManyToManyField('Participa', related_name = 'asamblea_participa', null = True)
 
-	def isOk(self):										#TEST USUARIO
-							
-		if any(char.isdigit() for char in self.nombre) \
-			or not any(char.isdigit() for char in self.telefono) \
-			or " " in self.email\
-			or "@" not in self.email\
-			or "." not in self.email:			
-			return false
-		else:
-			return true								#FIN TEST USUARIO
+	def isOk(self):
+		ok = ""		
+		if any(char.isdigit() for char in self.nombre):
+			ok += "No se pueden incluir números en el nombre\n"
+		if not any(char.isdigit() for char in self.telefono):
+			ok += "Teléfono mal definido\n"
+		if " " in self.email or "@" not in self.email or "." not in self.email:	
+			ok+= "Email mal definido\n"		
+		return ok
 	
 class Organizacion(models.Model):
 	nombre = models.CharField(max_length = 256)
@@ -172,6 +171,13 @@ class Grupo(models.Model):
 	organizacion = models.ForeignKey(Organizacion)
 	administrador = models.ForeignKey(Usuario, related_name = 'usuario_grupo_administrador')
 	miembros = models.ManyToManyField(Usuario, related_name = 'usuario_grupo_miembros')
+	def isOk(self):
+		ok = ""
+		if len(self.nombre) == 0:
+			ok+="El nombre del grupo no puede estar vacío\n"
+		if len(self.descripcion) == 0:
+			ok+="La descripción del grupo no puede estar vacío\n"
+		return ok
 
 class Mensaje(models.Model):
 	texto = models.TextField()
@@ -195,6 +201,15 @@ class Punto_orden_dia(models.Model):
 	tratado = models.BooleanField(default = False)
 	asamblea = models.ForeignKey(Asamblea)
 	turnos_de_palabra = models.ManyToManyField('Turno_palabra')
+	def isOk(self):
+		ok = ""
+		if self.orden < 0:
+			ok+="El orden del día no puede ser negativo\n"
+		if len(self.nombre) == 0:
+			ok+="El nombre del grupo no puede estar vacío\n"
+		if len(self.descripcion) == 0:
+			ok+="La descripción del grupo no puede estar vacío\n"
+		return ok
 
 class Participa(models.Model):
 	usuario = models.ForeignKey(Usuario)
@@ -210,6 +225,17 @@ class Turno_palabra(models.Model):
 	realizado = models.BooleanField(default = False)
 	participa = models.ForeignKey('Participa')
 	unique_together = ("id", "participa")
+	def isOk(self):
+		ok = ""
+		if len(self.descripcion) == 0:
+			ok+="La descripción del turno de palabra no puede estar vacía\n"
+		if self.orden < 0:
+			ok+="El orden del turno de palabra no puede ser inferior a cero"
+		if self.duracion < 0:
+			ok+="La duración del turno de palabra no puede ser 0"
+		if self.duracion_estimada < 0:
+			ok+="La duración estimada del turno de palabra no puede ser 0"
+		return ok
 
 class Votacion(models.Model):
 	nombre = models.CharField(max_length = 256)
@@ -235,9 +261,21 @@ class Votacion_opcion(models.Model):
 	votacion = models.ForeignKey(Votacion)
 	participa = models.ManyToManyField(Participa)
 	unique_together = ("id", "votacion")
+	def isOk(self):
+		ok = ""
+		if len(self.nombre) == 0:
+			ok+="La opción de la votación no puede estar vacía\n"
+		return ok
 
 class Responsabilidad(models.Model):
 	nombre = models.CharField(max_length = 256)
 	tipo = models.CharField(max_length = 256)
 	asamblea_responsable = models.ManyToManyField(Asamblea)
 	participante_realiza = models.ManyToManyField(Participa)
+	def isOk(self):
+		ok = ""
+		if len(self.nombre) == 0:
+			ok+="El nombre de la responsabilidad no puede estar vacío\n"
+		if len(self.tipo) == 0:
+			ok+="El tipo de la responsabilidad no puede estar vacío\n"
+		return ok
