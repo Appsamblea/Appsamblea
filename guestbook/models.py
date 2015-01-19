@@ -153,7 +153,7 @@ class Documento(models.Model):
 		val = URLValidator()
 
 		#El nombre no puede estar vacío.
-		if len(self.nombre) == 0:
+		if len(self.nombre) == 0 or self.nombre.isspace():
 			ok += "El nombre no puede estar vacío\n"
 	
 		#Si existe la URL del documento debe de estar funcionando
@@ -173,9 +173,9 @@ class Grupo(models.Model):
 	miembros = models.ManyToManyField(Usuario, related_name = 'usuario_grupo_miembros')
 	def isOk(self):
 		ok = ""
-		if len(self.nombre) == 0:
+		if len(self.nombre) == 0 or self.nombre.isspace():
 			ok+="El nombre del grupo no puede estar vacío\n"
-		if len(self.descripcion) == 0:
+		if len(self.descripcion) == 0 or self.descripcion.isspace():
 			ok+="La descripción del grupo no puede estar vacío\n"
 		return ok
 
@@ -189,7 +189,7 @@ class Mensaje(models.Model):
 		ok = ""
 
 		#El texto no puede estar vacío.
-		if len(self.texto) == 0:
+		if len(self.texto) == 0 or self.texto.isspace():
 			ok += "El texto no puede estar vacío\n"
 	
 		return ok
@@ -205,9 +205,9 @@ class Punto_orden_dia(models.Model):
 		ok = ""
 		if self.orden < 0:
 			ok+="El orden del día no puede ser negativo\n"
-		if len(self.nombre) == 0:
+		if len(self.nombre) == 0 or self.nombre.isspace():
 			ok+="El nombre del grupo no puede estar vacío\n"
-		if len(self.descripcion) == 0:
+		if len(self.descripcion) == 0 or self.descripcion.isspace():
 			ok+="La descripción del grupo no puede estar vacío\n"
 		return ok
 
@@ -227,7 +227,7 @@ class Turno_palabra(models.Model):
 	unique_together = ("id", "participa")
 	def isOk(self):
 		ok = ""
-		if len(self.descripcion) == 0:
+		if len(self.descripcion) == 0 or self.descripcion.isspace():
 			ok+="La descripción del turno de palabra no puede estar vacía\n"
 		if self.orden < 0:
 			ok+="El orden del turno de palabra no puede ser inferior a cero"
@@ -246,7 +246,7 @@ class Votacion(models.Model):
 		ok = ""
 
 		#El nombre no puede estar vacío.
-		if len(self.nombre) == 0:
+		if len(self.nombre) == 0 or self.nombre.isspace():
 			ok += "El nombre no puede estar vacío\n"
 
 		#El tiempo mínimo es un minuto.
@@ -263,7 +263,7 @@ class Votacion_opcion(models.Model):
 	unique_together = ("id", "votacion")
 	def isOk(self):
 		ok = ""
-		if len(self.nombre) == 0:
+		if len(self.nombre) == 0 or self.nombre.isspace():
 			ok+="La opción de la votación no puede estar vacía\n"
 		return ok
 
@@ -277,9 +277,9 @@ class Responsabilidad(models.Model):
 		ok = ""
 
 		#El nombre no puede estar vacío.
-		if len(self.nombre) == 0:
+		if len(self.nombre) == 0 or self.nombre.isspace():
 			ok += "El nombre no puede estar vacío\n"
 
 		#El tipo no puede estar vacío.
-		if len(self.tipo) == 0:
+		if len(self.tipo) == 0 or self.tipo.isspace():
 			ok += "El tipo no puede estar vacío\n"
