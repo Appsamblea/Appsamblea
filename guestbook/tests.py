@@ -30,6 +30,11 @@ class GuestBookViewsTestCase(unittest.TestCase):
 		#Asambleas
 		Asamblea.objects.create(nombre="test1", fecha="2013-02-28", descripcion=" ", usuario_id=usuario_test.id, organizacion=organizacion_test, es_abierta = True)
 		Asamblea.objects.create(nombre="", fecha="2013-02-28", descripcion="asdasd", usuario_id=usuario_test.id, organizacion=organizacion_test, es_abierta = True)
+		Asamblea.objects.create(nombre="test3", fecha="2013-12-13", descripcion="asamblea de prueba", usuario_id=usuario_test.id, organizacion=organizacion_test, url_streaming = "www.google.es")
+		Asamblea.objects.create(nombre="test4", fecha="2013-12-13", descripcion="asamblea de prueba", usuario_id=usuario_test.id, organizacion=organizacion_test, url_streaming = "www.aiurhtaiurutiaert.es")
+		Asamblea.objects.create(nombre="test5", fecha="2013-12-13", descripcion="asamblea de prueba", usuario_id=usuario_test.id, organizacion=organizacion_test, url_asamblea = "www.google.es")
+		Asamblea.objects.create(nombre="test6", fecha="2013-12-13", descripcion="asamblea de prueba", usuario_id=usuario_test.id, organizacion=organizacion_test, url_asamblea = "www.aiurhtaiurutiaert.es")
+
 		
  	 
 	def tearDown(self):
@@ -70,4 +75,10 @@ class GuestBookViewsTestCase(unittest.TestCase):
 		test1 = Asamblea.objects.get(nombre = "test1")
 		test2 = Asamblea.objects.get(descripcion = "asdasd")
 		self.assertEqual(test1.isOk(), "La descripción debe de estar vacía\n")
-		self.assertEqual(test2.isOk(), "El nombre está vacío\n")
+		self.assertEqual(test2.isOk(), "El nombre está vacío\n")		
+		self.assertEqual(test3.isOk(), "")		
+		self.assertEqual(test4.isOk(), "La URL del streaming no funciona\n")
+		self.assertEqual(test5.isOk(), "")		
+		self.assertEqual(test6.isOk(), "La URL de la asamblea no funciona\n")
+
+		
