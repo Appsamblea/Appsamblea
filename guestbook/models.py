@@ -61,15 +61,16 @@ class Usuario(models.Model):
 	nivel = models.IntegerField(null = True)
 	es_invitado = models.ManyToManyField('Participa', related_name = 'asamblea_participa', null = True)
 
-	def isOk(self):
-		ok = ""		
-		if any(char.isdigit() for char in self.nombre):
-			ok += "No se pueden incluir números en el nombre\n"
-		if not any(char.isdigit() for char in self.telefono):
-			ok += "Teléfono mal definido\n"
-		if " " in self.email or "@" not in self.email or "." not in self.email:	
-			ok+= "Email mal definido\n"		
-		return ok
+	def isOk(self):										#TEST USUARIO
+							
+		if any(char.isdigit() for char in self.nombre) \
+			or not any(char.isdigit() for char in self.telefono) \
+			or " " in self.email\
+			or "@" not in self.email\
+			or "." not in self.email:			
+			return false
+		else:
+			return true								#FIN TEST USUARIO
 	
 class Organizacion(models.Model):
 	nombre = models.CharField(max_length = 256)
@@ -82,19 +83,15 @@ class Organizacion(models.Model):
 	web = models.URLField(null = True)
 	miembros = models.ManyToManyField(Usuario, null = True)
 
-	def isOk(self):	
-		ok = ""	
-		if len(self.nombre) == 0:
-			ok +="El nombre de la organización es obligatorio\n"	
-		if len(self.tematica) == 0:
-			ok +="La temática de la organización es obligatoria\n"
-		if len(self.descripcion) == 0:
-			ok +="La descripción de la organización está vacía\n"
-		if " " in self.email or "." not in self.email:
-			ok+="Email mal definido\n"
-		if " " in self.web or "." not in self.web:			
-			ok+="Web mal definida\n"
-		return ok
+	def isOk(self):				
+		if	" " in self.email\
+			or "@" not in self.email\
+			or "." not in self.email\
+			or " " in self.web\
+			or "." not in self.web:			
+			return false
+		else:
+			return true
 
 class Asamblea(models.Model):
 	nombre = models.CharField(max_length = 256)
@@ -111,28 +108,7 @@ class Asamblea(models.Model):
 	def isOk(self):
 		ok = ""
 		val = URLValidator()
-		#El nombre no puede estar v	def isOk(self):
-		ok = ""
-		val = URLValidator()
 		#El nombre no puede estar vacío. En python se puede comprobar pasando la cadena a booleano y viendo si está llena de caracteres vacíos
-		if not bool (self.nombre) or self.nombre.isspace():
-			ok += "El nombre está vacío\n"
-		#La descripción no puede estar vacía
-		if not bool (self.descripcion) or self.descripcion.isspace():
-			ok += "La descripción debe de estar vacía\n"
-		#Si existe la URL del streaming debe de estar funcionando
-		if bool (self.url_streaming):
-			try:
-				val(self.url_streaming)
-			except:
-				ok += "La URL del streaming no funciona\n"
-		#Si existe la URL de la asamblea debe de estar funcionando
-		if bool (self.urlasamblea):
-			try:
-				val(self.urlasamblea)
-			except:
-				ok += "La URL de la asamblea no funciona\n"
-		return okacío. En python se puede comprobar pasando la cadena a booleano y viendo si está llena de caracteres vacíos
 		if not bool (self.nombre) or self.nombre.isspace():
 			ok += "El nombre está vacío\n"
 		#La descripción no puede estar vacía
@@ -155,32 +131,11 @@ class Asamblea(models.Model):
 class Acta(models.Model):
 	texto = models.TextField()
 	asamblea = models.ForeignKey(Asamblea)
-	def isOk(self):
-		ok = ""
-		if len(self.texto) == 0:
-			ok+="El acta no puede estar vacía\n"
-		return ok
 	
 class Documento(models.Model):
 	nombre = models.CharField(max_length = 256)
 	url = models.URLField()
 	asamblea = models.ForeignKey(Asamblea)
-	def isOk(self):
-		ok = ""
-		val = URLValidator()
-
-		#El nombre no puede estar vacío.
-		if len(self.nombre) == 0
-			ok += "El nombre no puede estar vacío\n"
-	
-		#Si existe la URL del documento debe de estar funcionando
-		if bool (self.url):
-			try:
-				val(self.url)
-			except:
-				ok += "La URL de la asamblea no funciona\n"
-
-		return ok
 
 class Grupo(models.Model):
 	nombre = models.CharField(max_length = 256)
@@ -188,13 +143,6 @@ class Grupo(models.Model):
 	organizacion = models.ForeignKey(Organizacion)
 	administrador = models.ForeignKey(Usuario, related_name = 'usuario_grupo_administrador')
 	miembros = models.ManyToManyField(Usuario, related_name = 'usuario_grupo_miembros')
-	def isOk(self):
-		ok = ""
-		if len(self.nombre) == 0:
-			ok+="El nombre del grupo no puede estar vacío\n"
-		if len(self.descripcion) == 0:
-			ok+="La descripción del grupo no puede estar vacío\n"
-		return ok
 
 class Mensaje(models.Model):
 	texto = models.TextField()
@@ -209,15 +157,6 @@ class Punto_orden_dia(models.Model):
 	tratado = models.BooleanField(default = False)
 	asamblea = models.ForeignKey(Asamblea)
 	turnos_de_palabra = models.ManyToManyField('Turno_palabra')
-	def isOk(self):
-		ok = ""
-		if self.orden < 0:
-			ok+="El orden del día no puede ser negativo\n"
-		if len(self.nombre) == 0:
-			ok+="El nombre del grupo no puede estar vacío\n"
-		if len(self.descripcion) == 0:
-			ok+="La descripción del grupo no puede estar vacío\n"
-		return ok
 
 class Participa(models.Model):
 	usuario = models.ForeignKey(Usuario)
@@ -233,17 +172,6 @@ class Turno_palabra(models.Model):
 	realizado = models.BooleanField(default = False)
 	participa = models.ForeignKey('Participa')
 	unique_together = ("id", "participa")
-	def isOk(self):
-		ok = ""
-		if len(self.descripcion) == 0:
-			ok+="La descripción del turno de palabra no puede estar vacía\n"
-		if self.orden < 0:
-			ok+="El orden del turno de palabra no puede ser inferior a cero"
-		if self.duracion < 0:
-			ok+="La duración del turno de palabra no puede ser 0"
-		if self.duracion_estimada < 0:
-			ok+="La duración estimada del turno de palabra no puede ser 0"
-		return ok
 
 class Votacion(models.Model):
 	nombre = models.CharField(max_length = 256)
@@ -256,11 +184,6 @@ class Votacion_opcion(models.Model):
 	votacion = models.ForeignKey(Votacion)
 	participa = models.ManyToManyField(Participa)
 	unique_together = ("id", "votacion")
-	def isOk(self):
-		ok = ""
-		if len(self.nombre) == 0:
-			ok+="La opción de la votación no puede estar vacía\n"
-		return ok
 
 class Responsabilidad(models.Model):
 	nombre = models.CharField(max_length = 256)
