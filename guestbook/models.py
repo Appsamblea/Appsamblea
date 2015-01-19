@@ -204,6 +204,17 @@ class Votacion(models.Model):
 	tiempo_votacion = models.TimeField()
 	participa = models.ForeignKey(Participa)
 
+	def isOk(self):
+		ok = ""
+
+		#El nombre no puede estar vacío.
+		if len(self.nombre) == 0
+			ok += "El nombre no puede estar vacío\n"
+
+		
+	
+		return ok
+
 class Votacion_opcion(models.Model):
 	id = models.AutoField(primary_key=True)
 	nombre = models.CharField(max_length = 256)
