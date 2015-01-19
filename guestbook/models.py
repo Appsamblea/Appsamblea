@@ -76,7 +76,7 @@ class Organizacion(models.Model):
 	nombre = models.CharField(max_length = 256)
 	tematica = models.CharField(max_length = 256)
 	logo = models.ImageField(max_length = 256*256, upload_to='imagenes')
-	description = models.TextField(null = True)
+	descripcion = models.TextField(null = True)
 	facebook_id = models.IntegerField(unique = True, null = True)
 	gplus_id = models.IntegerField(unique = True, null = True)
 	email = models.EmailField(max_length = 256, null = True)
@@ -84,14 +84,25 @@ class Organizacion(models.Model):
 	miembros = models.ManyToManyField(Usuario, null = True)
 
 	def isOk(self):				
-		if	" " in self.email\
-			or "@" not in self.email\
-			or "." not in self.email\
-			or " " in self.web\
-			or "." not in self.web:			
-			return false
-		else:
-			return true
+		ok = ""
+		val = URLValidator()
+		#El nombre no puede estar vacío
+		if not bool (self.nombre) or self.nombre.isspace():
+			ok += "El nombre está vacío\n"
+		#La temática no puede estar vacía
+		if not bool (self.tematica) or self.tematica.isspace():
+			ok += "La temática está vacía\n"
+		#La descripción no puede estar vacía
+		if not bool (self.description) or self.description.isspace():
+			ok += "La descripción está vacía\n"
+		#La web si está tiene que funcionar
+		if bool (self.web)
+			try:
+				val(self.web)
+			except:
+				ok += "La URL de la organización no funciona\n"
+		return ok
+
 
 class Asamblea(models.Model):
 	nombre = models.CharField(max_length = 256)
