@@ -28,9 +28,8 @@ class GuestBookViewsTestCase(unittest.TestCase):
 		organizacion_test = Organizacion(nombre="organizacionTest", tematica="A")
 		organizacion_test.save()
 
-		#Asambleas
-		def tearDown(self):
-			self.testbed.deactivate()
+	def tearDown(self):
+		self.testbed.deactivate()
 
 	'''
 	def test_index(self):
