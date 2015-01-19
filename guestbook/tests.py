@@ -25,12 +25,12 @@ class GuestBookViewsTestCase(unittest.TestCase):
 		usuario_test.save()
 
 		#Organizaciones
-		organizacion_test = Organizacion(nombre="A", tematica="A")
+		organizacion_test = Organizacion(nombre="organizacionTest", tematica="A")
 		organizacion_test.save()
 
 		#Asambleas
 		def tearDown(self):
-		self.testbed.deactivate()
+			self.testbed.deactivate()
 
 	'''
 	def test_index(self):
@@ -65,12 +65,13 @@ class GuestBookViewsTestCase(unittest.TestCase):
 
 	def testAsambleas(self):
 		usuario_test = Usuario.objects.get(nombre = "usuarioTest")
+		organizacion_test = Organizacion.objects.get(nombre = "organizacionTest")
 
 		Asamblea.objects.create(nombre="test1", fecha="2013-02-28", descripcion=" ", usuario_id=usuario_test.id, organizacion=organizacion_test, es_abierta = True)
 		Asamblea.objects.create(nombre="", fecha="2013-02-28", descripcion="asdasd", usuario_id=usuario_test.id, organizacion=organizacion_test, es_abierta = True)
-		Asamblea.objects.create(nombre="test3", fecha="2013-12-13", descripcion="asamblea de prueba", usuario_id=usuario_test.id, organizacion=organizacion_test, url_streaming = "www.google.es")
+		Asamblea.objects.create(nombre="test3", fecha="2013-12-13", descripcion="asamblea de prueba", usuario_id=usuario_test.id, organizacion=organizacion_test, url_streaming = "http://www.google.es")
 		Asamblea.objects.create(nombre="test4", fecha="2013-12-13", descripcion="asamblea de prueba", usuario_id=usuario_test.id, organizacion=organizacion_test, url_streaming = "www.aiurhtaiurutiaert.es")
-		Asamblea.objects.create(nombre="test5", fecha="2013-12-13", descripcion="asamblea de prueba", usuario_id=usuario_test.id, organizacion=organizacion_test, urlasamblea = "www.google.es")
+		Asamblea.objects.create(nombre="test5", fecha="2013-12-13", descripcion="asamblea de prueba", usuario_id=usuario_test.id, organizacion=organizacion_test, urlasamblea = "http://www.google.es")
 		Asamblea.objects.create(nombre="test6", fecha="2013-12-13", descripcion="asamblea de prueba", usuario_id=usuario_test.id, organizacion=organizacion_test, urlasamblea = "www.aiurhtaiurutiaert.es")
 
 		test1 = Asamblea.objects.get(nombre = "test1")
@@ -88,14 +89,14 @@ class GuestBookViewsTestCase(unittest.TestCase):
 		self.assertEqual(test6.isOk(), "La URL de la asamblea no funciona\n")
 
 	def testOrganizaciones(self):
-		Organizacion.objects.create(nombre="test1", tematica="tematica", descripcion="asdasdasd", email="ererererr@asd.com", web="www.google.es")
-		Organizacion.objects.create(nombre="", tematica="tematica", descripcion="test2", email="ererererr@asd.com", web="www.google.es")
-		Organizacion.objects.create(nombre="test3", tematica="", descripcion="asdasdasd", email="ererererr@asd.com", web="www.google.es")
-		Organizacion.objects.create(nombre="test4", tematica="tematica", descripcion="", email="ererererr@asd.com", web="www.google.es")
+		Organizacion.objects.create(nombre="test1", tematica="tematica", descripcion="asdasdasd", email="ererererr@asd.com", web="http://www.google.es")
+		Organizacion.objects.create(nombre="", tematica="tematica", descripcion="test2", email="ererererr@asd.com", web="http://www.google.es")
+		Organizacion.objects.create(nombre="test3", tematica="", descripcion="asdasdasd", email="ererererr@asd.com", web="http://www.google.es")
+		Organizacion.objects.create(nombre="test4", tematica="tematica", descripcion="", email="ererererr@asd.com", web="http://www.google.es")
 		Organizacion.objects.create(nombre="test5", tematica="tematica", descripcion="asdasdasd", email="ererererr@asd.com", web="www.iakjrtlajrtoiaer.es")
 		
 		test1 = Organizacion.objects.get(nombre = "test1")
-		test2 = Organizacion.objects.get(tematica = "test2")
+		test2 = Organizacion.objects.get(descripcion = "test2")
 		test3 = Organizacion.objects.get(nombre = "test3")
 		test4 = Organizacion.objects.get(nombre = "test4")
 		test5 = Organizacion.objects.get(nombre = "test5")

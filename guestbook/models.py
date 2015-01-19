@@ -5,6 +5,7 @@ Created on 25/11/2014
 @author: silt
 @author: potray
 '''
+from __future__ import division
 import datetime
 from google.appengine.ext import ndb
 from google.appengine.api import memcache
@@ -12,7 +13,6 @@ from google.appengine.api import users
 from django.core.validators import URLValidator
 from django.core.exceptions import ValidationError
 from django.db import models
-from __future__ import division
 
 DEFAULT_GUESTBOOK_NAME = 'default_guestbook'
 
@@ -94,7 +94,7 @@ class Organizacion(models.Model):
 		if not bool (self.tematica) or self.tematica.isspace():
 			ok += "La temática está vacía\n"
 		#La descripción no puede estar vacía
-		if not bool (self.description) or self.description.isspace():
+		if not bool (self.descripcion) or self.descripcion.isspace():
 			ok += "La descripción está vacía\n"
 		#La web si está tiene que funcionar
 		if bool (self.web):
@@ -241,3 +241,16 @@ class Responsabilidad(models.Model):
 	tipo = models.CharField(max_length = 256)
 	asamblea_responsable = models.ManyToManyField(Asamblea)
 	participante_realiza = models.ManyToManyField(Participa)
+
+	def isOk(self):
+		ok = ""
+
+		#El nombre no puede estar vacío.
+		if len(self.nombre) == 0:
+			ok += "El nombre no puede estar vacío\n"
+
+		#El tipo no puede estar vacío.
+		if len(self.tipo) == 0:
+			ok += "El tipo no puede estar vacío\n"
+
+		return ok
