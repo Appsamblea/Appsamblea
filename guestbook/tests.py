@@ -24,8 +24,14 @@ class GuestBookViewsTestCase(unittest.TestCase):
 		usuario_test = Usuario(password="", nombre="", apellidos="", fecha_nac="2013-12-13", telefono="", email="", localidad="", pais="", bio="")
 		usuario_test.save()
 
+		#Organizaciones
 		organizacion_test = Organizacion(nombre="A", tematica="A")
 		organizacion_test.save()
+		Organizacion.objects.create(nombre="test1", tematica="tematica", descripcion="asdasdasd", email="ererererr@asd.com", web="www.google.es")
+		Organizacion.objects.create(nombre="", tematica="tematica", descripcion="test2", email="ererererr@asd.com", web="www.google.es")
+		Organizacion.objects.create(nombre="test3", tematica="", descripcion="asdasdasd", email="ererererr@asd.com", web="www.google.es")
+		Organizacion.objects.create(nombre="test4", tematica="tematica", descripcion="", email="ererererr@asd.com", web="www.google.es")
+		Organizacion.objects.create(nombre="test5", tematica="tematica", descripcion="asdasdasd", email="ererererr@asd.com", web="www.iakjrtlajrtoiaer.es")
 
 		#Asambleas
 		Asamblea.objects.create(nombre="test1", fecha="2013-02-28", descripcion=" ", usuario_id=usuario_test.id, organizacion=organizacion_test, es_abierta = True)
@@ -74,11 +80,31 @@ class GuestBookViewsTestCase(unittest.TestCase):
 	def testAsambleas(self):
 		test1 = Asamblea.objects.get(nombre = "test1")
 		test2 = Asamblea.objects.get(descripcion = "asdasd")
+		test3 = Asamblea.objects.get(nombre = "test3")
+		test4 = Asamblea.objects.get(nombre = "test4")
+		test5 = Asamblea.objects.get(nombre = "test5")
+		test6 = Asamblea.objects.get(nombre = "test6")
+
 		self.assertEqual(test1.isOk(), "La descripción debe de estar vacía\n")
 		self.assertEqual(test2.isOk(), "El nombre está vacío\n")		
 		self.assertEqual(test3.isOk(), "")		
 		self.assertEqual(test4.isOk(), "La URL del streaming no funciona\n")
 		self.assertEqual(test5.isOk(), "")		
-		self.assertEqual(test6.isOk(), "La URL de la asamblea no funciona\n")
+		self.assertEqual(test6.isOk(), "La URL de la asamblea no funciona\n")7
+
+	def testOrganizaciones(self):
+		test1 = Organizacion.objects.get(nombre = "test1")
+		test2 = Organizacion.objects.get(tematica = "test2")
+		test3 = Organizacion.objects.get(nombre = "test3")
+		test4 = Organizacion.objects.get(nombre = "test4")
+		test5 = Organizacion.objects.get(nombre = "test5")
+
+		self.assertEqual(test1.isOk(), "")
+		self.assertEqual(test2.isOk(), "El nombre está vacío\n")
+		self.assertEqual(test3.isOk(), "La temática está vacía\n")
+		self.assertEqual(test4.isOk(), "La descripción está vacía\n")
+		self.assertEqual(test5.isOk(), "La URL de la organización no funciona\n")
+
+
 
 		
