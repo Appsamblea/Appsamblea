@@ -12,6 +12,7 @@ from google.appengine.api import users
 from django.core.validators import URLValidator
 from django.core.exceptions import ValidationError
 from django.db import models
+from __future__ import division
 
 DEFAULT_GUESTBOOK_NAME = 'default_guestbook'
 
@@ -222,7 +223,9 @@ class Votacion(models.Model):
 		if len(self.nombre) == 0:
 			ok += "El nombre no puede estar vacío\n"
 
-		
+		#El tiempo mínimo es un minuto.
+		if (self.tiempo_votacion.hour * 60 + self.tiempo_votacion.minute + self.tiempo_votacion.second/60 + self.tiempo_votacion.microsecond/60000000) < 1:
+			ok += "El tiempo mínimo es un minuto\n" 		
 	
 		return ok
 

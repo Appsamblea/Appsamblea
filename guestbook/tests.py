@@ -38,8 +38,8 @@ class GuestBookViewsTestCase(unittest.TestCase):
 		Asamblea.objects.create(nombre="", fecha="2013-02-28", descripcion="asdasd", usuario_id=usuario_test.id, organizacion=organizacion_test, es_abierta = True)
 		Asamblea.objects.create(nombre="test3", fecha="2013-12-13", descripcion="asamblea de prueba", usuario_id=usuario_test.id, organizacion=organizacion_test, url_streaming = "www.google.es")
 		Asamblea.objects.create(nombre="test4", fecha="2013-12-13", descripcion="asamblea de prueba", usuario_id=usuario_test.id, organizacion=organizacion_test, url_streaming = "www.aiurhtaiurutiaert.es")
-		Asamblea.objects.create(nombre="test5", fecha="2013-12-13", descripcion="asamblea de prueba", usuario_id=usuario_test.id, organizacion=organizacion_test, url_asamblea = "www.google.es")
-		Asamblea.objects.create(nombre="test6", fecha="2013-12-13", descripcion="asamblea de prueba", usuario_id=usuario_test.id, organizacion=organizacion_test, url_asamblea = "www.aiurhtaiurutiaert.es")
+		Asamblea.objects.create(nombre="test5", fecha="2013-12-13", descripcion="asamblea de prueba", usuario_id=usuario_test.id, organizacion=organizacion_test, urlasamblea = "www.google.es")
+		Asamblea.objects.create(nombre="test6", fecha="2013-12-13", descripcion="asamblea de prueba", usuario_id=usuario_test.id, organizacion=organizacion_test, urlasamblea = "www.aiurhtaiurutiaert.es")
 
 		
  	 
