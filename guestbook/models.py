@@ -137,6 +137,24 @@ class Documento(models.Model):
 	url = models.URLField()
 	asamblea = models.ForeignKey(Asamblea)
 
+	
+	def isOk(self):
+		ok = ""
+		val = URLValidator()
+
+		#El nombre no puede estar vacío.
+		if len(self.nombre) == 0
+			ok += "El nombre no puede estar vacío\n"
+	
+		#Si existe la URL del documento debe de estar funcionando
+		if bool (self.url):
+			try:
+				val(self.url)
+			except:
+				ok += "La URL de la asamblea no funciona\n"
+
+		return ok
+
 class Grupo(models.Model):
 	nombre = models.CharField(max_length = 256)
 	descripcion = models.TextField()
