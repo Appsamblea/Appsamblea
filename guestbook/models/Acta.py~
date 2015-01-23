@@ -13,6 +13,10 @@ from google.appengine.api import users
 from django.core.validators import URLValidator
 from django.core.exceptions import ValidationError
 from django.db import models
+from guestbook.models.usuario import Usuario
+from guestbook.models.organizacion import Organizacion
+from guestbook.models.asamblea import Asamblea
+from guestbook.models.participa import Participa
 
 DEFAULT_GUESTBOOK_NAME = 'default_guestbook'
 
@@ -44,6 +48,7 @@ def GetEntityViaMemcache(entity_key):
 
 	return entity
 
+'''
 class Usuario(models.Model):
 	password = models.CharField(max_length = 256) #pass
 	nombre = models.CharField(max_length = 256)
@@ -71,7 +76,9 @@ class Usuario(models.Model):
 		if " " in self.email or "@" not in self.email or "." not in self.email:	
 			ok+= "Email mal definido\n"		
 		return ok
-	
+'''
+
+'''
 class Organizacion(models.Model):
 	nombre = models.CharField(max_length = 256)
 	tematica = models.CharField(max_length = 256)
@@ -102,8 +109,9 @@ class Organizacion(models.Model):
 			except:
 				ok += "La URL de la organización no funciona\n"
 		return ok
+'''
 
-
+'''
 class Asamblea(models.Model):
 	nombre = models.CharField(max_length = 256)
 	fecha = models.DateField()
@@ -138,6 +146,7 @@ class Asamblea(models.Model):
 			except:
 				ok += "La URL de la asamblea no funciona\n"
 		return ok
+'''
 
 class Acta(models.Model):
 	texto = models.TextField()
@@ -211,10 +220,12 @@ class Punto_orden_dia(models.Model):
 			ok+="La descripción del grupo no puede estar vacío\n"
 		return ok
 
+'''
 class Participa(models.Model):
 	usuario = models.ForeignKey(Usuario)
 	asamblea = models.ForeignKey(Asamblea)
 	unique_together = ("usuario", "asamblea")
+'''
 
 class Turno_palabra(models.Model):
 	id = models.AutoField(primary_key=True)
