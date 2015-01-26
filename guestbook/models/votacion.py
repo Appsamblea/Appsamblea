@@ -7,6 +7,7 @@ Created on 25/11/2014
 
 from __future__ import division
 import datetime
+import json
 from django.db import models
 from guestbook.models.participa import Participa
 
@@ -27,6 +28,14 @@ class Votacion(models.Model):
 			ok += "El tiempo mínimo es un minuto\n" 		
 	
 		return ok
+		
+	def encode(self):
+		return json.dumps({'nombre': self.nombre, \
+							'tiempo_votacion': self.tiempo_votacion, \
+							'participa': self.participa})
+	
+	def decode(obj):
+		return json.loads(obj)			
 
 	class Meta:
 		app_label = 'guestbook'

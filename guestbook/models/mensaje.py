@@ -7,6 +7,7 @@ Created on 25/11/2014
 
 from __future__ import division
 import datetime
+import json
 from django.db import models
 from guestbook.models.usuario import Usuario
 from guestbook.models.grupo import Grupo
@@ -25,6 +26,15 @@ class Mensaje(models.Model):
 			ok += "El texto no puede estar vacío\n"
 	
 		return ok
+		
+	def encode(self):
+		return json.dumps({'texto': self.texto, \
+							'usuario_envia': self.usuario_envia, \
+							'usuario_recibe': self.usuario_recibe, \
+							'grupo': self.grupo})
+	
+	def decode(obj):
+		return json.loads(obj)			
 
 	class Meta:
 		app_label = 'guestbook'

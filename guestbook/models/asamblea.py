@@ -6,6 +6,7 @@ Created on 25/11/2014
 '''
 from __future__ import division
 import datetime
+import json
 from django.core.validators import URLValidator
 from django.core.exceptions import ValidationError
 from django.db import models
@@ -46,6 +47,21 @@ class Asamblea(models.Model):
 			except:
 				ok += "La URL de la asamblea no funciona\n"
 		return ok
+		
+	def encode(self):
+		return json.dumps({'nombre': self.nombre, \
+							'fecha': self.fecha, \
+							'lugar': self.lugar, \
+							'descripcion': self.descripcion, \
+							'es_abierta': self.es_abierta, \
+							'url_streaming': self.url_streaming, \
+							'urlasamblea': self.urlasamblea, \
+							'usuario': self.usuario, \
+							'organizacion': self.organizacion, \
+							'participantes': self.participantes})
+	
+	def decode(obj):
+		return json.loads(obj)		
 
 	class Meta:
 		app_label = 'guestbook'

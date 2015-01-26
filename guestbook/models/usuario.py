@@ -6,6 +6,7 @@ Created on 25/11/2014
 '''
 from __future__ import division
 import datetime
+import json
 from django.core.validators import URLValidator
 from django.core.exceptions import ValidationError
 from django.db import models
@@ -37,6 +38,27 @@ class Usuario(models.Model):
 		if " " in self.email or "@" not in self.email or "." not in self.email:	
 			ok+= "Email mal definido\n"		
 		return ok
+		
+	def encode(self):
+		return json.dumps({'nombre': self.nombre, \
+							'password': self.password, \
+							'apellidos': self.apellidos, \
+							'fecha_nac': self.fecha_nac, \
+							'telefono': self.telefono, \
+							'email': self.email, \
+							'localidad': self.localidad, \
+							'pais': self.pais, \
+							'bio': self.bio, \
+							'imagen_perfil': self.imagen_perfil, \
+							'facebook_id': self.facebook_id, \
+							'twitter_id': self.twitter_id, \
+							'gplus_id': self.gplus_id, \
+							'puntos_exp': self.puntos_exp, \
+							'nivel': self.nivel, \
+							'es_invitado': self.es_invitado})
+	
+	def decode(obj):
+		return json.loads(obj)		
 
 	class Meta:
 		app_label = 'guestbook'

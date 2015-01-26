@@ -6,6 +6,7 @@ Created on 25/11/2014
 '''
 from __future__ import division
 import datetime
+import json
 from django.core.validators import URLValidator
 from django.core.exceptions import ValidationError
 from django.db import models
@@ -32,6 +33,14 @@ class Documento(models.Model):
 				ok += "La URL del documento no funciona\n"
 
 		return ok
+		
+	def encode(self):
+		return json.dumps({'nombre': self.nombre, \
+							'url': self.url, \
+							'asamblea': self.asamblea})
+	
+	def decode(obj):
+		return json.loads(obj)	
 
 	class Meta:
 		app_label = 'guestbook'

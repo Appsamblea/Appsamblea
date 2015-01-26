@@ -7,6 +7,7 @@ Created on 25/11/2014
 
 from __future__ import division
 import datetime
+import json
 from django.db import models
 from guestbook.models.participa import Participa
 
@@ -31,6 +32,18 @@ class Turno_palabra(models.Model):
 		if self.duracion_estimada < 0:
 			ok+="La duración estimada del turno de palabra no puede ser 0"
 		return ok
+		
+	def encode(self):
+		return json.dumps({'id': self.id, \
+							'descripcion': self.descripcion, \
+							'duracion': self.duracion, \
+							'duracion_estimada': self.duracion_estimada, \
+							'orden': self.orden, \
+							'realizado': self.realizado, \
+							'participa': self.participa})
+	
+	def decode(obj):
+		return json.loads(obj)		
 
 	class Meta:
 		app_label = 'guestbook'

@@ -7,6 +7,7 @@ Created on 25/11/2014
 
 from __future__ import division
 import datetime
+import json
 from django.db import models
 from guestbook.models.participa import Participa
 from guestbook.models.asamblea import Asamblea
@@ -27,6 +28,15 @@ class Responsabilidad(models.Model):
 		#El tipo no puede estar vacío.
 		if len(self.tipo) == 0 or self.tipo.isspace():
 			ok += "El tipo no puede estar vacío\n"
+			
+	def encode(self):
+		return json.dumps({'nombre': self.nombre, \
+							'tipo': self.tipo, \
+							'asamblea_responsable': self.asamblea_responsable, \
+							'participante_realiza': self.participante_realiza})
+	
+	def decode(obj):
+		return json.loads(obj)				
 
 	class Meta:
 		app_label = 'guestbook'

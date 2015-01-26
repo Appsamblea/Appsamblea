@@ -7,6 +7,7 @@ Created on 25/11/2014
 
 from __future__ import division
 import datetime
+import json
 from django.db import models
 from guestbook.models.asamblea import Asamblea
 from guestbook.models.turno_palabra import Turno_palabra
@@ -28,6 +29,17 @@ class Punto_orden_dia(models.Model):
 		if len(self.descripcion) == 0 or self.descripcion.isspace():
 			ok+="La descripción del grupo no puede estar vacío\n"
 		return ok
+		
+	def encode(self):
+		return json.dumps({'orden': self.orden, \
+							'nombre': self.nombre, \
+							'descripcion': self.descripcion, \
+							'tratado': self.tratado, \
+							'asamblea': self.asamblea, \
+							'turnos_de_palabra': self.turnos_de_palabra})
+	
+	def decode(obj):
+		return json.loads(obj)		
 
 	class Meta:
 		app_label = 'guestbook'

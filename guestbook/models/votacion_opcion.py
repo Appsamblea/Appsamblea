@@ -7,6 +7,7 @@ Created on 25/11/2014
 
 from __future__ import division
 import datetime
+import json
 from django.db import models
 from guestbook.models.participa import Participa
 from guestbook.models.votacion import Votacion
@@ -23,6 +24,15 @@ class Votacion_opcion(models.Model):
 		if len(self.nombre) == 0 or self.nombre.isspace():
 			ok+="La opción de la votación no puede estar vacía\n"
 		return ok
+		
+	def encode(self):
+		return json.dumps({'id': self.id, \
+							'nombre': self.nombre, \
+							'votacion': self.votacion, \
+							'participa': self.participa})
+	
+	def decode(obj):
+		return json.loads(obj)		
 
 	class Meta:
 		app_label = 'guestbook'

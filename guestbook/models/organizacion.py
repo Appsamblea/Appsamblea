@@ -6,6 +6,7 @@ Created on 25/11/2014
 '''
 from __future__ import division
 import datetime
+import json
 from django.core.validators import URLValidator
 from django.core.exceptions import ValidationError
 from django.db import models
@@ -41,6 +42,20 @@ class Organizacion(models.Model):
 			except:
 				ok += "La URL de la organización no funciona\n"
 		return ok
+		
+	def encode(self):
+		return json.dumps({'nombre': self.nombre, \
+							'tematica': self.tematica, \
+							'logo': self.logo, \
+							'descripcion': self.descripcion, \
+							'facebook_id': self.facebook_id, \
+							'email': self.email, \
+							'gplus_id': self.gplus_id, \
+							'web': self.web, \
+							'miembros': self.miembros})
+	
+	def decode(obj):
+		return json.loads(obj)			
 
 	class Meta:
 		app_label = 'guestbook'

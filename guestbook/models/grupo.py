@@ -7,6 +7,7 @@ Created on 25/11/2014
 
 from __future__ import division
 import datetime
+import json
 from django.db import models
 from guestbook.models.usuario import Usuario
 from guestbook.models.organizacion import Organizacion
@@ -25,6 +26,16 @@ class Grupo(models.Model):
 		if len(self.descripcion) == 0 or self.descripcion.isspace():
 			ok+="La descripción del grupo no puede estar vacío\n"
 		return ok
+		
+	def encode(self):
+		return json.dumps({'nombre': self.nombre, \
+							'descripcion': self.descripcion, \
+							'organizacion': self.organizacion, \
+							'administrador': self.administrador, \
+							'miembros': self.miembros})
+	
+	def decode(obj):
+		return json.loads(obj)		
 
 	class Meta:
 		app_label = 'guestbook'
