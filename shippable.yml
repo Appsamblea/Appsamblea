@@ -1,0 +1,48 @@
+-#IMPORTANTE: Validar con yamllint.com para no hacer 1000000 commits como he hecho yo.
+
+#Lenguaje que se va a usar
+language: python
+
+python:
+  - "2.7"
+
+#Esto es para desplegar en App Engine
+env:
+   global:
+      - GAE_DIR=/tmp/gae
+      - EMAIL=appsamblea@gmail.com
+      - secure: NV0YZr03IcXAPhVNjfNptYlwl74TEMHn+rkvwB1BGKXffDOya5HnXU5fVWv2NIHMQIRLslolpfldTxvhB79IDTGs06BDjpRu7rAWi6uPRlQkL8P7q+2L5p5ZoMV2Zf5UTCBv9xdkngLh85S8iWfcnxyhFi07DZotJXI6nmZ1pW6waO8GgEw1AVt/HcR3oYKCX1qnbstewe/BIiBNDlr52JEpzaxoNEqn5ku6ZAsouMNKvKc/8Itd+mA6cWKKPtLr9hWreEXaYQyO/2qWPdviiq4o/6ZmxJ2NthzhOKYycsaQLVlFv4ErBbSPIkjRMrV/qqATv34O7bsRzERV6o+nvw==
+
+#Instalarse la mágina virtual GAE
+before_install:
+   - echo $BRANCH
+   - >
+     test -e $GAE_DIR || 
+     (mkdir -p $GAE_DIR && 
+     wget https://storage.googleapis.com/appengine-sdks/featured/google_appengine_1.9.17.zip -q -O /tmp/gae.zip &&
+     unzip /tmp/gae.zip -d $GAE_DIR)
+   - rm $GAE_DIR/google_appengine/lib/fancy_urllib/__init__.py
+   - cp $GAE_DIR/google_appengine/lib/fancy_urllib/fancy_urllib/__init__.py $GAE_DIR/google_appengine/lib/fancy_urllib/__init__.py
+#Instalar requerimientos
+install:
+   - pip install -r requirements.txt
+
+before_script: 
+   - echo 'Europe/Madrid' | sudo tee /etc/timezone
+   - sudo dpkg-reconfigure --frontend noninteractive tzdata
+   - mkdir -p shippable/testresults
+   - mkdir -p shippable/codecoverage
+   - export PYTHONPATH="$PYTHONPATH:/tmp/gae/google_appengine/:/tmp/gae/google_appengine/lib/:/tmp/gae/google_appengine/lib/yaml/:/tmp/gae/google_appengine/lib/yaml-3.10/"
+#   - mysql -e 'create database test;'
+
+#Script que se va a ejecutar, pero solo si se está en la rama master.
+#De momento solo ejecuta un programita de testeo tonto.
+script:
+#  - >
+#    [[ $BRANCH = 'master' ]] && python test.py
+   - python manage.py test guestbook
+#Si se construye bien hacer esto
+after_success:
+   - echo "$GAE_PASSWORD" | $GAE_DIR/google_appengine/appcfg.py -e "$EMAIL" --passin update --no_cookies . 
+#   - echo "$GAE_PASSWORD"
+   - echo "Probando after success."
