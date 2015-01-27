@@ -49,19 +49,20 @@ class Asamblea(models.Model):
 		return ok
 		
 	def encode(self):
-		return json.dumps({'nombre': self.nombre, \
-							'fecha': self.fecha, \
-							'lugar': self.lugar, \
-							'descripcion': self.descripcion, \
-							'es_abierta': self.es_abierta, \
-							'url_streaming': self.url_streaming, \
-							'urlasamblea': self.urlasamblea, \
-							'usuario': self.usuario, \
-							'organizacion': self.organizacion, \
-							'participantes': self.participantes})
-	
+		return json.dumps('pk': self.id, 'model': self.__class__.__name__, 'fields': {'nombre': self.nombre, 'fecha': self.fecha, \
+							'lugar': self.lugar, 'descripcion': self.descripcion, 'es_abierta': self.es_abierta, \
+							'url_streaming': self.url_streaming, 'urlasamblea': self.urlasamblea, \
+							'usuario': self.usuario.id, 'organizacion': self.organizacion.id, 'participantes': self.participantes})
+	@staticmethod
 	def decode(obj):
-		return json.loads(obj)		
+		data = json.loads(obj)
+		if data['model'] == 'Asamblea':
+			return Acta(id = data['pk'], nombre = data['nombre'], fecha = data['fecha'], lugar = data['lugar'], \
+				descripcion = data['descripcion'], es_abierta = data['es_abierta'], url_streaming = data['url_streaming'], \
+				urlasamblea= data['urlasamblea'], usuario = ?, organizacion = ?, participantes = ?)
+				# Faltan usuario, organización y participantes
+		else:
+			return None		
 
 	class Meta:
 		app_label = 'guestbook'

@@ -28,15 +28,17 @@ class Grupo(models.Model):
 		return ok
 		
 	def encode(self):
-		return json.dumps({'nombre': self.nombre, \
-							'descripcion': self.descripcion, \
-							'organizacion': self.organizacion, \
-							'administrador': self.administrador, \
-							'miembros': self.miembros})
-	
+		return json.dumps('pk': self.id, 'model': self.__class__.__name__, 'fields':{'nombre': self.nombre, \
+							'descripcion': self.descripcion, 'organizacion': self.organizacion.id, 'administrador': self.administrador.id, \
+							'miembros': ?})
+							#Faltan miembros
+	@staticmethod
 	def decode(obj):
-		return json.loads(obj)		
-
+		data = json.loads(obj)
+		if data['model'] == 'Grupo':	
+			return Grupo(id = data['pk'], nombre = data['nombre'], descripcion = data['descripcion'], \
+			organizacion = ?, administrador = ?, miembros = ?)		
+			#Faltan organizacion, administrador y miembros
 	class Meta:
 		app_label = 'guestbook'
 

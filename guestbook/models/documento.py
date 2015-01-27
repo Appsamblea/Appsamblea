@@ -35,12 +35,16 @@ class Documento(models.Model):
 		return ok
 		
 	def encode(self):
-		return json.dumps({'nombre': self.nombre, \
-							'url': self.url, \
-							'asamblea': self.asamblea})
-	
+		return json.dumps('pk': self.id, 'model': self.__class__.__name__, 'fields':{'nombre': self.nombre, 'url': self.url, 'asamblea': self.asamblea.id})
+		
+	@staticmethod
 	def decode(obj):
-		return json.loads(obj)	
+		data = json.loads(obj)
+		if data['model'] == 'Documento':
+			return Documento(id = data['pk'], nombre = data['nombre'], url = data['url'], asamblea = ?)
+			#Falta asamblea
+		else:
+			return None
 
 	class Meta:
 		app_label = 'guestbook'

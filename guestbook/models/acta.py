@@ -26,11 +26,15 @@ class Acta(models.Model):
 		return ok
 
 	def encode(self):
-		return json.dumps({'texto': self.texto, \
-							'asamblea': self.asamblea})
-	
+		return json.dumps('pk': self.id, 'model': self.__class__.__name__, 'fields': {'texto': self.texto, 'asamblea': self.asamblea})
+		
+	@staticmethod
 	def decode(obj):
-		return json.loads(obj)	
+		data = json.loads(obj)
+		if data['model'] == 'Acta':
+			return Acta(id = data['pk'], texto = data['texto'], asamblea = data['texto'])
+		else:
+			return None
 
 	class Meta:
 		app_label = 'guestbook'

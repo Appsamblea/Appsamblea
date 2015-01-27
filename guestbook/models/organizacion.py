@@ -44,18 +44,21 @@ class Organizacion(models.Model):
 		return ok
 		
 	def encode(self):
-		return json.dumps({'nombre': self.nombre, \
-							'tematica': self.tematica, \
-							'logo': self.logo, \
-							'descripcion': self.descripcion, \
-							'facebook_id': self.facebook_id, \
-							'email': self.email, \
-							'gplus_id': self.gplus_id, \
-							'web': self.web, \
-							'miembros': self.miembros})
-	
+		return json.dumps('pk': self.id, 'model': self.__class__.__name__, 'fields':{'nombre': self.nombre, 'tematica': self.tematica, \
+							'logo': self.logo, 'descripcion': self.descripcion, 'facebook_id': self.facebook_id, 'email': self.email, \
+							'gplus_id': self.gplus_id, 'web': self.web, \
+							'miembros': ?})
+							#Faltan miembros
+	@staticmethos
 	def decode(obj):
-		return json.loads(obj)			
+		data = json.loads(obj)
+		if data['model'] == 'Organizacion':	
+			return Organizacion(id= data['pk'], nombre = data['nombre'], tematica = data['tematica'], logo = data['logo'], \
+			descripcion = data['descripcion', facebook_id = data['facebook_id'], email = data['email'], \
+			gplus_id = data['gplus_id'], web = data['web'], miembros = ?)
+			#Faltan miembros
+		else
+			return None
 
 	class Meta:
 		app_label = 'guestbook'
