@@ -1,12 +1,10 @@
 # -*- encoding: utf-8 -*-
 import django.core.handlers.wsgi
 import webtest
-from datetime import time
 from google.appengine.ext import testbed
 from google.appengine.ext import ndb
 from google.appengine.api import memcache
 from google.appengine.api import users
-from django.utils import timezone
 from guestbook.models import *
 
 class GuestBookViewsTestCase(django.test.TestCase):
@@ -21,10 +19,10 @@ class GuestBookViewsTestCase(django.test.TestCase):
 		self.testbed.init_user_stub()
 		self.testapp = webtest.TestApp(django.core.handlers.wsgi.WSGIHandler())
 
-		fechaTest = timezone.make_aware("2015-01-01", timezone.get_current_timezone())
+		fechaTest = "2015-01-01"
 
 		#Usuario común
-		usuario_test = Usuario(password="", nombre="usuarioTest", apellidos="", fecha_nac=fechaTest, telefono="", email="", localidad="", pais="", bio="")
+		usuario_test = Usuario(password="", nombre="usuarioTest", apellidos="", fecha_nac="2013-12-13", telefono="", email="", localidad="", pais="", bio="")
 		usuario_test.save()
 
 		#Organización común
@@ -32,15 +30,10 @@ class GuestBookViewsTestCase(django.test.TestCase):
 		organizacion_test.save()
 
 		#Asamblea común
-		asamblea_test = Asamblea(nombre = "asambleaTest", fecha = fechaTest, descripcion = "Asamblea de prueba", usuario = usuario_test, organizacion = organizacion_test)
+		asamblea_test = Asamblea(nombre = "asambleaTest", fecha = "2015-01-01", descripcion = "Asamblea de prueba", usuario = usuario_test, organizacion = organizacion_test)
 		asamblea_test.save()
 
 	#def tearDown(self):
-	def tearDown(self):
-		usuario_test = Usuario.objects.get(nombre = "usuarioTest")
-		organizacion_test = Organizacion.objects.get(nombre = "organizacionTest")
-		usuario_test.delete()
-		organizacion_test.delete()
 		self.testbed.deactivate()
 
 	'''
@@ -54,10 +47,8 @@ class GuestBookViewsTestCase(django.test.TestCase):
 	
 
 	def testInsertEntity(self):
-		greeting_test = Greeting(content = "Testing", parent = guestbook_key(DEFAULT_GUESTBOOK_NAME))
-		greeting_test.put()
+		Greeting(content = "Testing", parent = guestbook_key(DEFAULT_GUESTBOOK_NAME)).put()
 		greetings_query = Greeting.query(ancestor=guestbook_key(DEFAULT_GUESTBOOK_NAME))
-
 		self.assertEqual(1, len(greetings_query.fetch(2)))
 
 	def testFilterByUser(self):
@@ -117,7 +108,7 @@ class GuestBookViewsTestCase(django.test.TestCase):
 		self.assertEqual(test6.isOk(), "La URL de la asamblea no funciona\n")
 
 	def testOrganizaciones(self):
-		organizacion_test1 = Organizacion.objects.create(nombre="test1", tematica="tematica", descripcion="asdasdasd", email="ererererr@asd.com", web="http://www.google.es")
+		Organizacion.objects.create(nombre="test1", tematica="tematica", descripcion="asdasdasd", email="ererererr@asd.com", web="http://www.google.es")
 		Organizacion.objects.create(nombre="", tematica="tematica", descripcion="test2", email="ererererr@asd.com", web="http://www.google.es")
 		Organizacion.objects.create(nombre="test3", tematica="", descripcion="asdasdasd", email="ererererr@asd.com", web="http://www.google.es")
 		Organizacion.objects.create(nombre="test4", tematica="tematica", descripcion="", email="ererererr@asd.com", web="http://www.google.es")
