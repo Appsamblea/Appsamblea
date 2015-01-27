@@ -69,6 +69,7 @@ class GuestBookViewsTestCase(django.test.TestCase):
 	'''
 
 	def testActas(self):
+		print ("Realizando tests de actas")
 		asamblea_test = Asamblea.objects.get(nombre = "asambleaTest")
 
 		Acta.objects.create(texto = "Asamblea de prueba", asamblea = asamblea_test)
@@ -83,6 +84,7 @@ class GuestBookViewsTestCase(django.test.TestCase):
 
 
 	def testAsambleas(self):
+		print ("Realizando tests de asambleas")
 		usuario_test = Usuario.objects.get(nombre = "usuarioTest")
 		organizacion_test = Organizacion.objects.get(nombre = "organizacionTest")
 
@@ -108,6 +110,7 @@ class GuestBookViewsTestCase(django.test.TestCase):
 		self.assertEqual(test6.isOk(), "La URL de la asamblea no funciona\n")
 
 	def testOrganizaciones(self):
+		print ("Realizando tests de organizaciones")
 		Organizacion.objects.create(nombre="test1", tematica="tematica", descripcion="asdasdasd", email="ererererr@asd.com", web="http://www.google.es")
 		Organizacion.objects.create(nombre="", tematica="tematica", descripcion="test2", email="ererererr@asd.com", web="http://www.google.es")
 		Organizacion.objects.create(nombre="test3", tematica="", descripcion="asdasdasd", email="ererererr@asd.com", web="http://www.google.es")
