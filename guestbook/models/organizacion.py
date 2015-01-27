@@ -44,7 +44,6 @@ class Organizacion(models.Model):
 		return ok
 		
 	def encode(self):
-<<<<<<< HEAD
 		if self.logo != "":
 			url_logo = self.logo.url
 		else:
@@ -77,22 +76,6 @@ class Organizacion(models.Model):
 			return o
 
 		else:
-=======
-		return json.dumps('pk': self.id, 'model': self.__class__.__name__, 'fields':{'nombre': self.nombre, 'tematica': self.tematica, \
-							'logo': self.logo, 'descripcion': self.descripcion, 'facebook_id': self.facebook_id, 'email': self.email, \
-							'gplus_id': self.gplus_id, 'web': self.web, \
-							'miembros': ?})
-							#Faltan miembros
-	@staticmethos
-	def decode(obj):
-		data = json.loads(obj)
-		if data['model'] == 'Organizacion':	
-			return Organizacion(id= data['pk'], nombre = data['nombre'], tematica = data['tematica'], logo = data['logo'], \
-			descripcion = data['descripcion', facebook_id = data['facebook_id'], email = data['email'], \
-			gplus_id = data['gplus_id'], web = data['web'], miembros = ?)
-			#Faltan miembros
-		else
->>>>>>> 8a38bd6678376872c59c9e8529d47519558c028e
 			return None
 
 	class Meta:
