@@ -10,7 +10,6 @@ from guestbook.models.asamblea import Asamblea
 class Participa(models.Model):
 	usuario = models.ForeignKey(Usuario)
 	asamblea = models.ForeignKey(Asamblea)
-	unique_together = ("usuario", "asamblea")
 
 	def encode(self):
 		return json.dumps({'pk': self.id, 'model': self.__class__.__name__, 'fields': {'usuario': self.usuario.id, \
@@ -31,4 +30,5 @@ class Participa(models.Model):
 			return None
 
 	class Meta:
+		unique_together = ("usuario", "asamblea")
 		app_label = 'guestbook'

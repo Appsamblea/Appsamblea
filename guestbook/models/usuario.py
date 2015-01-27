@@ -27,7 +27,7 @@ class Usuario(models.Model):
 	gplus_id = models.IntegerField(unique = True, null = True)
 	puntos_exp = models.IntegerField(null = True)
 	nivel = models.IntegerField(null = True)
-	#es_invitado = models.ManyToManyField('Participa', related_name = 'asamblea_participa', null = True)
+	es_invitado = models.ManyToManyField('Participa', related_name = 'asamblea_participa', null = True)
 
 	def isOk(self):
 		ok = ""		

@@ -19,7 +19,6 @@ class Turno_palabra(models.Model):
 	orden = models.IntegerField()
 	realizado = models.BooleanField(default = False)
 	participa = models.ForeignKey('Participa')
-	unique_together = ("id", "participa")
 	
 	def isOk(self):
 		ok = ""
@@ -47,4 +46,5 @@ class Turno_palabra(models.Model):
 
 	class Meta:
 		app_label = 'guestbook'
+		unique_together = ("id", "participa")
 
