@@ -35,7 +35,7 @@ class Documento(models.Model):
 		return ok
 		
 	def encode(self):
-		return json.dumps('pk': self.id, 'model': self.__class__.__name__, 'fields':{'nombre': self.nombre, 'url': self.url, 'asamblea': self.asamblea.id})
+		return json.dumps({'pk': self.id, 'model': self.__class__.__name__, 'fields':{'nombre': self.nombre, 'url': self.url, 'asamblea': self.asamblea.id}})
 		
 	@staticmethod
 	def decode(obj):

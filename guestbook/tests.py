@@ -22,16 +22,16 @@ class GuestBookViewsTestCase(django.test.TestCase):
 		fechaTest = "2015-01-01"
 
 		#Usuario común
-		usuario_test = Usuario(password="", nombre="usuarioTest", apellidos="", fecha_nac="2013-12-13", telefono="", email="", localidad="", pais="", bio="")
-		usuario_test.save()
+		usuarioTest = Usuario(password="", nombre="usuarioTest", apellidos="", fecha_nac="2013-12-13", telefono="", email="", localidad="", pais="", bio="")
+		usuarioTest.save()
 
 		#Organización común
-		organizacion_test = Organizacion(nombre="organizacionTest", tematica="A")
-		organizacion_test.save()
+		organizacionTest = Organizacion(nombre="organizacionTest", tematica="A")
+		organizacionTest.save()
 
 		#Asamblea común
-		asamblea_test = Asamblea(nombre = "asambleaTest", fecha = "2015-01-01", descripcion = "Asamblea de prueba", usuario = usuario_test, organizacion = organizacion_test)
-		asamblea_test.save()
+		asambleaTest = Asamblea(nombre = "asambleaTest", fecha = "2015-01-01", descripcion = "Asamblea de prueba", usuario = usuarioTest, organizacion = organizacionTest)
+		asambleaTest.save()
 
 	#def tearDown(self):
 		self.testbed.deactivate()
@@ -70,10 +70,10 @@ class GuestBookViewsTestCase(django.test.TestCase):
 
 	def testActas(self):
 		print ("Realizando tests de actas")
-		asamblea_test = Asamblea.objects.get(nombre = "asambleaTest")
+		asambleaTest = Asamblea.objects.get(nombre = "asambleaTest")
 
-		Acta.objects.create(texto = "Asamblea de prueba", asamblea = asamblea_test)
-		Acta.objects.create(texto = "", asamblea = asamblea_test)
+		Acta.objects.create(texto = "Asamblea de prueba", asamblea = asambleaTest)
+		Acta.objects.create(texto = "", asamblea = asambleaTest)
 
 		test1 = Acta.objects.get(texto = "Asamblea de prueba")
 		test2 = Acta.objects.get(texto = "")
@@ -85,15 +85,15 @@ class GuestBookViewsTestCase(django.test.TestCase):
 
 	def testAsambleas(self):
 		print ("Realizando tests de asambleas")
-		usuario_test = Usuario.objects.get(nombre = "usuarioTest")
-		organizacion_test = Organizacion.objects.get(nombre = "organizacionTest")
+		usuarioTest = Usuario.objects.get(nombre = "usuarioTest")
+		organizacionTest=  Organizacion.objects.get(nombre = "organizacionTest")
 
-		Asamblea.objects.create(nombre="test1", fecha="2013-02-28", descripcion=" ", usuario_id=usuario_test.id, organizacion=organizacion_test, es_abierta = True)
-		Asamblea.objects.create(nombre="", fecha="2013-02-28", descripcion="asdasd", usuario_id=usuario_test.id, organizacion=organizacion_test, es_abierta = True)
-		Asamblea.objects.create(nombre="test3", fecha="2013-12-13", descripcion="asamblea de prueba", usuario_id=usuario_test.id, organizacion=organizacion_test, url_streaming = "http://www.google.es")
-		Asamblea.objects.create(nombre="test4", fecha="2013-12-13", descripcion="asamblea de prueba", usuario_id=usuario_test.id, organizacion=organizacion_test, url_streaming = "www.aiurhtaiurutiaert.es")
-		Asamblea.objects.create(nombre="test5", fecha="2013-12-13", descripcion="asamblea de prueba", usuario_id=usuario_test.id, organizacion=organizacion_test, urlasamblea = "http://www.google.es")
-		Asamblea.objects.create(nombre="test6", fecha="2013-12-13", descripcion="asamblea de prueba", usuario_id=usuario_test.id, organizacion=organizacion_test, urlasamblea = "www.aiurhtaiurutiaert.es")
+		Asamblea.objects.create(nombre="test1", fecha="2013-02-28", descripcion=" ", usuario_id=usuarioTest.id, organizacion=organizacionTest, es_abierta = True)
+		Asamblea.objects.create(nombre="", fecha="2013-02-28", descripcion="asdasd", usuario_id=usuarioTest.id, organizacion=organizacionTest, es_abierta = True)
+		Asamblea.objects.create(nombre="test3", fecha="2013-12-13", descripcion="asamblea de prueba", usuario_id=usuarioTest.id, organizacion=organizacionTest, url_streaming = "http://www.google.es")
+		Asamblea.objects.create(nombre="test4", fecha="2013-12-13", descripcion="asamblea de prueba", usuario_id=usuarioTest.id, organizacion=organizacionTest, url_streaming = "www.aiurhtaiurutiaert.es")
+		Asamblea.objects.create(nombre="test5", fecha="2013-12-13", descripcion="asamblea de prueba", usuario_id=usuarioTest.id, organizacion=organizacionTest, urlasamblea = "http://www.google.es")
+		Asamblea.objects.create(nombre="test6", fecha="2013-12-13", descripcion="asamblea de prueba", usuario_id=usuarioTest.id, organizacion=organizacionTest, urlasamblea = "www.aiurhtaiurutiaert.es")
 
 		test1 = Asamblea.objects.get(nombre = "test1")
 		test2 = Asamblea.objects.get(descripcion = "asdasd")
@@ -128,3 +128,5 @@ class GuestBookViewsTestCase(django.test.TestCase):
 		self.assertEqual(test3.isOk(), "La temática está vacía\n")
 		self.assertEqual(test4.isOk(), "La descripción está vacía\n")
 		self.assertEqual(test5.isOk(), "La URL de la organización no funciona\n")
+                
+                

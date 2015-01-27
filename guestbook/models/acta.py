@@ -26,7 +26,7 @@ class Acta(models.Model):
 		return ok
 
 	def encode(self):
-		return json.dumps('pk': self.id, 'model': self.__class__.__name__, 'fields': {'texto': self.texto, 'asamblea': self.asamblea})
+		return json.dumps({'pk': self.id, 'model': self.__class__.__name__, 'fields': {'texto': self.texto, 'asamblea': self.asamblea.id}})
 		
 	@staticmethod
 	def decode(obj):
