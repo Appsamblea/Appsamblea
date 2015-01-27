@@ -13,11 +13,22 @@ class Participa(models.Model):
 	unique_together = ("usuario", "asamblea")
 
 	def encode(self):
-		return json.dumps({'usuario': self.usuario, \
-							'asamblea': self.asamblea})
-	
+		return json.dumps({'pk': self.id, 'model': self.__class__.__name__, 'fields': {'usuario': self.usuario.id, \
+							'asamblea': self.asamblea.id}})
+	@staticmethod
 	def decode(obj):
-		return json.loads(obj)	
+		data = json.loads(obj)
+
+		if data['model'] == 'Participa':
+			n_id = data['pk']
+			fields = data['fields']
+			n_usuario_id = fields['usuario']
+			n_asamblea_id = fields['asamblea']
 		
+			return Participa(id =  n_id, usuario_id = n_usuario_id, asamblea_id = n_asamblea_id)
+
+		else:
+			return None
+
 	class Meta:
 		app_label = 'guestbook'
