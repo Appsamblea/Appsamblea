@@ -26,7 +26,7 @@ class Grupo(models.Model):
 			ok+="El nombre del grupo no puede estar vacío\n"
 
 		if len(self.descripcion) == 0 or self.descripcion.isspace():
-			ok+="La descripción del grupo no puede estar vacío\n"
+			ok+="La descripción del grupo no puede estar vacía\n"
 
 		return ok
 		
