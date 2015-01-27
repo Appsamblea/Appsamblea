@@ -1,4 +1,4 @@
--#IMPORTANTE: Validar con yamllint.com para no hacer 1000000 commits como he hecho yo.
+#IMPORTANTE: Validar con yamllint.com para no hacer 1000000 commits como he hecho yo.
 
 #Lenguaje que se va a usar
 language: python
