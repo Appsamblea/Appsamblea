@@ -6,15 +6,18 @@ language: python
 python:
   - "2.7"
 
+#Despliega solo la rama master
+branches:
+   only:
+      - master 
+      
 #Esto es para desplegar en App Engine
 env:
    global:
       - GAE_DIR=/tmp/gae
       - EMAIL=appsamblea@gmail.com
       - secure: NV0YZr03IcXAPhVNjfNptYlwl74TEMHn+rkvwB1BGKXffDOya5HnXU5fVWv2NIHMQIRLslolpfldTxvhB79IDTGs06BDjpRu7rAWi6uPRlQkL8P7q+2L5p5ZoMV2Zf5UTCBv9xdkngLh85S8iWfcnxyhFi07DZotJXI6nmZ1pW6waO8GgEw1AVt/HcR3oYKCX1qnbstewe/BIiBNDlr52JEpzaxoNEqn5ku6ZAsouMNKvKc/8Itd+mA6cWKKPtLr9hWreEXaYQyO/2qWPdviiq4o/6ZmxJ2NthzhOKYycsaQLVlFv4ErBbSPIkjRMrV/qqATv34O7bsRzERV6o+nvw==
-   branches:
-      only:
-         - master 
+
 
 #Instalarse la mágina virtual GAE
 before_install:
