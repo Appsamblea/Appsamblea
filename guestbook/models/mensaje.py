@@ -28,13 +28,16 @@ class Mensaje(models.Model):
 		return ok
 		
 	def encode(self):
-		return json.dumps({'texto': self.texto, \
-							'usuario_envia': self.usuario_envia, \
-							'usuario_recibe': self.usuario_recibe, \
-							'grupo': self.grupo})
-	
+		return json.dumps('pk': self.id, 'model': self.__class__.__name__, 'fields':{'texto': self.texto, 'usuario_envia': self.usuario_envia.id, \
+							'usuario_recibe': self.usuario_recibe.id, 'grupo': self.grupo.id})
+	@staticmethod
 	def decode(obj):
-		return json.loads(obj)			
+		data = json.loads(obj)
+		if data['model'] == 'Mensaje':
+			return Mensaje(id = data['pk'], texto = data['texto'], usuario_envia = ?, usuario_recibe = ?, grupo = ?)
+			#Faltan usuario_envia, usuario_recibe y grupo.
+		else:
+			return None
 
 	class Meta:
 		app_label = 'guestbook'

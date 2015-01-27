@@ -72,6 +72,5 @@ class Asamblea(models.Model):
 		else:
 			return None
 
-
 	class Meta:
 		app_label = 'guestbook'
