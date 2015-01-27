@@ -20,7 +20,6 @@ env:
 
 #Instalarse la mágina virtual GAE
 before_install:
-   - echo $BRANCH
    - >
      test -e $GAE_DIR || 
     (mkdir -p $GAE_DIR && 
@@ -49,4 +48,4 @@ script:
 after_success:
 #   - echo "$GAE_PASSWORD" | $GAE_DIR/google_appengine/appcfg.py -e "$EMAIL" --passin update --no_cookies . 
 #   - echo "$GAE_PASSWORD"
-#   - echo "Probando after success."
+   - echo "Probando after success."
