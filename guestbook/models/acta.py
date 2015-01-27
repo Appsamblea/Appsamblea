@@ -15,7 +15,16 @@ from guestbook.models.asamblea import Asamblea
 class Acta(models.Model):
 	texto = models.TextField()
 	asamblea = models.ForeignKey(Asamblea)
-	
+
+	def isOk(self):
+		ok = ""
+
+		#El texto no puede estar vacío
+		if not bool (self.texto) or self.texto.isspace():
+			ok += "El texto está vacío\n"
+
+		return ok
+
 	def encode(self):
 		return json.dumps({'texto': self.texto, \
 							'asamblea': self.asamblea})

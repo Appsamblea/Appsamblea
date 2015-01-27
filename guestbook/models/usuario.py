@@ -5,7 +5,7 @@ Created on 25/11/2014
 @author: silt
 '''
 from __future__ import division
-import datetime
+from django.utils import timezone
 import json
 from django.core.validators import URLValidator
 from django.core.exceptions import ValidationError

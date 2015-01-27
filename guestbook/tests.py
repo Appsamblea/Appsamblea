@@ -1,14 +1,14 @@
 # -*- encoding: utf-8 -*-
-import unittest
 import django.core.handlers.wsgi
 import webtest
 from google.appengine.ext import testbed
 from google.appengine.ext import ndb
 from google.appengine.api import memcache
 from google.appengine.api import users
+from django.utils import timezone
 from guestbook.models import *
 
-class GuestBookViewsTestCase(unittest.TestCase):
+class GuestBookViewsTestCase(django.test.TestCase):
 	def setUp(self):
 		# Primero, crear una instancia de la clase Testbed.
 		self.testbed = testbed.Testbed()
@@ -20,15 +20,21 @@ class GuestBookViewsTestCase(unittest.TestCase):
 		self.testbed.init_user_stub()
 		self.testapp = webtest.TestApp(django.core.handlers.wsgi.WSGIHandler())
 
-		#Usuarios
-		usuario_test = Usuario(password="", nombre="usuarioTest", apellidos="", fecha_nac="2013-12-13", telefono="", email="", localidad="", pais="", bio="")
+		fechaTest = timezone.make_aware("2015-01-01", timezone.get_current_timezone())
+
+		#Usuario común
+		usuario_test = Usuario(password="", nombre="usuarioTest", apellidos="", fecha_nac=fechaTest, telefono="", email="", localidad="", pais="", bio="")
 		usuario_test.save()
 
-		#Organizaciones
+		#Organización común
 		organizacion_test = Organizacion(nombre="organizacionTest", tematica="A")
 		organizacion_test.save()
 
-	def tearDown(self):
+		#Asamblea común
+		asamblea_test = Asamblea(nombre = "asambleaTest", fecha = fechaTest, descripcion = "Asamblea de prueba", usuario = usuario_test, organizacion = organizacion_test)
+		asamblea_test.save()
+
+	#def tearDown(self):
 		self.testbed.deactivate()
 
 	'''
@@ -39,7 +45,7 @@ class GuestBookViewsTestCase(unittest.TestCase):
 	def test_sign(self):
 		response = self.testapp.get('/guestbook/sign/')
 		self.assertEqual(response.status_int, 302)	
-	'''
+	
 
 	def testInsertEntity(self):
 		Greeting(content = "Testing", parent = guestbook_key(DEFAULT_GUESTBOOK_NAME)).put()
@@ -60,7 +66,22 @@ class GuestBookViewsTestCase(unittest.TestCase):
 		entity_key = Greeting(content = "Testing", parent = guestbook_key(DEFAULT_GUESTBOOK_NAME)).put()
 		retrieved_entity = GetEntityViaMemcache(entity_key)
 		self.assertNotEqual(None, retrieved_entity)
-		self.assertEqual("Testing", retrieved_entity.content)
+		self.assertEqual("Testing", retrieved_entity.content
+	'''
+
+	def testActas(self):
+		asamblea_test = Asamblea.objects.get(nombre = "asambleaTest")
+
+		Acta.objects.create(texto = "Asamblea de prueba", asamblea = asamblea_test)
+		Acta.objects.create(texto = "", asamblea = asamblea_test)
+
+		test1 = Acta.objects.get(texto = "Asamblea de prueba")
+		test2 = Acta.objects.get(texto = "")
+
+		self.assertEqual(test1.isOk(), "")
+		self.assertEqual(test2.isOk(), "El texto está vacío\n")
+
+
 
 	def testAsambleas(self):
 		usuario_test = Usuario.objects.get(nombre = "usuarioTest")
