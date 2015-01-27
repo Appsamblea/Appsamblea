@@ -21,10 +21,10 @@ def guestbook_key(guestbook_name=DEFAULT_GUESTBOOK_NAME):
     return ndb.Key('Guestbook', guestbook_name)
 
 class Greeting(ndb.Model):
-    '''Models an individual Guestbook entry.'''
-    author = ndb.UserProperty()
-    content = ndb.StringProperty(indexed=False)
-    date = ndb.DateTimeProperty(auto_now_add=True)
+	'''Models an individual Guestbook entry.'''
+	author = ndb.UserProperty()
+	content = ndb.StringProperty(indexed=False)
+	date = ndb.DateTimeProperty(auto_now_add=True)
 
 def GetEntityViaMemcache(entity_key):
 	'''Get entity from memcache if available, from datastore if not.'''

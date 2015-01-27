@@ -2,6 +2,7 @@
 import unittest
 import django.core.handlers.wsgi
 import webtest
+from datetime import time
 from google.appengine.ext import testbed
 from google.appengine.ext import ndb
 from google.appengine.api import memcache
@@ -29,6 +30,10 @@ class GuestBookViewsTestCase(unittest.TestCase):
 		organizacion_test.save()
 
 	def tearDown(self):
+		usuario_test = Usuario.objects.get(nombre = "usuarioTest")
+		organizacion_test = Organizacion.objects.get(nombre = "organizacionTest")
+		usuario_test.delete()
+		organizacion_test.delete()
 		self.testbed.deactivate()
 
 	'''
@@ -42,8 +47,10 @@ class GuestBookViewsTestCase(unittest.TestCase):
 	'''
 
 	def testInsertEntity(self):
-		Greeting(content = "Testing", parent = guestbook_key(DEFAULT_GUESTBOOK_NAME)).put()
+		greeting_test = Greeting(content = "Testing", parent = guestbook_key(DEFAULT_GUESTBOOK_NAME))
+		greeting_test.put()
 		greetings_query = Greeting.query(ancestor=guestbook_key(DEFAULT_GUESTBOOK_NAME))
+
 		self.assertEqual(1, len(greetings_query.fetch(2)))
 
 	def testFilterByUser(self):
@@ -88,7 +95,7 @@ class GuestBookViewsTestCase(unittest.TestCase):
 		self.assertEqual(test6.isOk(), "La URL de la asamblea no funciona\n")
 
 	def testOrganizaciones(self):
-		Organizacion.objects.create(nombre="test1", tematica="tematica", descripcion="asdasdasd", email="ererererr@asd.com", web="http://www.google.es")
+		organizacion_test1 = Organizacion.objects.create(nombre="test1", tematica="tematica", descripcion="asdasdasd", email="ererererr@asd.com", web="http://www.google.es")
 		Organizacion.objects.create(nombre="", tematica="tematica", descripcion="test2", email="ererererr@asd.com", web="http://www.google.es")
 		Organizacion.objects.create(nombre="test3", tematica="", descripcion="asdasdasd", email="ererererr@asd.com", web="http://www.google.es")
 		Organizacion.objects.create(nombre="test4", tematica="tematica", descripcion="", email="ererererr@asd.com", web="http://www.google.es")
