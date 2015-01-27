@@ -31,8 +31,12 @@ class Acta(models.Model):
 	@staticmethod
 	def decode(obj):
 		data = json.loads(obj)
+
 		if data['model'] == 'Acta':
-			return Acta(id = data['pk'], texto = data['texto'], asamblea = data['texto'])
+			n_id = data['pk']
+			fields = data['fields']
+
+			return Acta(id = data['pk'], texto = fields['texto'], asamblea_id = fields['asmablea'])
 		else:
 			return None
 

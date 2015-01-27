@@ -40,9 +40,12 @@ class Documento(models.Model):
 	@staticmethod
 	def decode(obj):
 		data = json.loads(obj)
+
 		if data['model'] == 'Documento':
-			return Documento(id = data['pk'], nombre = data['nombre'], url = data['url'], asamblea = ?)
-			#Falta asamblea
+			n_id = data['pk']
+			fields = data['fields']
+
+			return Documento(id = data['pk'], nombre = fields['nombre'], url = fields['url'], asamblea_id = fields['asamblea'])
 		else:
 			return None
 

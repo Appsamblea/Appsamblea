@@ -17,7 +17,6 @@ class Votacion_opcion(models.Model):
 	nombre = models.CharField(max_length = 256)
 	votacion = models.ForeignKey(Votacion)
 	participa = models.ManyToManyField(Participa)
-	unique_together = ("id", "votacion")
 
 	def isOk(self):
 		ok = ""
@@ -26,14 +25,27 @@ class Votacion_opcion(models.Model):
 		return ok
 		
 	def encode(self):
-		return json.dumps({'id': self.id, \
-							'nombre': self.nombre, \
-							'votacion': self.votacion, \
-							'participa': self.participa})
-	
+		return json.dumps({'pk': self.id, 'model': self.__class__.__name__, 'fields': {'nombre': self.nombre, \
+							'votacion': self.votacion.id, \
+							'participa': [p.id for p in self.participa.all()]}})
+
+	@staticmethod
 	def decode(obj):
-		return json.loads(obj)		
+		data = json.loads(obj)
+
+		if data['model'] == 'Votacion_opcion':
+			n_id = data['pk']
+			fields = data['fields']
+
+			v = Votacion_opcion(id = n_id, nombre = fields['nombre'], votacion_id = fields['votacion'])
+			v.participa = fields['participa']			
+
+			return v
+
+		else:
+			return None
 
 	class Meta:
 		app_label = 'guestbook'
+		unique_together = ("id", "votacion")
 

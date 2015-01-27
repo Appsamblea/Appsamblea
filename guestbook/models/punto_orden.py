@@ -31,15 +31,24 @@ class Punto_orden_dia(models.Model):
 		return ok
 		
 	def encode(self):
-		return json.dumps({'orden': self.orden, \
+		return json.dumps({'pk': self.id, 'model': self.__class__.__name__, 'fields': {'orden': self.orden, \
 							'nombre': self.nombre, \
 							'descripcion': self.descripcion, \
-							'tratado': self.tratado, \
-							'asamblea': self.asamblea, \
-							'turnos_de_palabra': self.turnos_de_palabra})
-	
+							'tratado': str(self.tratado), \
+							'asamblea': self.asamblea.id, \
+							'turnos_de_palabra': [t.id for t in self.turnos_de_palabra.all()]}}) #Si para enviar. Para recibir es necsario introducirlo en la tabla turno_palabra, así que se debería hacer enviando esta.
+	@staticmethod
 	def decode(obj):
-		return json.loads(obj)		
+		data = json.loads(obj)
+
+		if data['model'] == 'Punto_orden_dia':
+			n_id = data['pk']
+			fields = data['fields']
+
+			return Punto_orden_dia(id = n_id, orden = fields['orden'], nombre = fields['nombre'], descripcion = fields['descripcion'], tratado = fields['tratado'], asamblea_id = fields['asamblea'])
+
+		else:
+			return None
 
 	class Meta:
 		app_label = 'guestbook'
