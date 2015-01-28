@@ -24,11 +24,8 @@ class Turno_palabra(models.Model):
 		if len(self.descripcion) == 0 or self.descripcion.isspace():
 			ok+="La descripción del turno de palabra no puede estar vacía\n"
 		if self.orden < 0:
-			ok+="El orden del turno de palabra no puede ser inferior a cero"
-		if self.duracion < 0:
-			ok+="La duración del turno de palabra no puede ser 0"
-		if self.duracion_estimada < 0:
-			ok+="La duración estimada del turno de palabra no puede ser 0"
+			ok+="El orden del turno de palabra no puede ser inferior a cero\n"
+		#Duración y duración estimada son campos de tiempo por lo que no es necesario hacer tests.
 		return ok
 		
 	def encode(self):

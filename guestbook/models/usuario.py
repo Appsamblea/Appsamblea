@@ -31,12 +31,19 @@ class Usuario(models.Model):
 
 	def isOk(self):
 		ok = ""		
+		#Contraseña no puede ser nula
+		if not bool (self.password) or self.password.isspace():
+			ok += "La contraseña no puede estar vacía\n"
+		#Nombre no puede estar vacío
+		if not bool (self.nombre) or self.nombre.isspace():
+			ok += "El nombre no puede estar vacío\n"
+		#Apellidos no puede estar vacío
+		if not bool (self.apellidos) or self.nombre.isspace():
+			ok += "Los apellidos no pueden estar vacíos\n"
 		if any(char.isdigit() for char in self.nombre):
 			ok += "No se pueden incluir números en el nombre\n"
-		if not any(char.isdigit() for char in self.telefono):
+		if any(not char.isdigit() for char in self.telefono):
 			ok += "Teléfono mal definido\n"
-		if " " in self.email or "@" not in self.email or "." not in self.email:	
-			ok+= "Email mal definido\n"		
 		return ok
 		
 	def encode(self):

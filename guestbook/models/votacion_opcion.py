@@ -6,7 +6,6 @@ Created on 25/11/2014
 '''
 
 from __future__ import division
-import datetime
 import json
 from django.db import models
 from guestbook.models.participa import Participa
@@ -21,7 +20,7 @@ class Votacion_opcion(models.Model):
 	def isOk(self):
 		ok = ""
 		if len(self.nombre) == 0 or self.nombre.isspace():
-			ok+="La opción de la votación no puede estar vacía\n"
+			ok += "La opción de la votación no puede estar vacía\n"
 		return ok
 		
 	def encode(self):

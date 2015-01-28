@@ -32,6 +32,11 @@ class GuestBookViewsTestCase(django.test.TestCase):
         grupoTest = Grupo (nombre = "grupoTest", descripcion = "asdasdasd", organizacion = organizacionTest, administrador = usuarioTest)
         grupoTest.save()
 
+        #Participa común
+        participaTest = Participa(usuario = usuarioTest, asamblea = asambleaTest)
+        participaTest.save()
+
+
     #def tearDown(self):
         self.testbed.deactivate()
 
@@ -177,3 +182,82 @@ class GuestBookViewsTestCase(django.test.TestCase):
         self.assertEqual(test1.isOk(), "")
         self.assertEqual(test2.isOk(), "El nombre no puede estar vacío\n")
         self.assertEqual(test3.isOk(), "El tipo no puede estar vacío\n")
+
+    def testTurno_palabra(self):
+        print ("Realizando tests de turnos de palabra")
+        usuarioTest = Usuario.objects.get(nombre = "usuarioTest")
+
+        participaTest = Participa.objects.get(usuario = usuarioTest)
+
+        Turno_palabra.objects.create(descripcion = "test1", duracion = "00:15", duracion_estimada = "00:10", orden = 1, participa = participaTest)
+        Turno_palabra.objects.create(descripcion = "", duracion = "00:15", duracion_estimada = "00:10", orden = 1, participa = participaTest)
+        Turno_palabra.objects.create(descripcion = "test3", duracion = "00:15", duracion_estimada = "00:10", orden = -1, participa = participaTest)
+
+        test1 = Turno_palabra.objects.get(descripcion = "test1")
+        test2 = Turno_palabra.objects.get(descripcion = "")
+        test3 = Turno_palabra.objects.get(descripcion = "test3")
+
+        self.assertEqual(test1.isOk(), "")
+        self.assertEqual(test2.isOk(), "La descripción del turno de palabra no puede estar vacía\n")
+        self.assertEqual(test3.isOk(), "El orden del turno de palabra no puede ser inferior a cero\n")
+
+    def testUsuario(self):
+        print ("Realizando tests de usuarios")
+
+        Usuario.objects.create(password = "test1", nombre = "test", apellidos = "asd", fecha_nac = "2015-01-01", telefono = "958123456", email = "prueba@test.com")
+        Usuario.objects.create(password = "", nombre = "test", apellidos = "test2", fecha_nac = "2015-01-01", telefono = "958123456", email = "prueba@test.com")
+        Usuario.objects.create(password = "test3", nombre = "", apellidos = "asd", fecha_nac = "2015-01-01", telefono = "958123456", email = "prueba@test.com")
+        Usuario.objects.create(password = "test4", nombre = "test", apellidos = "", fecha_nac = "2015-01-01", telefono = "958123456", email = "prueba@test.com")
+        Usuario.objects.create(password = "test5", nombre = "test5", apellidos = "asd", fecha_nac = "2015-01-01", telefono = "958123456", email = "prueba@test.com")
+        Usuario.objects.create(password = "test6", nombre = "test", apellidos = "asd", fecha_nac = "2015-01-01", telefono = "95812ss3456", email = "prueba@test.com")
+
+        test1 = Usuario.objects.get(password = "test1")
+        test2 = Usuario.objects.get(apellidos = "test2")
+        test3 = Usuario.objects.get(password = "test3")
+        test4 = Usuario.objects.get(password = "test4")
+        test5 = Usuario.objects.get(password = "test5")
+        test6 = Usuario.objects.get(password = "test6")
+
+        self.assertEqual(test1.isOk(), "")
+        self.assertEqual(test2.isOk(), "La contraseña no puede estar vacía\n")
+        self.assertEqual(test3.isOk(), "El nombre no puede estar vacío\n")
+        self.assertEqual(test4.isOk(), "Los apellidos no pueden estar vacíos\n")
+        self.assertEqual(test5.isOk(), "No se pueden incluir números en el nombre\n")
+        self.assertEqual(test6.isOk(), "Teléfono mal definido\n")
+
+    def testVotacion(self):
+        print("Realizando tests de votaciones")
+        usuarioTest = Usuario.objects.get(nombre = "usuarioTest")
+        participaTest = Participa.objects.get(usuario = usuarioTest)
+
+        Votacion.objects.create(nombre = "test1", tiempo_votacion = "01:15", participa = participaTest)
+        Votacion.objects.create(nombre = "", tiempo_votacion = "01:15", participa = participaTest)
+        Votacion.objects.create(nombre = "test3", tiempo_votacion = "00:00:59", participa = participaTest)
+
+        test1 = Votacion.objects.get(nombre = "test1")
+        test2 = Votacion.objects.get(nombre = "")
+        test3 = Votacion.objects.get(nombre = "test3")
+
+        self.assertEqual(test1.isOk(), "")
+        self.assertEqual(test2.isOk(), "El nombre no puede estar vacío\n")
+        self.assertEqual(test3.isOk(), "El tiempo mínimo es un minuto\n")
+
+    def testVotacion_opcion(self):
+        print("Realizando tests de opciones de votación")
+        usuarioTest = Usuario.objects.get(nombre = "usuarioTest")
+        participaTest = Participa.objects.get(usuario = usuarioTest)
+        votacionTest = Votacion(nombre = "votacionTest", tiempo_votacion = "01:15", participa = participaTest)
+        votacionTest.save()
+
+        Votacion_opcion.objects.create(nombre = "test1", votacion = votacionTest)
+        Votacion_opcion.objects.create(nombre = "", votacion = votacionTest)
+        
+        test1 = Votacion_opcion.objects.get(nombre = "test1")
+        test2 = Votacion_opcion.objects.get(nombre = "")
+
+        self.assertEqual(test1.isOk(), "")
+        self.assertEqual(test2.isOk(), "La opción de la votación no puede estar vacía\n")
+
+
+
+
