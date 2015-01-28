@@ -1,14 +1,7 @@
 # -*- encoding: utf-8 -*-
-'''
-Created on 25/11/2014
 
-@author: silt
-'''
 from __future__ import division
-import datetime
 import json
-from django.core.validators import URLValidator
-from django.core.exceptions import ValidationError
 from django.db import models
 from guestbook.models.asamblea import Asamblea
 
@@ -36,7 +29,7 @@ class Acta(models.Model):
 			n_id = data['pk']
 			fields = data['fields']
 
-			return Acta(id = data['pk'], texto = fields['texto'], asamblea_id = fields['asmablea'])
+			return Acta(id = n_id, texto = fields['texto'], asamblea_id = fields['asmablea'])
 		else:
 			return None
 

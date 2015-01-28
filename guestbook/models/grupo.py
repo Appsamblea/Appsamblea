@@ -1,12 +1,6 @@
 # -*- encoding: utf-8 -*-
-'''
-Created on 25/11/2014
-
-@author: silt
-'''
 
 from __future__ import division
-import datetime
 import json
 from django.db import models
 from guestbook.models.usuario import Usuario

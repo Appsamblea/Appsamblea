@@ -1,8 +1,6 @@
+# -*- encoding: utf-8 -*-
 from __future__ import division
-import datetime
 import json
-from django.core.validators import URLValidator
-from django.core.exceptions import ValidationError
 from django.db import models
 from guestbook.models.usuario import Usuario
 from guestbook.models.asamblea import Asamblea

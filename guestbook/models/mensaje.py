@@ -1,12 +1,5 @@
 # -*- encoding: utf-8 -*-
-'''
-Created on 25/11/2014
-
-@author: silt
-'''
-
 from __future__ import division
-import datetime
 import json
 from django.db import models
 from guestbook.models.usuario import Usuario
@@ -35,7 +28,6 @@ class Mensaje(models.Model):
 		data = json.loads(obj)
 		
 		if data['model'] == 'Mensaje':
-			n_id = data['pk']
 			fields = data['fields']
 
 			return Mensaje(id = data['pk'], texto = fields['texto'], usuario_envia_id = fields['usuario_envia'], usuario_recibe_id = fields['usuario_recibe'], grupo_id = fields['grupo'])
