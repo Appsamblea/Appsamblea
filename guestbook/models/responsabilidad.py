@@ -30,13 +30,26 @@ class Responsabilidad(models.Model):
 			ok += "El tipo no puede estar vacío\n"
 			
 	def encode(self):
-		return json.dumps({'nombre': self.nombre, \
+		return json.dumps({'pk': self.id, 'model': self.__class__.__name__, 'fields': {'nombre': self.nombre, \
 							'tipo': self.tipo, \
-							'asamblea_responsable': self.asamblea_responsable, \
-							'participante_realiza': self.participante_realiza})
-	
+							'asamblea_responsable': [a.id for a in self.asamblea_responsable.all()], \
+							'participante_realiza': [p.id for p in self.participante_realiza.all()]}})
+
+	@staticmethod
 	def decode(obj):
-		return json.loads(obj)				
+		data = json.loads(obj)
+
+		if data['model'] == 'Responsabilidad':
+			n_id = data['pk']
+			fields = data['fields']
+			r = Responsabilidad(id = n_id, nombre = fields['nombre'], tipo = fields['tipo'])
+			r.asamblea_responsable = fields['asamblea_responsable']
+			r.participante_realiza = fields['participante_realiza']
+
+			return r
+
+		else:
+			return None
 
 	class Meta:
 		app_label = 'guestbook'

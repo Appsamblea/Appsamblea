@@ -49,8 +49,6 @@ class Organizacion(models.Model):
 		else:
 			url_logo = ""
 
-		print self.logo
-		
 		return json.dumps({'pk': self.id, 'model': self.__class__.__name__, 'fields': {'nombre': self.nombre, \
 							'tematica': self.tematica, \
 							'logo': url_logo, \

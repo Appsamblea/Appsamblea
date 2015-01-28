@@ -60,5 +60,40 @@ class Usuario(models.Model):
 	def decode(obj):
 		return json.loads(obj)		
 
+	def encode(self):
+		if self.imagen_perfil != "":
+			url_imagen = self.imagen_perfil.url
+		else:
+			url_imagen = ""
+
+		return json.dumps({'pk': self.id, 'model': self.__class__.__name__, 'fields': {'nombre': self.nombre, \
+							'password': self.password, \
+							'apellidos': self.apellidos, \
+							'fecha_nac': str(self.fecha_nac), \
+							'telefono': self.telefono, \
+							'email': self.email, \
+							'localidad': self.localidad, \
+							'pais': self.pais, \
+							'bio': self.bio, \
+							'imagen_perfil': url_imagen, \
+							'facebook_id': self.facebook_id, \
+							'twitter_id': self.twitter_id, \
+							'gplus_id': self.gplus_id, \
+							'puntos_exp': self.puntos_exp, \
+							'nivel': self.nivel, \
+							'es_invitado': [i.id for i in self.es_invitado.all()]}}) #Si para enviar. Para recibir es necsario introducirlo en la tabla participa, así que se debería hacer enviando esta.
+	@staticmethod
+	def decode(obj):
+		data = json.loads(obj)
+
+		if data['model'] == 'Usuario':
+			n_id = data['pk']
+			fields = data['fields']
+
+			return Usuario(id = n_id, nombre = fields['nombre'], password = fields['password'], apellidos = fields['apellidos'], fecha_nac = fields['fecha_nac'], telefono = fields['telefono'], email = fields['email'], localidad = fields['localidad'], pais = fields['pais'], bio = fields['bio'], imagen_perfil = fields['imagen_perfil'], facebook_id = fields['facebook_id'], twitter_id = fields['twitter_id'], gplus_id = fields['gplus_id'], puntos_exp = fields['puntos_exp'], nivel = fields['nivel'])
+
+		else:
+			return None
+
 	class Meta:
 		app_label = 'guestbook'
