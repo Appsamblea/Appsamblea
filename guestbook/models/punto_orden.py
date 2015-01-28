@@ -6,16 +6,14 @@ Created on 25/11/2014
 '''
 
 from __future__ import division
-import datetime
 import json
 from django.db import models
 from guestbook.models.asamblea import Asamblea
-from guestbook.models.turno_palabra import Turno_palabra
 
 class Punto_orden_dia(models.Model):
 	orden = models.IntegerField()
 	nombre = models.CharField(max_length = 256)
-	descripcion = models.TextField()
+	descripcion = models.TextField(null = False)
 	tratado = models.BooleanField(default = False)
 	asamblea = models.ForeignKey(Asamblea)
 	turnos_de_palabra = models.ManyToManyField('Turno_palabra')
@@ -25,9 +23,9 @@ class Punto_orden_dia(models.Model):
 		if self.orden < 0:
 			ok+="El orden del día no puede ser negativo\n"
 		if len(self.nombre) == 0 or self.nombre.isspace():
-			ok+="El nombre del grupo no puede estar vacío\n"
+			ok+="El nombre no puede estar vacío\n"
 		if len(self.descripcion) == 0 or self.descripcion.isspace():
-			ok+="La descripción del grupo no puede estar vacío\n"
+			ok+="La descripción no puede estar vacía\n"
 		return ok
 		
 	def encode(self):

@@ -6,7 +6,6 @@ Created on 25/11/2014
 '''
 
 from __future__ import division
-import datetime
 import json
 from django.db import models
 from guestbook.models.participa import Participa
@@ -28,6 +27,8 @@ class Responsabilidad(models.Model):
 		#El tipo no puede estar vacío.
 		if len(self.tipo) == 0 or self.tipo.isspace():
 			ok += "El tipo no puede estar vacío\n"
+
+		return ok
 			
 	def encode(self):
 		return json.dumps({'pk': self.id, 'model': self.__class__.__name__, 'fields': {'nombre': self.nombre, \

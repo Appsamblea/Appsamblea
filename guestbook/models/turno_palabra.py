@@ -6,11 +6,9 @@ Created on 25/11/2014
 '''
 
 from __future__ import division
-import datetime
 import json
 from django.db import models
 from datetime import time
-from guestbook.models.participa import Participa
 
 class Turno_palabra(models.Model):
 	id = models.AutoField(primary_key=True)

@@ -1,8 +1,5 @@
 # -*- encoding: utf-8 -*-
 import django.core.handlers.wsgi
-from google.appengine.api import memcache
-from google.appengine.api import users
-from google.appengine.ext import ndb
 from google.appengine.ext import testbed
 from guestbook.models import *
 import webtest
@@ -30,41 +27,13 @@ class GuestBookViewsTestCase(django.test.TestCase):
         #Asamblea común
         asambleaTest = Asamblea(nombre = "asambleaTest", fecha = "2015-01-01", descripcion = "Asamblea de prueba", usuario = usuarioTest, organizacion = organizacionTest)
         asambleaTest.save()
+        
+        #Grupo común
+        grupoTest = Grupo (nombre = "grupoTest", descripcion = "asdasdasd", organizacion = organizacionTest, administrador = usuarioTest)
+        grupoTest.save()
 
     #def tearDown(self):
         self.testbed.deactivate()
-
-    '''
-	def test_index(self):
-		response = self.testapp.get('/guestbook/')
-		self.assertEqual(response.status_int, 200)
-
-	def test_sign(self):
-		response = self.testapp.get('/guestbook/sign/')
-		self.assertEqual(response.status_int, 302)	
-	
-
-	def testInsertEntity(self):
-		Greeting(content = "Testing", parent = guestbook_key(DEFAULT_GUESTBOOK_NAME)).put()
-		greetings_query = Greeting.query(ancestor = guestbook_key(DEFAULT_GUESTBOOK_NAME))
-		self.assertEqual(1, len(greetings_query.fetch(2)))
-
-	def testFilterByUser(self):
-		anonymous_user = users.User(email = "anonymous@testing.com")
-		test_user = users.User(email = "test@testing.com")
-		Greeting(content = "Testing", parent = guestbook_key(DEFAULT_GUESTBOOK_NAME), author = anonymous_user).put()
-		Greeting(content = "Testing2", parent = guestbook_key(DEFAULT_GUESTBOOK_NAME), author = test_user).put()
-		greetings_query = Greeting.query(ancestor = guestbook_key(DEFAULT_GUESTBOOK_NAME)).filter(ndb.GenericProperty('author')  =  =  anonymous_user)
-		results = greetings_query.fetch(2)
-		self.assertEqual(1, len(results))
-		self.assertEqual(anonymous_user, results[0].author)
-
-	def testGetEntityViaMemcache(self):
-		entity_key = Greeting(content = "Testing", parent = guestbook_key(DEFAULT_GUESTBOOK_NAME)).put()
-		retrieved_entity = GetEntityViaMemcache(entity_key)
-		self.assertNotEqual(None, retrieved_entity)
-		self.assertEqual("Testing", retrieved_entity.content
-	'''
 
     def testActa(self):
         print ("Realizando tests de actas")
@@ -137,7 +106,21 @@ class GuestBookViewsTestCase(django.test.TestCase):
         self.assertEqual(test1.isOk(), "")
         self.assertEqual(test2.isOk(), "El nombre del grupo no puede estar vacío\n")
         self.assertEqual(test3.isOk(), "La descripción del grupo no puede estar vacía\n")
-
+        
+    def testMensaje(self):
+        print ("Realizando tests de mensajes")        
+        usuarioTest = Usuario.objects.get(nombre = "usuarioTest")
+        grupoTest = Grupo.objects.get(nombre = "grupoTest")
+        
+        Mensaje.objects.create(texto = "test1", usuario_envia = usuarioTest, usuario_recibe = usuarioTest, grupo = grupoTest)
+        Mensaje.objects.create(texto = "", usuario_envia = usuarioTest, usuario_recibe = usuarioTest, grupo = grupoTest)
+        
+        test1 = Mensaje.objects.get(texto = "test1")
+        test2 = Mensaje.objects.get(texto = "")
+        
+        self.assertEqual(test1.isOk(), "")
+        self.assertEqual(test2.isOk(), "El texto no puede estar vacío\n")
+        
 
     def testOrganizacion(self):
         print ("Realizando tests de organizaciones")
@@ -158,4 +141,39 @@ class GuestBookViewsTestCase(django.test.TestCase):
         self.assertEqual(test3.isOk(), "La temática está vacía\n")
         self.assertEqual(test4.isOk(), "La descripción está vacía\n")
         self.assertEqual(test5.isOk(), "La URL de la organización no funciona\n")
+
+    def testPunto_orden(self):
+        print("Realizando tests de puntos del órden del día")
+        asambleaTest = Asamblea.objects.get(nombre = "asambleaTest")
+
+        Punto_orden_dia.objects.create(orden = 0, nombre = "test1", descripcion = "asdasd", asamblea = asambleaTest)
+        Punto_orden_dia.objects.create(orden = -1, nombre = "test2", descripcion = "asdasd", asamblea = asambleaTest)
+        Punto_orden_dia.objects.create(orden = 0, nombre = "", descripcion = "asdasd", asamblea = asambleaTest)
+        Punto_orden_dia.objects.create(orden = 0, nombre = "test4", descripcion = "", asamblea = asambleaTest)
         
+        test1 = Punto_orden_dia.objects.get(nombre = "test1")
+        test2 = Punto_orden_dia.objects.get(nombre = "test2")
+        test3 = Punto_orden_dia.objects.get(nombre = "")
+        test4 = Punto_orden_dia.objects.get(nombre = "test4")
+
+        self.assertEqual(test1.isOk(), "")
+        self.assertEqual(test2.isOk(), "El orden del día no puede ser negativo\n")
+        self.assertEqual(test3.isOk(), "El nombre no puede estar vacío\n")
+        self.assertEqual(test4.isOk(), "La descripción no puede estar vacía\n")
+
+    def testResponsabilidad(self):
+        print ("Realizando tests de responsabilidades")
+        asambleaTest = Asamblea.objects.get(nombre = "asambleaTest")
+
+        Responsabilidad.objects.create(nombre = "test1", tipo = "asdasd")
+        Responsabilidad.objects.create(nombre = "", tipo = "test2")
+        Responsabilidad.objects.create(nombre = "test3", tipo = "")
+
+        test1 = Responsabilidad.objects.get(nombre = "test1")
+        test1.asamblea_responsable.add(asambleaTest)
+        test2 = Responsabilidad.objects.get(tipo = "test2")
+        test3 = Responsabilidad.objects.get(nombre = "test3")
+
+        self.assertEqual(test1.isOk(), "")
+        self.assertEqual(test2.isOk(), "El nombre no puede estar vacío\n")
+        self.assertEqual(test3.isOk(), "El tipo no puede estar vacío\n")
