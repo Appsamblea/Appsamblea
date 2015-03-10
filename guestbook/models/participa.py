@@ -1,8 +1,6 @@
+# -*- encoding: utf-8 -*-
 from __future__ import division
-import datetime
 import json
-from django.core.validators import URLValidator
-from django.core.exceptions import ValidationError
 from django.db import models
 from guestbook.models.usuario import Usuario
 from guestbook.models.asamblea import Asamblea
@@ -10,7 +8,6 @@ from guestbook.models.asamblea import Asamblea
 class Participa(models.Model):
 	usuario = models.ForeignKey(Usuario)
 	asamblea = models.ForeignKey(Asamblea)
-	unique_together = ("usuario", "asamblea")
 
 	def encode(self):
 		return json.dumps({'pk': self.id, 'model': self.__class__.__name__, 'fields': {'usuario': self.usuario.id, \
@@ -31,4 +28,5 @@ class Participa(models.Model):
 			return None
 
 	class Meta:
+		unique_together = ("usuario", "asamblea")
 		app_label = 'guestbook'

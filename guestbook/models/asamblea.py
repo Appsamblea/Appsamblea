@@ -1,14 +1,7 @@
 # -*- encoding: utf-8 -*-
-'''
-Created on 25/11/2014
-
-@author: silt
-'''
 from __future__ import division
-from django.utils import timezone
 import json
 from django.core.validators import URLValidator
-from django.core.exceptions import ValidationError
 from django.db import models
 from guestbook.models.usuario import Usuario
 from guestbook.models.organizacion import Organizacion
@@ -23,7 +16,7 @@ class Asamblea(models.Model):
 	urlasamblea = models.URLField(null = True)
 	usuario = models.ForeignKey(Usuario, related_name="asamblea_usuario")
 	organizacion = models.ForeignKey(Organizacion)
-	paricipantes = models.ManyToManyField(Usuario, through='Participa')
+	participantes = models.ManyToManyField(Usuario, through='Participa')
 
 	def isOk(self):
 		ok = ""
@@ -49,19 +42,28 @@ class Asamblea(models.Model):
 		return ok
 		
 	def encode(self):
-		return json.dumps({'nombre': self.nombre, \
-							'fecha': self.fecha, \
+		return json.dumps({'pk': self.id, 'model': self.__class__.__name__, 'fields': {'nombre': self.nombre, \
+							'fecha': str(self.fecha), \
 							'lugar': self.lugar, \
 							'descripcion': self.descripcion, \
-							'es_abierta': self.es_abierta, \
+							'es_abierta': str(self.es_abierta), \
 							'url_streaming': self.url_streaming, \
 							'urlasamblea': self.urlasamblea, \
-							'usuario': self.usuario, \
-							'organizacion': self.organizacion, \
-							'participantes': self.participantes})
-	
+							'usuario': self.usuario.id, \
+							'organizacion': self.organizacion.id, \
+							'participantes': [p.id for p in self.participantes.all()]}}) #Si para enviar. Para recibir es necsario introducirlo en la tabla participa, así que se debería hacer enviando esta.
+	@staticmethod
 	def decode(obj):
-		return json.loads(obj)		
+		data = json.loads(obj)
+
+		if data['model'] == 'Asamblea':
+			n_id = data['pk']
+			fields = data['fields']
+
+			return Asamblea(id = n_id, nombre = fields['nombre'], fecha = fields['fecha'], lugar = fields['lugar'], descripcion = fields['descripcion'], es_abierta = fields['es_abierta'], url_streaming = fields['url_streaming'], urlasamblea = fields['urlasamblea'], usuario_id = fields['usuario'], organizacion_id = fields['organizacion'])
+
+		else:
+			return None
 
 	class Meta:
 		app_label = 'guestbook'

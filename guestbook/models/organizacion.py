@@ -1,14 +1,7 @@
 # -*- encoding: utf-8 -*-
-'''
-Created on 25/11/2014
-
-@author: silt
-'''
 from __future__ import division
-import datetime
 import json
 from django.core.validators import URLValidator
-from django.core.exceptions import ValidationError
 from django.db import models
 from guestbook.models.usuario import Usuario
 
@@ -44,18 +37,37 @@ class Organizacion(models.Model):
 		return ok
 		
 	def encode(self):
-		return json.dumps({'nombre': self.nombre, \
+		if self.logo != "":
+			url_logo = self.logo.url
+		else:
+			url_logo = ""
+
+		return json.dumps({'pk': self.id, 'model': self.__class__.__name__, 'fields': {'nombre': self.nombre, \
 							'tematica': self.tematica, \
-							'logo': self.logo, \
+							'logo': url_logo, \
 							'descripcion': self.descripcion, \
 							'facebook_id': self.facebook_id, \
 							'email': self.email, \
 							'gplus_id': self.gplus_id, \
 							'web': self.web, \
-							'miembros': self.miembros})
-	
+							'miembros': [m.id for m in self.miembros.all()]}}) 
+
+	@staticmethod
 	def decode(obj):
-		return json.loads(obj)			
+		data = json.loads(obj)
+
+		if data['model'] == 'Organizacion':
+			n_id = data['pk']
+			fields = data['fields']
+
+			o = Organizacion(id = n_id, tematica = fields['tematica'], logo = fields['logo'], descripcion = fields['descripcion'], facebook_id = fields['facebook_id'], email = fields['email'], gplus_id = fields['gplus_id'], web = fields['web'])
+
+			o.miembros = fields['miembros']
+
+			return o
+
+		else:
+			return None
 
 	class Meta:
 		app_label = 'guestbook'
