@@ -1,10 +1,4 @@
 # -*- encoding: utf-8 -*-
-'''
-Created on 25/11/2014
-
-@author: silt
-@author: potray
-'''
 
 from google.appengine.ext import ndb
 from google.appengine.api import memcache
