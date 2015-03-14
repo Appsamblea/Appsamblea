@@ -1,10 +1,10 @@
 # -*- encoding: utf-8 -*-
 import django.core.handlers.wsgi
 from google.appengine.ext import testbed
-from guestbook.models import *
+from main_appsamblea.models import *
 import webtest
 
-class GuestBookViewsTestCase(django.test.TestCase):
+class AppsambleaTestCase(django.test.TestCase):
     def setUp(self):
         # Primero, crear una instancia de la clase Testbed.
         self.testbed = testbed.Testbed()

@@ -9,7 +9,7 @@ from django.shortcuts import render
 
 from google.appengine.api import users
 
-from guestbook.models import Greeting, guestbook_key, DEFAULT_GUESTBOOK_NAME
+from main_appsamblea.models import Greeting, guestbook_key, DEFAULT_GUESTBOOK_NAME
 
 import urllib
 

@@ -3,8 +3,8 @@
 from __future__ import division
 import json
 from django.db import models
-from guestbook.models.usuario import Usuario
-from guestbook.models.organizacion import Organizacion
+from main_appsamblea.models.usuario import Usuario
+from main_appsamblea.models.organizacion import Organizacion
 
 class Grupo(models.Model):
 	nombre = models.CharField(max_length = 256)
@@ -47,5 +47,5 @@ class Grupo(models.Model):
 			return None
 
 	class Meta:
-		app_label = 'guestbook'
+		app_label = 'main_appsamblea'
 

@@ -95,4 +95,4 @@ class Usuario(models.Model):
 			return None
 
 	class Meta:
-		app_label = 'guestbook'
+		app_label = 'main_appsamblea'

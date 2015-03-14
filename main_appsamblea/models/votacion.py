@@ -3,7 +3,7 @@ from __future__ import division
 import json
 from django.db import models
 from datetime import time
-from guestbook.models.participa import Participa
+from main_appsamblea.models.participa import Participa
 
 class Votacion(models.Model):
 	nombre = models.CharField(max_length = 256)
@@ -54,5 +54,5 @@ class Votacion(models.Model):
 			return None
 
 	class Meta:
-		app_label = 'guestbook'
+		app_label = 'main_appsamblea'
 

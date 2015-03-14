@@ -2,8 +2,8 @@
 from __future__ import division
 import json
 from django.db import models
-from guestbook.models.participa import Participa
-from guestbook.models.votacion import Votacion
+from main_appsamblea.models.participa import Participa
+from main_appsamblea.models.votacion import Votacion
 
 class Votacion_opcion(models.Model):
 	id = models.AutoField(primary_key=True)
@@ -39,6 +39,6 @@ class Votacion_opcion(models.Model):
 			return None
 
 	class Meta:
-		app_label = 'guestbook'
+		app_label = 'main_appsamblea'
 		unique_together = ("id", "votacion")
 

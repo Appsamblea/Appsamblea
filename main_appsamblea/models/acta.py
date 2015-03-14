@@ -3,7 +3,7 @@
 from __future__ import division
 import json
 from django.db import models
-from guestbook.models.asamblea import Asamblea
+from main_appsamblea.models.asamblea import Asamblea
 
 class Acta(models.Model):
 	texto = models.TextField()
@@ -34,5 +34,5 @@ class Acta(models.Model):
 			return None
 
 	class Meta:
-		app_label = 'guestbook'
+		app_label = 'main_appsamblea'
 

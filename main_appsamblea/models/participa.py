@@ -2,8 +2,8 @@
 from __future__ import division
 import json
 from django.db import models
-from guestbook.models.usuario import Usuario
-from guestbook.models.asamblea import Asamblea
+from main_appsamblea.models.usuario import Usuario
+from main_appsamblea.models.asamblea import Asamblea
 
 class Participa(models.Model):
 	usuario = models.ForeignKey(Usuario)
@@ -29,4 +29,4 @@ class Participa(models.Model):
 
 	class Meta:
 		unique_together = ("usuario", "asamblea")
-		app_label = 'guestbook'
+		app_label = 'main_appsamblea'

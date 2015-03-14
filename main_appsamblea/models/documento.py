@@ -4,7 +4,7 @@ from __future__ import division
 import json
 from django.core.validators import URLValidator
 from django.db import models
-from guestbook.models.asamblea import Asamblea
+from main_appsamblea.models.asamblea import Asamblea
 
 class Documento(models.Model):
 	nombre = models.CharField(max_length = 256)
@@ -43,4 +43,4 @@ class Documento(models.Model):
 			return None
 
 	class Meta:
-		app_label = 'guestbook'
+		app_label = 'main_appsamblea'
