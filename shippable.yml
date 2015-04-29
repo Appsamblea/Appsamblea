@@ -16,8 +16,7 @@ env:
    global:
       - GAE_DIR=/tmp/gae
       - EMAIL=appsamblea@gmail.com
-      - secure: NV0YZr03IcXAPhVNjfNptYlwl74TEMHn+rkvwB1BGKXffDOya5HnXU5fVWv2NIHMQIRLslolpfldTxvhB79IDTGs06BDjpRu7rAWi6uPRlQkL8P7q+2L5p5ZoMV2Zf5UTCBv9xdkngLh85S8iWfcnxyhFi07DZotJXI6nmZ1pW6waO8GgEw1AVt/HcR3oYKCX1qnbstewe/BIiBNDlr52JEpzaxoNEqn5ku6ZAsouMNKvKc/8Itd+mA6cWKKPtLr9hWreEXaYQyO/2qWPdviiq4o/6ZmxJ2NthzhOKYycsaQLVlFv4ErBbSPIkjRMrV/qqATv34O7bsRzERV6o+nvw==
-
+      - secure: iq+/jKh3qDLw7yFBZjfXuB8HXMvQFWpssMYPVXooUZerhFID8d7K10gn+isJrMtmHJ9BKGYvvbKoUOvO3AIz4bx0o0lGcdQ8cmqhqLCLZHXUN8fxsqSr8xKnxBNqxvVLF/+IeXWEC93m1XpvGWJj2Yk0Z9IpwkZACatYa0d/aE/+T15lKNwGGF3mZtofQXtSFZqMJTEtEKJe24TYCAEt3yrREqtlWVreBRdy9q/GZv/OZFkmm0apBqRml17Uwc8M/TK1JyDSQ8XR/Bn4qvaSowVkubRfLo3vpquMibKk2dInKLt1fn+CGqmU7akD8KdFyAOL2od9fE1kRW8sULZ2MA==
 #Instalarse la mágina virtual GAE
 before_install:
    - >
@@ -45,6 +44,6 @@ script:
    - python manage.py test main_appsamblea
 #Si se construye bien hacer esto
 after_success:
-   - echo "$GAE_PASSWORD" | $GAE_DIR/google_appengine/appcfg.py -e "$EMAIL" --passin update --no_cookies . 
    - echo $GAE_PASSWORD
+   - echo "$GAE_PASSWORD" | $GAE_DIR/google_appengine/appcfg.py -e "$EMAIL" --passin update --no_cookies .
    - echo "Probando after success."
