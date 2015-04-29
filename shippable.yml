@@ -23,7 +23,7 @@ before_install:
    - >
      test -e $GAE_DIR || 
      (mkdir -p $GAE_DIR && 
-     wget https://storage.googleapis.com/appengine-sdks/featured/google_appengine_1.9.18.zip -q -O /tmp/gae.zip &&
+     wget https://storage.googleapis.com/appengine-sdks/featured/google_appengine_1.9.19.zip -q -O /tmp/gae.zip &&
      unzip /tmp/gae.zip -d $GAE_DIR)
    - rm $GAE_DIR/google_appengine/lib/fancy_urllib/__init__.py
    - cp $GAE_DIR/google_appengine/lib/fancy_urllib/fancy_urllib/__init__.py $GAE_DIR/google_appengine/lib/fancy_urllib/__init__.py
@@ -45,6 +45,6 @@ script:
    - python manage.py test main-appsamblea
 #Si se construye bien hacer esto
 after_success:
-#   - echo "$GAE_PASSWORD" | $GAE_DIR/google_appengine/appcfg.py -e "$EMAIL" --passin update --no_cookies . 
+   - echo "$GAE_PASSWORD" | $GAE_DIR/google_appengine/appcfg.py -e "$EMAIL" --passin update --no_cookies . 
 #   - echo "$GAE_PASSWORD"
    - echo "Probando after success."
