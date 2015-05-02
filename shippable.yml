@@ -16,7 +16,8 @@ env:
    global:
       - GAE_DIR=/tmp/gae
       - EMAIL=appsamblea@gmail.com
-      - secure: QRbyV7lOs4zKWpdMHVcnVh+8TJCob8lYKbeJXEdr3LUvouBYCWTgck7vev+zG8RqguIpjNFKbuqDYK4fiSMnSEnW5eT28vCmLsQyZlwXCZ4fOHGP42HHcOaL0I4mhN2gkjnyQEVJWdzKT77idqP1apz2/nSg97RPbd6KWm4FlkZ3rSfm5xu2QKOiHdvw6gZd66QOUPGET9Y+MHM3hNOx9z/S2xwPfmOplLqXcnXLQANfkknCkmgwoQJbpV0uKl1ZNsuQGPlEW/db+sGrjjhG9wbGBAhNmfcbRRmIM8ae7uRJO7RHHLJrtXBDybCXzyfL/ercElbCs8ablGkseVES7w==before_install:
+      - secure: QRbyV7lOs4zKWpdMHVcnVh+8TJCob8lYKbeJXEdr3LUvouBYCWTgck7vev+zG8RqguIpjNFKbuqDYK4fiSMnSEnW5eT28vCmLsQyZlwXCZ4fOHGP42HHcOaL0I4mhN2gkjnyQEVJWdzKT77idqP1apz2/nSg97RPbd6KWm4FlkZ3rSfm5xu2QKOiHdvw6gZd66QOUPGET9Y+MHM3hNOx9z/S2xwPfmOplLqXcnXLQANfkknCkmgwoQJbpV0uKl1ZNsuQGPlEW/db+sGrjjhG9wbGBAhNmfcbRRmIM8ae7uRJO7RHHLJrtXBDybCXzyfL/ercElbCs8ablGkseVES7w==
+before_install:
    - >
      test -e $GAE_DIR || 
      (mkdir -p $GAE_DIR && 
