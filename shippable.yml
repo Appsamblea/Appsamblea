@@ -16,8 +16,7 @@ env:
    global:
       - GAE_DIR=/tmp/gae
       - EMAIL=appsamblea@gmail.com
-      - secure: LiXs4Aw8nISFanZttIUCZwmk5Exu316sEg2g7o9kip+klnqOEY84DzwK2ltbnz0XoCedeNE6Vx/NKmeKRTr90MwDRATYl2WUyPiKf9PdYzuokrdYi++98o+oNORKywUodKY333ALASCt5PCizGP69iw2gC1CIUQclkcHWCSADyRJDahV7c8wZuXZaS5LNL14qliuAqA2E9mMO/X9O6PdcLi7GIZAAnkq/6trsHSNG7kkZGG+AeIyStqwbPS6izgwKRrRqGZpk7i5mOzdpOpOBbe+QabIxZye4d1dvW9la/2klcrp6FEnEtXFqW/Bkm3gOINCO2i4hv3z2wuyj9Un5g==
-#Instalarse la mágina virtual GAE
+      - secure: a9J5ut16BTk4Guh+lHZ2JOg5xn9MALi6vH6p2U9po1cNPcmxsWd84T68vbNRwjS4oDZL/b6cqXZdQU+oTPrPzfJ9mcT257hPOSm0OUw42vAZGa7QhoOiPTz/GhjWfa1tmQuhPZF7exJaeI7Cdsx3VrAdZvGA+ieoLnaKvMhDhxz6P47k/kLrf8v2GIBhUJSQXLtcFBDKgzQCA4OpQxm3TnEcDCOLUUJUeZpKYAaU8rT4kiUM7ZLL1pII8oNneC8EWLxxDX1MQhmkA8plrCSDbMbShf0LeyZjepkCoNQy4/PLM9GfyTvDpLM8MmGcK9afZ8QZVuMS5KSy079lviK32w==#Instalarse la mágina virtual GAE
 before_install:
    - >
      test -e $GAE_DIR || 
@@ -44,10 +43,13 @@ script:
    - python manage.py test main_appsamblea
 #Si se construye bien hacer esto
 after_success:
-
-#   - echo "$GAE_PASSWORD" | $GAE_DIR/google_appengine/appcfg.py -e "$EMAIL" --passin update --no_cookies . 
-#   - echo "$GAE_PASSWORD"
+   - echo "Probando comando 1"
+   - echo $GAE_PASSWORD | $GAE_DIR/google_appengine/appcfg.py -e $EMAIL --passin update --no_cookies .
+   - echo "Probando comando 2"
+   - echo "$GAE_PASSWORD" | $GAE_DIR/google_appengine/appcfg.py -e $EMAIL --passin update --no_cookies .
+   - echo "Probando comando 3"
+   - echo "$GAE_PASSWORD" | $GAE_DIR/google_appengine/appcfg.py -e "$EMAIL" --passin update --no_cookies .
 # He seguido el siguiente manual para configurar la autenticación mediante Oauth2 con Google App Engine:
 # https://github.com/Shippable/docs/blob/master/sources/continuous_deployment.rst
 
-   $GAE_DIR/google_appengine/appcfg.py --oauth2_access_token=$GAE_TOKEN update .
+#   $GAE_DIR/google_appengine/appcfg.py --oauth2_access_token=$GAE_TOKEN update .
