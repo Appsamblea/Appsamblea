@@ -31,12 +31,12 @@ class AppsambleaTestCase(django.test.TestCase):
                                 usuario=usuarioTest, organizacion=organizacionTest)
         asambleaTest.save()
 
-        #Grupo común
+        # Grupo común
         grupoTest = Grupo(nombre="grupoTest", descripcion="asdasdasd", organizacion=organizacionTest,
                           administrador=usuarioTest)
         grupoTest.save()
 
-        #Participa común
+        # Participa común
         participaTest = Participa(usuario=usuarioTest, asamblea=asambleaTest)
         participaTest.save()
 

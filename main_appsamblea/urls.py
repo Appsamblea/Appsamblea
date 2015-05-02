@@ -4,9 +4,8 @@ Created on 25/11/2014
 @author: silt
 '''
 from django.conf.urls import *
-from main_appsamblea.views import main_page, sign_post
+from main_appsamblea.views import main_page
 
 urlpatterns = patterns('',
-    (r'^sign/$', sign_post),
-    (r'^$', main_page),
-)
+                       (r'^$', main_page),
+                       )
