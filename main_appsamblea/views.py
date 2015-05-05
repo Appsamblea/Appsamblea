@@ -11,3 +11,5 @@ def registro(request):
             request,
             'hola'
         )
+    else:
+        return render(request, 'main_appsamblea/main_page.html')
