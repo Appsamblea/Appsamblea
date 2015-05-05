@@ -8,4 +8,5 @@ from main_appsamblea.views import main_page
 
 urlpatterns = patterns('',
                        (r'^$', main_page),
+                       (r'registro', registro),
                        )
