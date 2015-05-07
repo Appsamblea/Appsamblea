@@ -15,3 +15,6 @@ def registro(request):
         )
     else:
         return render(request, 'main_appsamblea/main_page.html')
+
+def facebook_test(request):
+    return render(request, 'main_appsamblea/facebook_test.html')
