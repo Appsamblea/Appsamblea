@@ -18,7 +18,7 @@ class AppsambleaTestCase(django.test.TestCase):
         self.testapp = webtest.TestApp(django.core.handlers.wsgi.WSGIHandler())
 
         # Usuario común
-        usuarioTest = Usuario(password="", nombre="usuarioTest", apellidos="", fecha_nac="2013-12-13",
+        usuarioTest = Usuario(password="", username="usuarioTest", first_name="", last_name="", fecha_nac="2013-12-13",
                               telefono="", email="", localidad="", pais="", bio="")
         usuarioTest.save()
 
@@ -59,7 +59,7 @@ class AppsambleaTestCase(django.test.TestCase):
 
     def testAsamblea(self):
         print ("Realizando tests de asambleas")
-        usuarioTest = Usuario.objects.get(nombre="usuarioTest")
+        usuarioTest = Usuario.objects.get(username="usuarioTest")
         organizacionTest = Organizacion.objects.get(nombre="organizacionTest")
 
         Asamblea.objects.create(nombre="test1", fecha="2013-02-28", descripcion=" ", usuario_id=usuarioTest.id,
@@ -112,7 +112,7 @@ class AppsambleaTestCase(django.test.TestCase):
     def testGrupo(self):
         print ("Realizando tests de grupos")
         organizacionTest = Organizacion.objects.get(nombre="organizacionTest")
-        usuarioTest = Usuario.objects.get(nombre="usuarioTest")
+        usuarioTest = Usuario.objects.get(username="usuarioTest")
 
         Grupo.objects.create(nombre="test1", descripcion="asdasd", organizacion=organizacionTest,
                              administrador=usuarioTest)
@@ -131,7 +131,7 @@ class AppsambleaTestCase(django.test.TestCase):
 
     def testMensaje(self):
         print ("Realizando tests de mensajes")
-        usuarioTest = Usuario.objects.get(nombre="usuarioTest")
+        usuarioTest = Usuario.objects.get(username="usuarioTest")
         grupoTest = Grupo.objects.get(nombre="grupoTest")
 
         Mensaje.objects.create(texto="test1", usuario_envia=usuarioTest, usuario_recibe=usuarioTest,
@@ -208,7 +208,7 @@ class AppsambleaTestCase(django.test.TestCase):
 
     def testTurno_palabra(self):
         print ("Realizando tests de turnos de palabra")
-        usuarioTest = Usuario.objects.get(nombre="usuarioTest")
+        usuarioTest = Usuario.objects.get(username="usuarioTest")
 
         participaTest = Participa.objects.get(usuario=usuarioTest)
 
@@ -230,25 +230,25 @@ class AppsambleaTestCase(django.test.TestCase):
     def testUsuario(self):
         print ("Realizando tests de usuarios")
 
-        Usuario.objects.create(password="test1", nombre="test", apellidos="asd", fecha_nac="2015-01-01",
+        Usuario.objects.create(username="test1", password="test1", first_name="test", last_name="asd", fecha_nac="2015-01-01",
                                telefono="958123456", email="prueba@test.com")
-        Usuario.objects.create(password="", nombre="test", apellidos="test2", fecha_nac="2015-01-01",
+        Usuario.objects.create(username="test2", password="", first_name="test", last_name="test2", fecha_nac="2015-01-01",
                                telefono="958123456", email="prueba@test.com")
-        Usuario.objects.create(password="test3", nombre="", apellidos="asd", fecha_nac="2015-01-01",
+        Usuario.objects.create(username="test3", password="test3", first_name="", last_name="asd", fecha_nac="2015-01-01",
                                telefono="958123456", email="prueba@test.com")
-        Usuario.objects.create(password="test4", nombre="test", apellidos="", fecha_nac="2015-01-01",
+        Usuario.objects.create(username="test4", password="test4", first_name="test", last_name="", fecha_nac="2015-01-01",
                                telefono="958123456", email="prueba@test.com")
-        Usuario.objects.create(password="test5", nombre="test5", apellidos="asd", fecha_nac="2015-01-01",
+        Usuario.objects.create(username="test5", password="test5", first_name="test5", last_name="asd", fecha_nac="2015-01-01",
                                telefono="958123456", email="prueba@test.com")
-        Usuario.objects.create(password="test6", nombre="test", apellidos="asd", fecha_nac="2015-01-01",
+        Usuario.objects.create(username="test6", password="test6", first_name="test", last_name="asd", fecha_nac="2015-01-01",
                                telefono="95812ss3456", email="prueba@test.com")
 
-        test1 = Usuario.objects.get(password="test1")
-        test2 = Usuario.objects.get(apellidos="test2")
-        test3 = Usuario.objects.get(password="test3")
-        test4 = Usuario.objects.get(password="test4")
-        test5 = Usuario.objects.get(password="test5")
-        test6 = Usuario.objects.get(password="test6")
+        test1 = Usuario.objects.get(username="test1")
+        test2 = Usuario.objects.get(username="test2")
+        test3 = Usuario.objects.get(username="test3")
+        test4 = Usuario.objects.get(username="test4")
+        test5 = Usuario.objects.get(username="test5")
+        test6 = Usuario.objects.get(username="test6")
 
         self.assertEqual(test1.isOk(), "")
         self.assertEqual(test2.isOk(), "La contraseña no puede estar vacía\n")
@@ -259,7 +259,7 @@ class AppsambleaTestCase(django.test.TestCase):
 
     def testVotacion(self):
         print("Realizando tests de votaciones")
-        usuarioTest = Usuario.objects.get(nombre="usuarioTest")
+        usuarioTest = Usuario.objects.get(username="usuarioTest")
         participaTest = Participa.objects.get(usuario=usuarioTest)
 
         Votacion.objects.create(nombre="test1", tiempo_votacion="01:15", participa=participaTest)
@@ -276,7 +276,7 @@ class AppsambleaTestCase(django.test.TestCase):
 
     def testVotacion_opcion(self):
         print("Realizando tests de opciones de votación")
-        usuarioTest = Usuario.objects.get(nombre="usuarioTest")
+        usuarioTest = Usuario.objects.get(username="usuarioTest")
         participaTest = Participa.objects.get(usuario=usuarioTest)
         votacionTest = Votacion(nombre="votacionTest", tiempo_votacion="01:15", participa=participaTest)
         votacionTest.save()

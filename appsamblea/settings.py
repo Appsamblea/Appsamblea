@@ -51,13 +51,13 @@ INSTALLED_APPS = (
     'django_facebook',
     'main_appsamblea',
 )
+AUTH_USER_MODEL = 'main_appsamblea.Usuario'
 
 AUTHENTICATION_BACKENDS = (
     'django_facebook.auth_backends.FacebookBackend',
     'django.contrib.auth.backends.ModelBackend',
 )
 
-AUTH_USER_MODEL = 'django_facebook.FacebookCustomUser'
 
 MIDDLEWARE_CLASSES = (
     'django.middleware.common.CommonMiddleware',
@@ -100,3 +100,7 @@ USE_TZ = True
 # https://docs.djangoproject.com/en/dev/howto/static-files/
 
 STATIC_URL = '/static/'
+
+# Facebook
+FACEBOOK_APP_ID = 1604568749755371
+FACEBOOK_APP_SECRET = 'a89ef7299b5314fa31770bf7e9c03943'
