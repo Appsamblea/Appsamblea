@@ -8,6 +8,7 @@ from main_appsamblea.models import Usuario
 def main_page(request):
     return render(request, 'main_appsamblea/main_page.html')
 
+
 @csrf_exempt
 def registro(request):
     if request.method == 'POST':
@@ -17,19 +18,20 @@ def registro(request):
         apellidos = objetoJSON['apellidos']
         email = objetoJSON['email']
 
-        nuevoUsuario = Usuario(username=facebookID, first_name=nombre, last_name=apellidos, email=email, password=facebookID)
+        nuevoUsuario = Usuario(username=facebookID, first_name=nombre, last_name=apellidos, email=email,
+                               password=facebookID)
         if nuevoUsuario.isOk():
             nuevoUsuario.save()
             mensaje = 'ok'
         else:
             mensaje = 'error'
 
-
         return HttpResponse(
             mensaje
         )
     else:
         return render(request, 'main_appsamblea/main_page.html')
+
 
 def facebook_test(request):
     return render(request, 'main_appsamblea/facebook_test.html')

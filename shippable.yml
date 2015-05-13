@@ -9,7 +9,8 @@ python:
 #Despliega solo la rama master
 branches:
    only:
-      - master 
+      - master
+      - deploy
       
 #Esto es para desplegar en App Engine
 env:
