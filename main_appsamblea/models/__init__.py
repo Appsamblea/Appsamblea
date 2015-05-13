@@ -1,4 +1,3 @@
-from main_appsamblea.models.greetings import *
 from main_appsamblea.models.usuario import Usuario
 from main_appsamblea.models.organizacion import Organizacion
 from main_appsamblea.models.asamblea import Asamblea
