@@ -3,7 +3,6 @@ from __future__ import division
 import json
 from django.contrib.auth import models as auth_models
 from django.contrib.auth.models import AbstractUser
-import django_facebook
 from django.db import models
 
 
@@ -19,7 +18,7 @@ class Usuario(AbstractUser):
     pais = models.CharField(max_length=256)
     bio = models.TextField()
     imagen_perfil = models.ImageField(max_length=256 * 256, upload_to='imagenes')
-    facebook_id = django_facebook.models.FacebookProfileModel
+    facebook_id = models.IntegerField(unique=True, null=True)
     twitter_id = models.IntegerField(unique=True, null=True)
     gplus_id = models.IntegerField(unique=True, null=True)
     puntos_exp = models.IntegerField(null=True)
@@ -49,7 +48,7 @@ class Usuario(AbstractUser):
                            'fecha_nac': self.fecha_nac, 'telefono': self.telefono, 'email': self.email,
                            'localidad': self.localidad,
                            'pais': self.pais, 'bio': self.bio, 'imagen_perfil': self.imagen_perfil,
-                           # TODO rehacer esto 'facebook_id': self.facebook_id,
+                           'facebook_id': self.facebook_id,
                            'twitter_id': self.twitter_id, 'gplus_id': self.gplus_id, 'puntos_exp': self.puntos_exp,
                            'nivel': self.nivel, 'es_invitado': self.es_invitado})
 
@@ -73,8 +72,7 @@ class Usuario(AbstractUser):
                                                                                        'pais': self.pais,
                                                                                        'bio': self.bio,
                                                                                        'imagen_perfil': url_imagen,
-
-                                                                                       # TODO rehacer esto 'facebook_id': self.facebook_id,
+                                                                                       'facebook_id': self.facebook_id,
                                                                                        'twitter_id': self.twitter_id,
                                                                                        'gplus_id': self.gplus_id,
                                                                                        'puntos_exp': self.puntos_exp,
@@ -94,7 +92,7 @@ class Usuario(AbstractUser):
                            fecha_nac=fields['fecha_nac'], telefono=fields['telefono'], email=fields['email'],
                            localidad=fields['localidad'], pais=fields['pais'], bio=fields['bio'],
                            imagen_perfil=fields['imagen_perfil'],
-                           # TODO rehacer esto facebook_id=fields['facebook_id'],
+                           facebook_id=fields['facebook_id'],
                            twitter_id=fields['twitter_id'], gplus_id=fields['gplus_id'],
                            puntos_exp=fields['puntos_exp'], nivel=fields['nivel'])
 
