@@ -5,6 +5,7 @@ from django.views.decorators.csrf import csrf_exempt
 import json
 from main_appsamblea.models import Usuario
 
+debugPorGet = True
 
 def main_page(request):
     return render(request, 'main_appsamblea/main_page.html')
@@ -37,24 +38,26 @@ def registro(request):
             respuesta = isOk
 
     else:
-        #Prueba del código anterior por GET
-        facebookID = '845982745902730945234'
-        nombre = 'Prueba'
-        apellidos = 'Probando Probando'
-        email = 'prueba@probando.com'
+        if debugPorGet:
+            #Prueba del código anterior por GET
+            facebookID = '845982745902730945234342342342'
+            nombre = 'Prueba'
+            apellidos = 'Probando Probando'
+            email = 'prueba@probando.com'
 
 
-        nuevoUsuario = Usuario(username=facebookID, first_name=nombre, last_name=apellidos, email=email,
-                               password=facebookID)
+            nuevoUsuario = Usuario(username=facebookID, first_name=nombre, last_name=apellidos, email=email,
+                                   password=facebookID)
 
-        isOk = nuevoUsuario.isOk()
+            isOk = nuevoUsuario.isOk()
 
-        if isOk == "":
-            nuevoUsuario.save()
-            respuesta = 'ok'
+            if isOk == "":
+                nuevoUsuario.save()
+                respuesta = 'ok'
+            else:
+                respuesta = isOk
         else:
-            respuesta = isOk
-        #respuesta = 'GET no permitido'
+            respuesta = 'GET no permitido'
 
     return HttpResponse(
         json.dumps({'mensaje': respuesta})
