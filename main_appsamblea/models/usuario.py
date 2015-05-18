@@ -11,7 +11,7 @@ class Usuario(AbstractUser):
     # password = models.CharField(max_length=256)  # pass
     # nombre = models.CharField(max_length=256)
     # last_name = models.CharField(max_length=256)
-    fecha_nac = models.DateTimeField('fecha de nacimiento')
+    fecha_nac = models.DateTimeField(null=True)
     telefono = models.CharField(max_length=256)
     # email = models.EmailField(max_length=256)
     localidad = models.CharField(max_length=256)
