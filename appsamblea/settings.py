@@ -60,6 +60,7 @@ AUTHENTICATION_BACKENDS = (
 
 
 MIDDLEWARE_CLASSES = (
+    'google.appengine.ext.ndb.django_middleware.NdbDjangoMiddleware',
     'django.middleware.common.CommonMiddleware',
     'django.contrib.sessions.middleware.SessionMiddleware',
     'django.middleware.csrf.CsrfViewMiddleware',
@@ -73,16 +74,24 @@ APP_ENGINE = os.getenv('SERVER_SOFTWARE', '').startswith('Google App Engine')
 DEVELOPMENT = os.getenv('SERVER_SOFTWARE', '').startswith('Development')
 
 
-DATABASES = {
-    'default': {
+if not APP_ENGINE and not DEVELOPMENT:
+    DATABASES = {
+        'default': {
         'ENGINE': 'django.db.backends.sqlite3',
         'NAME': os.path.join(BASE_DIR, 'db.sqlite3'),
-        'USER': 'pyt',
-        'PASSWORD': '',
-        'HOST': '',                      # Empty for localhost through domain sockets or '127.0.0.1' for localhost through TCP.
-        'PORT': '',
         }
-}
+    }
+
+MIDDLEWARE_CLASSES = (
+    'django.middleware.common.CommonMiddleware',
+    'django.contrib.sessions.middleware.SessionMiddleware',
+    'django.middleware.csrf.CsrfViewMiddleware',
+    'django.contrib.auth.middleware.AuthenticationMiddleware',
+    'django.contrib.messages.middleware.MessageMiddleware',
+    # Uncomment the next line for simple clickjacking protection:
+    # 'django.middleware.clickjacking.XFrameOptionsMiddleware',
+)
+
 
 ROOT_URLCONF = 'appsamblea.urls'
 
