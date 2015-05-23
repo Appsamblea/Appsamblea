@@ -1,4 +1,5 @@
 # -*- encoding: utf-8 -*-
+# -*- encoding: utf-8 -*-
 from __future__ import division
 import json
 from django.contrib.auth import models as auth_models
@@ -11,7 +12,7 @@ class Usuario(AbstractUser):
     # password = models.CharField(max_length=256)  # pass
     # nombre = models.CharField(max_length=256)
     # last_name = models.CharField(max_length=256)
-    fecha_nac = models.DateTimeField(null=True)
+    fecha_nac = models.DateTimeField('fecha de nacimiento')
     telefono = models.CharField(max_length=256)
     # email = models.EmailField(max_length=256)
     localidad = models.CharField(max_length=256)

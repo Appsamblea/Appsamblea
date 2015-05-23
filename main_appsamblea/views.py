@@ -12,53 +12,26 @@ def main_page(request):
 
 @csrf_exempt
 def registro(request):
-
-    respuesta = {}
-
     if request.method == 'POST':
-        objetoJSON = json.loads(request.body, encoding='latin-1')
-        print objetoJSON
-
+        objetoJSON = json.loads(request.body)
         facebookID = objetoJSON['id']
         nombre = objetoJSON['nombre']
         apellidos = objetoJSON['apellidos']
         email = objetoJSON['email']
 
-
         nuevoUsuario = Usuario(username=facebookID, first_name=nombre, last_name=apellidos, email=email,
                                password=facebookID)
-
-        isOk = nuevoUsuario.isOk()
-
-        if isOk == "":
+        if nuevoUsuario.isOk():
             nuevoUsuario.save()
-            respuesta = 'ok'
+            mensaje = 'ok'
         else:
-            respuesta = isOk
+            mensaje = 'error'
 
+        return HttpResponse(
+            mensaje
+        )
     else:
-        #Prueba del código anterior por GET
-        facebookID = '845982745902730945234'
-        nombre = 'Prueba'
-        apellidos = 'Probando Probando'
-        email = 'prueba@probando.com'
-
-
-        nuevoUsuario = Usuario(username=facebookID, first_name=nombre, last_name=apellidos, email=email,
-                               password=facebookID)
-
-        isOk = nuevoUsuario.isOk()
-
-        if isOk == "":
-            nuevoUsuario.save()
-            respuesta = 'ok'
-        else:
-            respuesta = isOk
-        #respuesta = 'GET no permitido'
-
-    return HttpResponse(
-        json.dumps({'mensaje': respuesta})
-    )
+        return render(request, 'main_appsamblea/main_page.html')
 
 
 def facebook_test(request):
