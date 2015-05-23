@@ -5,4 +5,5 @@ mock-django
 webtest
 pillow
 django_facebook
+google
 

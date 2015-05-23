@@ -14,6 +14,8 @@ handlers:
 libraries:
 - name: django
   version: "1.5"
+- name: ssl
+  version: latest
 
 env_variables:
   DJANGO_SETTINGS_MODULE: 'appsamblea.settings'
