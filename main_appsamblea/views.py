@@ -11,6 +11,7 @@ def main_page(request):
 
 @csrf_exempt
 def registro(request):
+    '''
     if request.method == 'POST':
         objetoJSON = json.loads(request.body)
         facebookID = objetoJSON['id']
@@ -31,7 +32,8 @@ def registro(request):
         )
     else:
         return render(request, 'main_appsamblea/main_page.html')
-
+    '''
+    return 'Registro'
 
 def facebook_test(request):
     return render(request, 'main_appsamblea/facebook_test.html')
