@@ -73,6 +73,16 @@ APP_ENGINE = os.getenv('SERVER_SOFTWARE', '').startswith('Google App Engine')
 DEVELOPMENT = os.getenv('SERVER_SOFTWARE', '').startswith('Development')
 
 
+if not APP_ENGINE and not DEVELOPMENT:
+	DATABASES = {
+		'default': {
+		    'ENGINE': 'django.db.backends.sqlite3',
+		    'NAME': os.path.join(BASE_DIR, 'db.sqlite3'),
+		}
+	}
+
+
+'''
 DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.sqlite3',
@@ -83,6 +93,7 @@ DATABASES = {
         'PORT': '',
         }
 }
+'''
 
 ROOT_URLCONF = 'appsamblea.urls'
 
