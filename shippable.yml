@@ -20,10 +20,7 @@ env:
       - secure: IPVAv1gwSaH2V9raqTvCk3q1cgvzmKlJO6BQ+BWLlKniJMoZjAUu1mDoioDfHnXTHH2WNkH3VvdgLjym9CGlK9AI8nxz2JHTJaNrjxPvAIq5FqbyZxA9kXW8s4q+TTXcUZ2qrMMsjo/eFmCjDcvC/CslDr+sg2H1GjWjwJ560CN530G4tMpeVYkwU+BKyc4Qzdl1EsZGTj/T9TpxqLzk1lK201VGO5hAzkFx0fT89lX5LRoMQUPq0P22m0uSzP9WRvaHJ/n+TtzJic4UMzN6011ukWjvS9zACOsmzUOCecjV+DZ0iFcmXQVsObK7bqnxBAo1tN0rZkOkUK43IXzG1w==
 before_install:
     - >
-     test -e $GAE_DIR ||
-     (mkdir -p $GAE_DIR &&
-     wget https://storage.googleapis.com/appengine-sdks/featured/google_appengine_1.9.19.zip -q -O /tmp/gae.zip &&
-     unzip /tmp/gae.zip -d $GAE_DIR)
+     test -e $GAE_DIR || (mkdir -p $GAE_DIR && wget https://storage.googleapis.com/appengine-sdks/featured/google_appengine_1.9.19.zip -q -O /tmp/gae.zip && unzip /tmp/gae.zip -d $GAE_DIR)
    - rm $GAE_DIR/google_appengine/lib/fancy_urllib/__init__.py
    - cp $GAE_DIR/google_appengine/lib/fancy_urllib/fancy_urllib/__init__.py $GAE_DIR/google_appengine/lib/fancy_urllib/__init__.py
 #Instalar requerimientos
