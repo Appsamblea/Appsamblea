@@ -16,7 +16,6 @@ def main_page(request):
 def registrarPorFacebook (facebook_id, nombre, apellidos, email):
     # Ver si existe un usuario con el mismo ID de Facebook
     try:
-        return 'HOLA'
         usuarioExistente = Usuario.objects.get(username=facebook_id)
     except ObjectDoesNotExist:
         # No existe, crearlo
