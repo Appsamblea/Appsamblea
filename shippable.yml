@@ -46,7 +46,6 @@ before_script:
 #De momento solo ejecuta un programita de testeo tonto.
 script:
 
-  #Comentado dado que peta en Shippable
    - python manage.py test main_appsamblea
 
 #Si se construye bien hacer esto
@@ -55,5 +54,4 @@ after_success:
 # He seguido el siguiente manual para configurar la autenticación mediante Oauth2 con Google App Engine:
 # https://github.com/Shippable/docs/blob/master/sources/continuous_deployment.rst
 
-   #Comentado dado que peta en Shippable
-   #$GAE_DIR/google_appengine/appcfg.py --oauth2_refresh_token=$REFRESH_TOKEN update .
+   $GAE_DIR/google_appengine/appcfg.py --oauth2_refresh_token=$REFRESH_TOKEN update .
