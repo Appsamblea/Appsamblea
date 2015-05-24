@@ -27,10 +27,7 @@ before_install:
      wget $DOWNLOAD_GAE -q -O /tmp/gae.zip &&
      unzip /tmp/gae.zip -d $GAE_DIR)
 
-   #Comentado dado que peta en Shippable
    - rm $GAE_DIR/google_appengine/lib/fancy_urllib/__init__.py
-
-   #Comentado dado que peta en Shippable
    - cp $GAE_DIR/google_appengine/lib/fancy_urllib/fancy_urllib/__init__.py $GAE_DIR/google_appengine/lib/fancy_urllib/__init__.py
 
 #Instalar requerimientos
@@ -50,7 +47,7 @@ before_script:
 script:
 
   #Comentado dado que peta en Shippable
-  # - python manage.py test main_appsamblea
+   - python manage.py test main_appsamblea
 
 #Si se construye bien hacer esto
 after_success:
