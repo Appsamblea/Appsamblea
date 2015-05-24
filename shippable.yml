@@ -25,7 +25,9 @@ before_install:
      (mkdir -p $GAE_DIR &&
      wget https://storage.googleapis.com/appengine-sdks/featured/google_appengine_1.9.19.zip -q -O /tmp/gae.zip &&
      unzip /tmp/gae.zip -d $GAE_DIR)
+   #Comentado dado que peta en Shippable
    #- rm $GAE_DIR/google_appengine/lib/fancy_urllib/__init__.py
+   #Comentado dado que peta en Shippable
    #- cp $GAE_DIR/google_appengine/lib/fancy_urllib/fancy_urllib/__init__.py $GAE_DIR/google_appengine/lib/fancy_urllib/__init__.py
 #Instalar requerimientos
 install:
@@ -42,11 +44,13 @@ before_script:
 #Script que se va a ejecutar, pero solo si se está en la rama master.
 #De momento solo ejecuta un programita de testeo tonto.
 script:
+  #Comentado dado que peta en Shippable
   # - python manage.py test main_appsamblea
+
 #Si se construye bien hacer esto
 after_success:
 #   - echo $GAE_PASSWORD | $GAE_DIR/google_appengine/appcfg.py -e $EMAIL --passin update --no_cookies .
 # He seguido el siguiente manual para configurar la autenticación mediante Oauth2 con Google App Engine:
 # https://github.com/Shippable/docs/blob/master/sources/continuous_deployment.rst
-
-   $GAE_DIR/google_appengine/appcfg.py --oauth2_refresh_token=$REFRESH_TOKEN update .
+   #Comentado dado que peta en Shippable
+   #$GAE_DIR/google_appengine/appcfg.py --oauth2_refresh_token=$REFRESH_TOKEN update .
