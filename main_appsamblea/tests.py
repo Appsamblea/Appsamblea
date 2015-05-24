@@ -240,22 +240,18 @@ class AppsambleaTestCase(django.test.TestCase):
                                telefono="958123456", email="prueba@test.com")
         Usuario.objects.create(username="test5", password="test5", first_name="test5", last_name="asd", fecha_nac="2015-01-01",
                                telefono="958123456", email="prueba@test.com")
-        Usuario.objects.create(username="test6", password="test6", first_name="test", last_name="asd", fecha_nac="2015-01-01",
-                               telefono="95812ss3456", email="prueba@test.com")
 
         test1 = Usuario.objects.get(username="test1")
         test2 = Usuario.objects.get(username="test2")
         test3 = Usuario.objects.get(username="test3")
         test4 = Usuario.objects.get(username="test4")
         test5 = Usuario.objects.get(username="test5")
-        test6 = Usuario.objects.get(username="test6")
 
         self.assertEqual(test1.isOk(), "")
         self.assertEqual(test2.isOk(), "La contraseña no puede estar vacía\n")
         self.assertEqual(test3.isOk(), "El nombre no puede estar vacío\n")
         self.assertEqual(test4.isOk(), "Los apellidos no pueden estar vacíos\n")
         self.assertEqual(test5.isOk(), "No se pueden incluir números en el nombre\n")
-        self.assertEqual(test6.isOk(), "Teléfono mal definido\n")
 
     def testVotacion(self):
         print("Realizando tests de votaciones")

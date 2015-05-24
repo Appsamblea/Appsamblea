@@ -51,7 +51,7 @@ INSTALLED_APPS = (
     'django_facebook',
     'main_appsamblea',
 )
-AUTH_USER_MODEL = 'main_appsamblea.Usuario'
+#AUTH_USER_MODEL = 'main_appsamblea.Usuario'
 
 AUTHENTICATION_BACKENDS = (
     'django_facebook.auth_backends.FacebookBackend',
@@ -74,7 +74,7 @@ APP_ENGINE = os.getenv('SERVER_SOFTWARE', '').startswith('Google App Engine')
 DEVELOPMENT = os.getenv('SERVER_SOFTWARE', '').startswith('Development')
 
 
-if not APP_ENGINE and not DEVELOPMENT:
+if not APP_ENGINE:
     DATABASES = {
         'default': {
         'ENGINE': 'django.db.backends.sqlite3',

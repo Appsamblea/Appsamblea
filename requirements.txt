@@ -6,4 +6,6 @@ webtest
 pillow
 django_facebook
 google
+gcloud
+
 
