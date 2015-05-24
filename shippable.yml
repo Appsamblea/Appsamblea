@@ -11,7 +11,7 @@ branches:
    only:
       - master
       - deploy
-      
+
 #Esto es para desplegar en App Engine
 env:
    global:
@@ -19,7 +19,7 @@ env:
       - EMAIL=appsamblea@gmail.com
       - secure: IPVAv1gwSaH2V9raqTvCk3q1cgvzmKlJO6BQ+BWLlKniJMoZjAUu1mDoioDfHnXTHH2WNkH3VvdgLjym9CGlK9AI8nxz2JHTJaNrjxPvAIq5FqbyZxA9kXW8s4q+TTXcUZ2qrMMsjo/eFmCjDcvC/CslDr+sg2H1GjWjwJ560CN530G4tMpeVYkwU+BKyc4Qzdl1EsZGTj/T9TpxqLzk1lK201VGO5hAzkFx0fT89lX5LRoMQUPq0P22m0uSzP9WRvaHJ/n+TtzJic4UMzN6011ukWjvS9zACOsmzUOCecjV+DZ0iFcmXQVsObK7bqnxBAo1tN0rZkOkUK43IXzG1w==
 before_install:
-    - >
+   - >
      test -e $GAE_DIR ||
      (mkdir -p $GAE_DIR &&
      wget https://storage.googleapis.com/appengine-sdks/featured/google_appengine_1.9.19.zip -q -O /tmp/gae.zip &&
@@ -30,7 +30,7 @@ before_install:
 install:
    - pip install -r requirements.txt
 
-before_script: 
+before_script:
    - echo 'Europe/Madrid' | sudo tee /etc/timezone
    - sudo dpkg-reconfigure --frontend noninteractive tzdata
    - mkdir -p shippable/testresults
