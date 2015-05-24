@@ -16,19 +16,23 @@ branches:
 env:
    global:
       - GAE_DIR=/tmp/gae
+      #https://storage.googleapis.com/appengine-sdks/featured/google_appengine_1.9.19.zip ya no existe
+      - DOWNLOAD_GAE =https://storage.googleapis.com/appengine-sdks/featured/google_appengine_1.9.21.zip
       - EMAIL=appsamblea@gmail.com
       - secure: IPVAv1gwSaH2V9raqTvCk3q1cgvzmKlJO6BQ+BWLlKniJMoZjAUu1mDoioDfHnXTHH2WNkH3VvdgLjym9CGlK9AI8nxz2JHTJaNrjxPvAIq5FqbyZxA9kXW8s4q+TTXcUZ2qrMMsjo/eFmCjDcvC/CslDr+sg2H1GjWjwJ560CN530G4tMpeVYkwU+BKyc4Qzdl1EsZGTj/T9TpxqLzk1lK201VGO5hAzkFx0fT89lX5LRoMQUPq0P22m0uSzP9WRvaHJ/n+TtzJic4UMzN6011ukWjvS9zACOsmzUOCecjV+DZ0iFcmXQVsObK7bqnxBAo1tN0rZkOkUK43IXzG1w==
 before_install:
    - >
-     echo 'Before install'
      test -e $GAE_DIR ||
      (mkdir -p $GAE_DIR &&
-     wget https://storage.googleapis.com/appengine-sdks/featured/google_appengine_1.9.19.zip -q -O /tmp/gae.zip &&
+     wget $DOWNLOAD_GAE -q -O /tmp/gae.zip &&
      unzip /tmp/gae.zip -d $GAE_DIR)
+
    #Comentado dado que peta en Shippable
-   #- rm $GAE_DIR/google_appengine/lib/fancy_urllib/__init__.py
+   - rm $GAE_DIR/google_appengine/lib/fancy_urllib/__init__.py
+
    #Comentado dado que peta en Shippable
-   #- cp $GAE_DIR/google_appengine/lib/fancy_urllib/fancy_urllib/__init__.py $GAE_DIR/google_appengine/lib/fancy_urllib/__init__.py
+   - cp $GAE_DIR/google_appengine/lib/fancy_urllib/fancy_urllib/__init__.py $GAE_DIR/google_appengine/lib/fancy_urllib/__init__.py
+
 #Instalar requerimientos
 install:
    - pip install -r requirements.txt
@@ -44,6 +48,7 @@ before_script:
 #Script que se va a ejecutar, pero solo si se está en la rama master.
 #De momento solo ejecuta un programita de testeo tonto.
 script:
+
   #Comentado dado que peta en Shippable
   # - python manage.py test main_appsamblea
 
@@ -52,5 +57,6 @@ after_success:
 #   - echo $GAE_PASSWORD | $GAE_DIR/google_appengine/appcfg.py -e $EMAIL --passin update --no_cookies .
 # He seguido el siguiente manual para configurar la autenticación mediante Oauth2 con Google App Engine:
 # https://github.com/Shippable/docs/blob/master/sources/continuous_deployment.rst
+
    #Comentado dado que peta en Shippable
    #$GAE_DIR/google_appengine/appcfg.py --oauth2_refresh_token=$REFRESH_TOKEN update .
