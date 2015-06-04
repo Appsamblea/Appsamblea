@@ -1,14 +1,10 @@
 # -*- encoding: utf-8 -*-
 from __future__ import division
 import json
-from django.contrib.auth import models as auth_models
-from django.contrib.auth.models import AbstractUser
 from google.appengine.ext import ndb
-from django.db import models
 
-#Propiedades en https://cloud.google.com/appengine/docs/python/ndb/properties
+# Propiedades en https://cloud.google.com/appengine/docs/python/ndb/properties
 class Usuario(ndb.Model):
-
     id = ndb.IntegerProperty()
     password = ndb.StringProperty()
     nombre = ndb.StringProperty()
@@ -27,6 +23,8 @@ class Usuario(ndb.Model):
     nivel = ndb.IntegerProperty()
     #es_invitado = models.ManyToManyField('Participa', related_name='asamblea_participa', null=True)
 
+    asistente_asambleas = ndb.KeyProperty(kind="Asamblea", repeated=True)
+
     def isOk(self):
         ok = ""
         # Contraseña no puede ser nula
@@ -42,16 +40,18 @@ class Usuario(ndb.Model):
             ok += "No se pueden incluir números en el nombre\n"
         return ok
 
-    ''''def encode(self):
-        return json.dumps({'username': self.username, 'nombre': self.first_name, 'password': self.password,
-                           'last_name': self.last_name,
+    def encode(self):
+        return json.dumps({'id': self.id, 'nombre': self.first_name,
+                           'apellidos': self.apellidos,
                            'fecha_nac': self.fecha_nac, 'telefono': self.telefono, 'email': self.email,
                            'localidad': self.localidad,
-                           'pais': self.pais, 'bio': self.bio, 'imagen_perfil': self.imagen_perfil,
+                           'pais': self.pais, 'bio': self.bio,
                            'facebook_id': self.facebook_id,
                            'twitter_id': self.twitter_id, 'gplus_id': self.gplus_id, 'puntos_exp': self.puntos_exp,
-                           'nivel': self.nivel, 'es_invitado': self.es_invitado})
+                           'nivel': self.nivel})
 
+
+''''
     def decode(obj):
         return json.loads(obj)
 

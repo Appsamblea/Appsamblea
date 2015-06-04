@@ -1,6 +1,7 @@
+from main_appsamblea.models.asamblea import Asamblea
 from main_appsamblea.models.usuario import Usuario
 ''''from main_appsamblea.models.organizacion import Organizacion
-from main_appsamblea.models.asamblea import Asamblea
+
 from main_appsamblea.models.participa import Participa
 from main_appsamblea.models.acta import Acta
 from main_appsamblea.models.documento import Documento
