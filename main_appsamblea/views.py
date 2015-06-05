@@ -141,6 +141,62 @@ def crear_asamblea(request):
             json.dumps({'mensaje': 'GET no permitido'})
         )
 
+'''
+    Se elimina una asamblea a partir de su ID. Únicamente puede eliminarla su creador
+    Parámetros: idAsamblea, idUsuario
+    Hay que comprobar que el usuario es quien ha creado la asamblea.
+'''
+@csrf_exempt
+def eliminarAsamblea(request):
+    if request.method == "POST":
+        return 0
+    return 0
+
+'''
+    Se obtiene un listado de asambleas en función a la búsqueda
+    Parámetros: idUsuario, nombre de la asamblea o ninguno.
+    - Próximas asambleas de un usuario
+    - Lista total de asambleas
+'''
+@csrf_exempt
+def obtenerAsambleas(request):
+    if request.method == "POST":
+        return 0
+    return 0
+
+
+'''
+    Se obtiene el contenido de una Asamblea (usuarios invitados, lugar, etc)
+    Parámetros: idAsamblea.
+'''
+@csrf_exempt
+def obtenerAsamblea(request):
+    if request.method == "POST":
+        return 0
+    return 0
+
+'''
+    Se añade un usuario a una asamblea como asistente
+    Parámetros: idAsamblea, idUsuario
+    En el supuesto de que el usuario ya esté inscrito en la asamblea, no ocurrirá nada (hay que comprobarlo).
+'''
+@csrf_exempt
+def inscribirseEnAsamblea(request):
+    if request.method == "POST":
+        return 0
+    return 0
+
+'''
+    Se elimina la asociación de un usuario con una asamblea
+    Parámetros: idAsamblea, idUsuario
+    En el supuesto de que el usuario que quiera abandonar la asamblea sea el creador de la misma, ésta se elimina.
+'''
+@csrf_exempt
+def abandonarAsamblea(request):
+    if request.method == "POST":
+        return 0
+    return 0
+
 
 def facebook_test(request):
     return render(request, 'main_appsamblea/facebook_test.html')
