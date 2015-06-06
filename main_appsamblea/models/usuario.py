@@ -1,29 +1,30 @@
 # -*- encoding: utf-8 -*-
+# -*- encoding: utf-8 -*-
 from __future__ import division
 import json
-from google.appengine.ext import ndb
+from django.contrib.auth import models as auth_models
+from django.contrib.auth.models import AbstractUser
+from django.db import models
 
-# Propiedades en https://cloud.google.com/appengine/docs/python/ndb/properties
-class Usuario(ndb.Model):
-    id = ndb.IntegerProperty()
-    password = ndb.StringProperty()
-    nombre = ndb.StringProperty()
-    apellidos = ndb.StringProperty()
-    fecha_nac = ndb.DateProperty()
-    telefono = ndb.IntegerProperty()
-    email = ndb.StringProperty()
-    localidad = ndb.StringProperty()
-    pais = ndb.StringProperty()
-    bio = ndb.StringProperty()
-    #imagen_perfil = models.ImageField(max_length=256 * 256, upload_to='imagenes')
-    facebook_id = ndb.IntegerProperty()
-    twitter_id = ndb.IntegerProperty()
-    gplus_id = ndb.IntegerProperty()
-    puntos_exp = ndb.IntegerProperty()
-    nivel = ndb.IntegerProperty()
-    #es_invitado = models.ManyToManyField('Participa', related_name='asamblea_participa', null=True)
 
-    asistente_asambleas = ndb.KeyProperty(kind="Asamblea", repeated=True)
+class Usuario(AbstractUser):
+
+    # password = models.CharField(max_length=256)  # pass
+    # nombre = models.CharField(max_length=256)
+    # last_name = models.CharField(max_length=256)
+    fecha_nac = models.DateTimeField('fecha de nacimiento')
+    telefono = models.CharField(max_length=256)
+    # email = models.EmailField(max_length=256)
+    localidad = models.CharField(max_length=256)
+    pais = models.CharField(max_length=256)
+    bio = models.TextField()
+    imagen_perfil = models.ImageField(max_length=256 * 256, upload_to='imagenes')
+    facebook_id = models.IntegerField(unique=True, null=True)
+    twitter_id = models.IntegerField(unique=True, null=True)
+    gplus_id = models.IntegerField(unique=True, null=True)
+    puntos_exp = models.IntegerField(null=True)
+    nivel = models.IntegerField(null=True)
+    es_invitado = models.ManyToManyField('Participa', related_name='asamblea_participa', null=True)
 
     def isOk(self):
         ok = ""
@@ -31,27 +32,27 @@ class Usuario(ndb.Model):
         if not bool(self.password) or self.password.isspace():
             ok += "La contraseña no puede estar vacía\n"
         # Nombre no puede estar vacío
-        if not bool(self.nombre) or self.nombre.isspace():
+        if not bool(self.first_name) or self.first_name.isspace():
             ok += "El nombre no puede estar vacío\n"
         #Apellidos no puede estar vacío
-        if not bool(self.apellidos) or self.apellidos.isspace():
+        if not bool(self.last_name) or self.last_name.isspace():
             ok += "Los apellidos no pueden estar vacíos\n"
-        if any(char.isdigit() for char in self.nombre):
+        if any(char.isdigit() for char in self.first_name):
             ok += "No se pueden incluir números en el nombre\n"
+        if any(not char.isdigit() for char in self.telefono):
+            ok += "Teléfono mal definido\n"
         return ok
 
     def encode(self):
-        return json.dumps({'id': self.id, 'nombre': self.first_name,
-                           'apellidos': self.apellidos,
+        return json.dumps({'username': self.username, 'nombre': self.first_name, 'password': self.password,
+                           'last_name': self.last_name,
                            'fecha_nac': self.fecha_nac, 'telefono': self.telefono, 'email': self.email,
                            'localidad': self.localidad,
-                           'pais': self.pais, 'bio': self.bio,
+                           'pais': self.pais, 'bio': self.bio, 'imagen_perfil': self.imagen_perfil,
                            'facebook_id': self.facebook_id,
                            'twitter_id': self.twitter_id, 'gplus_id': self.gplus_id, 'puntos_exp': self.puntos_exp,
-                           'nivel': self.nivel})
+                           'nivel': self.nivel, 'es_invitado': self.es_invitado})
 
-
-''''
     def decode(obj):
         return json.loads(obj)
 
@@ -97,6 +98,9 @@ class Usuario(ndb.Model):
                            puntos_exp=fields['puntos_exp'], nivel=fields['nivel'])
 
         else:
-            return None'''''
+            return None
 
-#auth_models.User = Usuario
+    class Meta:
+        app_label = 'main_appsamblea'
+
+auth_models.User = Usuario
