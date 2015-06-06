@@ -41,7 +41,7 @@ class Usuario(ndb.Model):
         return ok
 
     def encode(self):
-        return json.dumps({'id': self.id, 'nombre': self.first_name,
+        return json.dumps({'id': self.id, 'nombre': self.nombre,
                            'apellidos': self.apellidos,
                            'fecha_nac': self.fecha_nac, 'telefono': self.telefono, 'email': self.email,
                            'localidad': self.localidad,

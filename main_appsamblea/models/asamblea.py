@@ -5,6 +5,7 @@ from django.core.validators import URLValidator
 from google.appengine.ext import ndb
 from main_appsamblea.models.usuario import Usuario
 
+
 class Asamblea(ndb.Model):
     nombre = ndb.StringProperty()
     fecha = ndb.DateProperty()
@@ -22,10 +23,11 @@ class Asamblea(ndb.Model):
         return Usuario.query().filter(Usuario.asistente_asambleas == self.key)
 
     def add_asistente(self, usuario):
-        #print usuario.facebook_id
-        #print self.key
-
         usuario.asistente_asambleas.append(self.key)
+        usuario.put()
+
+    def eliminar_asistente(self, usuario):
+        usuario.asistente_asambleas.remove(self.key)
         usuario.put()
 
     def isOk(self):
@@ -34,16 +36,16 @@ class Asamblea(ndb.Model):
         # El nombre no puede estar vacío. En python se puede comprobar pasando la cadena a booleano y viendo si está llena de caracteres vacíos
         if not bool(self.nombre) or self.nombre.isspace():
             ok += "El nombre está vacío\n"
-        #La descripción no puede estar vacía
+        # La descripción no puede estar vacía
         if not bool(self.descripcion) or self.descripcion.isspace():
             ok += "La descripción debe de estar vacía\n"
-        #Si existe la URL del streaming debe de estar funcionando
+        # Si existe la URL del streaming debe de estar funcionando
         if bool(self.url_streaming):
             try:
                 val(self.url_streaming)
             except:
                 ok += "La URL del streaming no funciona\n"
-        #Si existe la URL de la asamblea debe de estar funcionando
+        # Si existe la URL de la asamblea debe de estar funcionando
         if bool(self.url_asamblea):
             try:
                 val(self.url_asamblea)
@@ -52,15 +54,12 @@ class Asamblea(ndb.Model):
         return ok
 
     def encode(self):
-        return json.dumps({'pk': self.id, 'model': self.__class__.__name__, 'fields': {'nombre': self.nombre, 'fecha': str(self.fecha),
-                                                                                       'lugar': self.lugar,
-                                                                                       'descripcion': self.descripcion,
-                                                                                       'es_abierta': self.es_abierta,
-                                                                                       'url_streaming': self.url_streaming,
-                                                                                       'urlasamblea': self.url_asamblea,
-                                                                                       'creador': self.creador.get().id,
-                                                                                       #'organizacion': self.organizacion.id
-                                                                                       }})  # Si para enviar. Para recibir es necsario introducirlo en la tabla participa, así que se debería hacer enviando esta.
+        return json.dumps({'id': self.key.id(), 'nombre': self.nombre, 'fecha': str(self.fecha), 'lugar': self.lugar,
+                           'descripcion': self.descripcion, 'es_abierta': self.es_abierta,
+                           'url_streaming': self.url_streaming, 'urlasamblea': self.url_asamblea,
+                           'creador': self.creador.get().encode(),
+                           # 'organizacion': self.organizacion.id
+                           })  # Si para enviar. Para recibir es necsario introducirlo en la tabla participa, así que se debería hacer enviando esta.
 
     ''''@staticmethod
     def decode(obj):
