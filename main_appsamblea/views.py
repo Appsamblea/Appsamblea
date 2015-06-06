@@ -6,6 +6,11 @@ import datetime
 import json
 from main_appsamblea.models import Usuario, Asamblea
 
+#Para evitar un Bug que tiene Django al cargar los modelos...
+from django.db.models.loading import cache as model_cache
+if not model_cache.loaded:
+    model_cache.get_models()
+
 # Poner a true para hacer pruebas entrando en distintas URL.
 debugPorGet = True
 
