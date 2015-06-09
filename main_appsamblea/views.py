@@ -54,14 +54,14 @@ def registrarPorFacebook(facebook_id, nombre, apellidos, email):
         )
 
 
-def crear_asamblea_bdd(nombre, fecha, lugar, descripcion, es_abierta, id_creador):
+def crear_asamblea_bdd(nombre, fecha, hora, lugar, descripcion, es_abierta, id_creador):
     # Buscar el creador
     query = Usuario.query(Usuario.id == id_creador)
     usuarioExistente = query.get()
 
     if usuarioExistente is not None:
         # Crear la asamblea
-        nuevaAsamblea = Asamblea(nombre=nombre, fecha=fecha, lugar=lugar, descripcion=descripcion,
+        nuevaAsamblea = Asamblea(nombre=nombre, fecha=fecha, lugar=lugar, hora=hora, descripcion=descripcion,
                                  es_abierta=es_abierta, creador=usuarioExistente.key)
         nuevaAsamblea.put()
         # Hacer que el creador asista a la asamblea
@@ -112,6 +112,32 @@ def proximas_asambleas_bdd(idUsuario):
         asambleas
     )
 
+def inscribirse_asamblea_bdd(idUsuario, idAsamblea):
+    # Buscar la asamblea
+    asamblea = Asamblea.get_by_id(idAsamblea)
+    # Buscar el usuario
+    queryUsuario = Usuario.query(Usuario.id == idUsuario)
+    usuario = queryUsuario.get()
+
+    asamblea.add_asistente(usuario)
+
+    return HttpResponse(
+        json.dumps({'mensaje': 'ok'})
+    )
+
+def abandonar_asamblea_bdd(idUsuario, idAsamblea):
+    # Buscar la asamblea
+    asamblea = Asamblea.get_by_id(idAsamblea)
+    # Buscar el usuario
+    queryUsuario = Usuario.query(Usuario.id == idUsuario)
+    usuario = queryUsuario.get()
+
+    asamblea.eliminar_asistente(usuario)
+
+    return HttpResponse(
+        json.dumps({'mensaje': 'ok'})
+    )
+
 
 @csrf_exempt
 def registro(request):
@@ -153,24 +179,29 @@ def crear_asamblea(request):
         dia = int(objetoJSON['dia'])
         mes = int(objetoJSON['mes'])
         anio = int(objetoJSON['anio'])
+        hora = int(objetoJSON['hora'])
+        minuto = int(objetoJSON['minuto'])
+
         lugar = objetoJSON['lugar']
         descripcion = objetoJSON['descripcion']
         es_abierta = bool(objetoJSON['esAbierta'])
         id_creador = int(objetoJSON['idCreador'])
 
-        fecha = datetime.date(dia, mes, anio)
+        fecha = datetime.date(anio, mes, dia)
+        hora = datetime.time(hora, minuto)
 
-        return crear_asamblea_bdd(nombre, fecha, lugar, descripcion, es_abierta, id_creador)
+        return crear_asamblea_bdd(nombre, fecha, hora, lugar, descripcion, es_abierta, id_creador)
 
     elif debugPorGet:
         nombre = 'Asamblea de prueba'
         fecha = datetime.date(2025, 12, 25)
+        hora = datetime.time(16, 0)
         lugar = 'Palacio de Congresos de Granada'
         descripcion = 'Es una asamblea de prueba simplemente'
         es_abierta = True
         id_creador = 84598274590
 
-        return crear_asamblea_bdd(nombre, fecha, lugar, descripcion, es_abierta, id_creador)
+        return crear_asamblea_bdd(nombre, fecha, hora, lugar, descripcion, es_abierta, id_creador)
 
     else:
         return HttpResponse(
@@ -242,8 +273,22 @@ def proximasAsambleas(request):
 @csrf_exempt
 def obtenerAsamblea(request):
     if request.method == "POST":
-        return 0
-    return 0
+        # Cargar datos JSON
+        objetoJSON = json.loads(request.body, encoding='latin-1')
+        idAsamblea = objetoJSON['idAsamblea']
+        query = Asamblea.query(Asamblea.key.id() == idAsamblea)
+        asamblea = query.get()
+        return HttpResponse(asamblea.encode())
+
+    elif debugPorGet:
+        query = Asamblea.query()
+        asamblea = query.get()
+        return HttpResponse(asamblea.encode())
+
+    else:
+        return HttpResponse(
+            json.dumps({'mensaje': 'GET no permitido'})
+        )
 
 
 '''
@@ -256,8 +301,15 @@ def obtenerAsamblea(request):
 @csrf_exempt
 def inscribirseEnAsamblea(request):
     if request.method == "POST":
-        return 0
-    return 0
+        # Cargar datos JSON
+        objetoJSON = json.loads(request.body, encoding='latin-1')
+        idAsamblea = objetoJSON['idAsamblea']
+        idUsuario = objetoJSON['idUsuario']
+        return inscribirse_asamblea_bdd(idUsuario, idAsamblea)
+    else:
+        return HttpResponse(
+            json.dumps({'mensaje': 'GET no permitido'})
+        )
 
 
 '''
@@ -270,8 +322,15 @@ def inscribirseEnAsamblea(request):
 @csrf_exempt
 def abandonarAsamblea(request):
     if request.method == "POST":
-        return 0
-    return 0
+        # Cargar datos JSON
+        objetoJSON = json.loads(request.body, encoding='latin-1')
+        idAsamblea = objetoJSON['idAsamblea']
+        idUsuario = objetoJSON['idUsuario']
+        return abandonar_asamblea_bdd(idUsuario, idAsamblea)
+    else:
+        return HttpResponse(
+            json.dumps({'mensaje': 'GET no permitido'})
+        )
 
 
 def facebook_test(request):

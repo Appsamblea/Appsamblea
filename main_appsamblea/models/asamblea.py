@@ -9,6 +9,7 @@ from main_appsamblea.models.usuario import Usuario
 class Asamblea(ndb.Model):
     nombre = ndb.StringProperty()
     fecha = ndb.DateProperty()
+    hora = ndb.TimeProperty()
     lugar = ndb.StringProperty()
     descripcion = ndb.StringProperty()
     es_abierta = ndb.BooleanProperty()
@@ -54,7 +55,8 @@ class Asamblea(ndb.Model):
         return ok
 
     def encode(self):
-        return json.dumps({'id': self.key.id(), 'nombre': self.nombre, 'fecha': str(self.fecha), 'lugar': self.lugar,
+        return json.dumps({'id': self.key.id(), 'nombre': self.nombre, 'fecha': str(self.fecha),
+                           'lugar': self.lugar, 'hora': str(self.hora),
                            'descripcion': self.descripcion, 'es_abierta': self.es_abierta,
                            'url_streaming': self.url_streaming, 'urlasamblea': self.url_asamblea,
                            'creador': self.creador.get().encode(),
